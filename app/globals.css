@@ -8,3 +8,4 @@
 
 .voice-bubble{width:190px;background:#e6bd77;color:#132a30;padding:10px 13px;box-shadow:4px 5px 0 #08171c80;pointer-events:none;border:1px solid #f5dba3;transform:rotate(-2deg)}.voice-bubble b{display:block;font:11px 'IBM Plex Mono',monospace;margin-bottom:5px}.voice-bubble span{font:600 20px/1 'Barlow Condensed',sans-serif;text-transform:uppercase;display:block}.voice-bubble:after{content:'';position:absolute;bottom:-9px;left:30px;border-width:9px 9px 0 0;border-style:solid;border-color:#e6bd77 transparent transparent transparent}
 .voice-bubble{width:174px}.voice-bubble span{font-size:18px}.boss-bubble{background:#cf8061;border-color:#e6aa86}.boss-bubble:after{border-top-color:#cf8061}
+.mishap-note{white-space:nowrap;font:600 14px "Barlow Condensed",sans-serif;color:#e7c99b;background:#243a3ee6;border:1px dashed #a98d5d;padding:5px 8px;pointer-events:none}

@@ -14,18 +14,23 @@ The viewer should understand who wants something, who disagrees, what the boss d
 - Uneven pacing: ordinary office hum gives way to a short rush, then settles. Maximum two intelligible foreground voices.
 - A longer, heavily filtered room-chatter bed replaces the obvious twenty-second loop.
 
-## Best next additions
+## Choreography pass
 
-1. **A crowd reaction that spreads.** A real fill or forecast result begins at one desk. Two neighbors look over 200–600 ms later; the boss reacts last. Keep most of the room working so attention has a destination.
-2. **The principal leaves the office.** A fixed walk to the problem desk after repeated risk blocks or the session-close firing. Everyone along the aisle notices. Give the walk a beginning, confrontation, and exit.
-3. **Visible mood over the session.** Profitable/accurate desks sit confidently, losing desks slouch, repeated blocks produce paper shuffling and frustrated pauses. Derive mood from the record, never random P&L claims.
-4. **Small physical trouble.** A receiver gets tangled, a coffee cup is rescued, trade slips build up, the printer cosmetically jams. These are occasional character moments; they must never masquerade as an execution failure.
-5. **Rivalries with memory.** A desk that challenged a forecast reacts when it resolves. Use the real stored result and preserve the miss as readily as the hit.
-6. **Optional spectator camera direction.** Ease toward a developing argument or hiring ceremony, hold for its outcome, then return wide. Immediately yield when the user touches the camera.
+- Forecast wins trigger a celebration and staggered neighbor reactions, including an objection. Fills and misses draw nearby attention. Waves have a cooldown and preserve active desk moments.
+- Three risk blocks at one desk within ninety active seconds send the principal through the aisles for a review and back to the office. Visits last twenty-three active seconds with a cooldown between trips.
+- Desk posture reflects P&L and resolved forecast accuracy: confident lean-back, strained slump, or neutral working posture.
+- A separate Blender coffee asset tips and recovers; phone cords occasionally tangle. Desk paperwork grows with pitches and orders, capped at eighteen sheets per desk. Mishaps are cosmetic.
+- Choreography advances per rendered frame and freezes while paused or the page is hidden. No shared animation restart is needed for each simulation snapshot.
+- Verified by 37 core/dialogue/choreography tests and an isolated browser event stream covering reactions, boss visit/return, moods, props, and pause/resume. Desktop/mobile control checks remain clean.
+
+## Next possibilities
+
+1. Rivalries with memory: bring back the analyst who challenged a forecast when its actual result arrives.
+2. Optional spectator camera direction: follow a developing exchange and yield immediately to manual camera movement.
+3. Dedicated character animations for coffee catches and untangling, plus short pacing routes for struggling analysts. This pass uses the existing expressive gestures and posture changes.
 
 ## Rhythm to aim for
 
 About thirty seconds: a few desks work, a phone interrupts, a specific analyst stands to pitch, a rival answers, the boss cuts through, the real verdict lands, and the room settles. Avoid making every tick equally dramatic. Reserve big gestures for big moments.
 
 Mute must retain visual readability. Respect reduced motion, never steal the camera while the user is inspecting a desk, and keep the trade ledger authoritative.
-

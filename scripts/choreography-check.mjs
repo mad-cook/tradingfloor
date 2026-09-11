@@ -1,0 +1,24 @@
+import {createServer} from 'node:http';
+import {chromium} from 'playwright';import assert from 'node:assert/strict';import {writeFile} from 'node:fs/promises';
+const state=await (await fetch('http://127.0.0.1:3101/state')).json();state.paused=false;state.marketOpen=true;
+state.desks[0].realized=-5;state.desks[1].realized=5;
+const first=structuredClone(state),base=Math.max(...state.events.map(e=>e.id))+100;
+state.events=[...state.events,...['RISK_BLOCK','RISK_BLOCK','RISK_BLOCK','FORECAST_HIT'].map((kind,i)=>({id:base+i,at:state.now,kind,deskId:i===3?state.desks[1].id:state.desks[0].id,text:'Controlled choreography fixture'}))];
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--enable-webgl','--ignore-gpu-blocklist']});const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[],samples=[];
+page.on('pageerror',e=>errors.push(e.message));
+const clients=new Set();const server=createServer((req,res)=>{res.writeHead(200,{'Content-Type':'text/event-stream','Access-Control-Allow-Origin':'*'});res.write('data: '+JSON.stringify(first)+'\n\n');clients.add(res);req.on('close',()=>clients.delete(res));setTimeout(()=>res.write('data: '+JSON.stringify(state)+'\n\n'),1500);});await new Promise(r=>server.listen(3112,'127.0.0.1',r));await page.route('**/api/floor?stream=1',route=>route.continue({url:'http://127.0.0.1:3112/events'}));
+await page.goto('http://localhost:3100');await page.getByRole('button',{name:'Enter the floor'}).click();await page.getByRole('button',{name:'Mute sound',exact:true}).click();
+for(let i=0;i<68;i++){await page.waitForTimeout(1000);const sample=await page.evaluate(()=>window.__floorMetrics);if(sample)samples.push(sample);
+ if(i===13)await page.screenshot({path:'reports/boss-visit.png',fullPage:true});
+ if(i%20===19)console.log('Choreography observed for '+(i+1)+' seconds');
+}
+const push=()=>{for(const res of clients)res.write('data: '+JSON.stringify(state)+'\n\n');};
+state.events.push(...[0,1,2].map(i=>({id:base+10+i,at:state.now,kind:'RISK_BLOCK',deskId:state.desks[0].id,text:'Pause check'})));push();await page.waitForTimeout(5500);
+state.paused=true;push();await page.waitForTimeout(2500);const frozen=await page.evaluate(()=>window.__floorMetrics.actors.find(a=>a.analyst==='principal').position);await page.waitForTimeout(2500);const still=await page.evaluate(()=>window.__floorMetrics.actors.find(a=>a.analyst==='principal').position);assert.deepEqual(still,frozen,'Pause freezes the principal mid-walk');
+state.paused=false;push();await page.waitForTimeout(2500);const resumed=await page.evaluate(()=>window.__floorMetrics.actors.find(a=>a.analyst==='principal').position);assert.notDeepEqual(resumed,frozen,'Principal continues after resume');
+const actors=samples.flatMap(s=>s.actors??[]),props=samples.flatMap(s=>s.props??[]),boss=actors.filter(a=>a.analyst==='principal');
+assert.ok(boss.some(a=>a.visiting&&a.clip==='walk'),'Principal leaves the office');assert.ok(boss.some(a=>a.visiting&&a.clip==='standYell'),'Principal stops for the risk review');assert.ok(boss.some((a,i)=>i>15&&!a.visiting),'Principal returns');
+assert.ok(actors.some(a=>a.cue==='look'));assert.ok(actors.some(a=>a.cue==='object'));
+assert.ok(actors.some(a=>a.mood==='strained'&&a.posture<-.05));assert.ok(actors.some(a=>a.mood==='confident'&&a.posture>.02));
+assert.ok(props.some(p=>p.rescue>.2),'Coffee tips and is rescued');assert.ok(props.some(p=>p.tangled),'Phone cord tangles');assert.ok(props.some(p=>p.paperCount>0),'Paper accumulates');
+assert.deepEqual(errors,[]);await writeFile('reports/choreography-check.json',JSON.stringify({errors,checks:'boss visit/return, reaction wave, moods, coffee, cord, papers, pause/resume passed',samples},null,2));console.log('Choreography checks passed');await browser.close();for(const res of clients)res.end();server.close();

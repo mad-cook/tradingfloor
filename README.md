@@ -44,7 +44,7 @@ node scripts/browser-check.mjs
 npm run preflight
 ```
 
-Browser verification requires the local viewer/worker and installed Chrome. Screenshots and public-endpoint observations are under `reports/`. Current suite: 34 passing core and dialogue tests. The first measured desktop scene rendered about 119 fps, 39 draw calls, and 19,576 triangles in local headless Chrome; this is not a cross-device performance guarantee.
+Browser verification requires the local viewer/worker and installed Chrome. Screenshots and public-endpoint observations are under `reports/`. Current suite: 37 passing core, dialogue, and choreography tests. The first measured desktop scene rendered about 119 fps, 39 draw calls, and 19,576 triangles in local headless Chrome; this is not a cross-device performance guarantee.
 
 ## Production gates — not complete
 
@@ -68,7 +68,6 @@ Run powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_voices.ps1
 
 ## Dialogue and watchability
 
-The dialogue selector enforces an eight-minute shared phrase cooldown, retains session history across refresh, and uses fresh desk banter instead of repeating exhausted event lines. The floor now stages challenge/reply/principal exchanges, uneven rushes, rival-facing swivels, and printer paper on fills. See docs/WATCHABILITY.md for the next choreography priorities.
+The dialogue selector enforces an eight-minute shared phrase cooldown, retains session history across refresh, and uses fresh desk banter instead of repeating exhausted event lines. The floor now stages challenge/reply/principal exchanges, uneven rushes, rival-facing swivels, and printer paper on fills. Reactions now spread between desks, repeated risk blocks trigger a principal visit, performance changes posture, and coffee/phone/paper props add occasional mishaps. See docs/WATCHABILITY.md for behavior details. Verify with node scripts/choreography-check.mjs.
 
 Edit scripts/dialogue.mjs, run node scripts/dialogue.mjs, then run scripts/build_voices.ps1 to regenerate the expanded bank. The runtime uses manifest-v2.json and room-babble-v2.mp3; older audio remains unused for reference.
-

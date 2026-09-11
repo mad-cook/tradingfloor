@@ -135,7 +135,6 @@ for i in range(4):
 # Papers, coffee and a coiled phone cord belong to every workstation.
 for k in range(3):
  o=cube('Loose trade slip',(-.58+k*.045,-.03,.951+k*.006),(.24,.19,.006),paper);o.rotation_euler.z=-.16+k*.20;props.append(o)
-bpy.ops.mesh.primitive_cylinder_add(vertices=10,radius=.055,depth=.115,location=(.30,-.24,1.002));o=bpy.context.object;o.data.materials.append(paper);props.append(o)
 for k in range(12):
  a=k*1.8;props.append(cube('Coiled phone cord',(.72+.018*math.cos(a),-.1+k*.014,.954),(.025,.019,.018),black))
 
@@ -188,3 +187,16 @@ print('THE FLOOR: original Blender assets exported')
 
 
 
+
+# Separate reusable cup so the scene can tip and rescue it.
+bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
+props=[]
+bpy.ops.mesh.primitive_cylinder_add(vertices=10,radius=.061,depth=.12,location=(0,0,.06))
+o=bpy.context.object;o.data.materials.append(paper);props.append(o)
+bpy.ops.mesh.primitive_cylinder_add(vertices=10,radius=.052,depth=.005,location=(0,0,.122))
+o=bpy.context.object;o.data.materials.append(hair);props.append(o)
+bpy.ops.mesh.primitive_torus_add(major_segments=10,minor_segments=4,location=(.071,0,.066),rotation=(math.pi/2,0,0),major_radius=.033,minor_radius=.012)
+o=bpy.context.object;o.data.materials.append(paper);props.append(o)
+join(props,'CoffeeCup')
+bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT,'coffee.blend'))
+bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,'coffee.glb'),export_format='GLB')
