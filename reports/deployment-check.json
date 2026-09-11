@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "supervised startup",
+    "health",
+    "public controls denied",
+    "cross-origin vote denied",
+    "vote cookie cooldown",
+    "persistent restart",
+    "unconfigured data stays null"
+  ]
+}

@@ -1,4 +1,5 @@
 'use client';
+import {OfficeBoard} from './Board';
 import {Canvas,useFrame,useThree} from '@react-three/fiber';
 import {useGLTF,useAnimations,OrbitControls,Html} from '@react-three/drei';
 import {clone} from 'three/examples/jsm/utils/SkeletonUtils.js';
@@ -13,7 +14,7 @@ function Asset({path,position=[0,0,0],rotation=0,scale=1}:{path:string;position?
 function Analyst({desk,position,boss=false,cue,clock,visit,paused=false}:{desk?:Desk;position:[number,number,number];boss?:boolean;cue?:Cue;clock:React.RefObject<number>;visit?:Visit|null;paused?:boolean}){
  const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??'#354c65');for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color]);const {actions,mixer}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===(desk?.id??'principal')));const event=voice??floorEvent;
  const [clip,setClip]=useState('idle');const [forced,setForced]=useState<string|null>(null);const forcedRef=useRef<string|null>(null);const posture=useRef<THREE.Group>(null);
- const mood=desk?deskMood(desk):'neutral';const playClip=forced??clip;
+ const audience=useFloor(s=>s.audience);const board=useFloor(s=>s.board);const marketPressure=Boolean(board?.token.at&&Date.now()-board.token.at<90000&&(board.token.change24h??0)<-5);const mood=desk?deskMood(desk):marketPressure?'strained':'neutral';const playClip=forced??clip;
  useEffect(()=>{mixer.timeScale=paused?0:1;},[mixer,paused]);
  const lastReaction=useRef(-Infinity);
  const pending=useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -62,13 +63,14 @@ function Analyst({desk,position,boss=false,cue,clock,visit,paused=false}:{desk?:
   }else if(active&&(active.kind==='look'||active.kind==='object')){
    const source=SEATS[desk?.seed??0],target=SEATS[active.target];heading=Math.atan2(target[0]-source[0],target[2]-source[2]);
   }else if(voice?.kind==='BANTER')heading+=((desk?.seed??0)%2?-.65:.65);
+  if(boss&&!visit&&audience.at&&Date.now()-audience.at<8000){desired=audience.last==='doubt'?'deskSlam':'standYell';heading=0;}
   if(desired!==forcedRef.current){forcedRef.current=desired;setForced(desired);}
   if(boss){const p=walkPosition??position;ref.current.position.set(...p);}
   ref.current.rotation.y=THREE.MathUtils.damp(ref.current.rotation.y,heading,6,delta);
   if(posture.current){const tilt=desired?0:mood==='strained'?-.13:mood==='confident'?.055:0;posture.current.rotation.x=THREE.MathUtils.damp(posture.current.rotation.x,tilt,3,delta);}
   ref.current.userData.mood=mood;ref.current.userData.cue=active?.kind??null;ref.current.userData.visiting=Boolean(boss&&visit);ref.current.userData.posture=posture.current?.rotation.x??0;
  });
- return <group ref={ref} position={position} rotation-y={Math.PI} scale={boss?1.08:1}><group ref={posture} position={[0,.72,0]}><primitive object={character} position={[0,-.72,0]}/></group>{boss&&(voice||visit)&&<Html position={[0,2.25,0]} center zIndexRange={[22,22]}><div className="voice-bubble boss-bubble"><b>THE PRINCIPAL</b><span>{voice?.text??"Risk review. At your desk."}</span></div></Html>}</group>;
+ return <group ref={ref} position={position} rotation-y={Math.PI} scale={boss?1.08:1}><group ref={posture} position={[0,.72,0]}><primitive object={character} position={[0,-.72,0]}/></group>{boss&&(voice||visit||(audience.at&&Date.now()-audience.at<8000))&&<Html position={[0,2.7,0]} center zIndexRange={[22,22]}><div className="voice-bubble boss-bubble"><b>THE PRINCIPAL</b><span>{voice?.text??(visit?"Risk review. At your desk.":audience.last==='doubt'?"The gallery wants answers!":audience.last==='chaos'?"You heard them. Wake this floor up!":"The gallery is backing us. Stay sharp!")}</span></div></Html>}</group>;
 }
 
 function DeskProps({desk,cue,clock}:{desk:Desk;cue?:Cue;clock:React.RefObject<number>}){
@@ -115,14 +117,14 @@ function PrinterTickets(){
  return <group ref={group} visible={false}>{[0,1,2].map(i=><mesh key={i}><planeGeometry args={[.24,.32]}/><meshStandardMaterial color="#e4d9b3" side={THREE.DoubleSide}/></mesh>)}</group>;
 }
 export default function Scene(){
- const snapshot=useFloor(s=>s.snapshot);const floorEvent=useFloor(s=>s.event);const {state:choreo,clock}=useChoreography(snapshot?.desks??[],floorEvent,Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen));const principalVoice=useFloor(s=>s.voices.find(v=>v.deskId==='principal'));
+ const snapshot=useFloor(s=>s.snapshot);const floorEvent=useFloor(s=>s.event);const {state:choreo,clock}=useChoreography(snapshot?.desks??[],floorEvent,Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen));
  return <Canvas dpr={[1,1.5]} camera={{position:[12,11,14],fov:40}} gl={{antialias:true}}>
- <ChoreographyClock clock={clock} running={Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen)}/><color attach="background" args={['#14282e']}/><fog attach="fog" args={['#14282e',24,44]}/>
- <ambientLight intensity={snapshot?.marketOpen ? 1.35 : .35}/><hemisphereLight args={['#c7e5e2','#252f34',.65]}/><directionalLight position={[-5,9,3]} intensity={snapshot?.marketOpen?2:.6} color="#ffd5a0"/>
+ <ChoreographyClock clock={clock} running={Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen)}/><color attach="background" args={['#e8e1d4']}/><fog attach="fog" args={['#e8e1d4',24,44]}/>
+ <ambientLight intensity={snapshot?.marketOpen ? 1.35 : .35}/><hemisphereLight args={['#e9e7ff','#3e3545',.65]}/><directionalLight position={[-5,9,3]} intensity={snapshot?.marketOpen?2:.6} color="#ffd5a0"/>
  <Suspense fallback={null}><Asset path="/models/room.glb"/>
  {snapshot?.desks.map((d,i)=><DeskModel key={d.id} desk={d} index={i} cue={choreo.cues[d.id]} clock={clock} paused={Boolean(snapshot?.paused)}/>)}
  <Asset path="/models/workstation.glb" position={[0,.12,-3.65]}/><Analyst position={[0,.12,-2.89]} boss clock={clock} visit={choreo.visit} paused={Boolean(snapshot?.paused)}/>
- <PrinterTickets/>
+ <PrinterTickets/><group position={[0,3.65,-4.95]}><mesh><boxGeometry args={[3.85,2.15,.16]}/><meshStandardMaterial color="#191923"/></mesh><Html transform distanceFactor={5.7} position={[0,0,.095]} zIndexRange={[4,0]}><OfficeBoard/></Html></group>
  <Html position={[0,2.75,-2.22]} center zIndexRange={[3,0]}><div className="office-sign">THE PRINCIPAL<span>CAPITAL ALLOCATION</span></div></Html>
  <Html position={[4.9,1.55,3.9]} center zIndexRange={[3,0]}><button className="printer-label" onClick={()=>window.dispatchEvent(new Event('open-blotter'))}>TRADE TICKETS ↗</button></Html>
  </Suspense><CameraRig/><Metrics/>

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "errors": [],
+  "checks": [
+    "audience reaction reaches principal",
+    "real test token board",
+    "wallet and direct creator fees",
+    "responsive layout"
+  ]
+}

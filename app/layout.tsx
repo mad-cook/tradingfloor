@@ -1,4 +1,3 @@
 import type {Metadata} from 'next';import './globals.css';
-export const metadata:Metadata={title:'The Floor — Trading room',description:'An original low-poly trading firm. Paper rehearsal with transparent forecasts and risk decisions.',icons:{icon:'/favicon.svg'}};
+export const metadata:Metadata={metadataBase:new URL(process.env.PUBLIC_URL??(process.env.RAILWAY_PUBLIC_DOMAIN?'https://'+process.env.RAILWAY_PUBLIC_DOMAIN:'http://localhost:3100')),title:'The Floor — Twelve egos. One balance sheet.',description:'A trading floor you can watch. Original characters, public reactions, transparent forecasts, and paper trading.',icons:{icon:'/favicon.svg'},openGraph:{title:'THE FLOOR',description:'Twelve egos. One balance sheet.',type:'website'},twitter:{card:'summary_large_image'}};
 export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>;}
-

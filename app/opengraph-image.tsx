@@ -1,0 +1,4 @@
+import {ImageResponse} from 'next/og';
+export const alt='THE FLOOR — Twelve egos. One balance sheet.';
+export const size={width:1200,height:630};export const contentType='image/png';
+export default function Image(){return new ImageResponse(<div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',background:'#f4efe4',color:'#191923',padding:64}}><div style={{display:'flex',fontSize:24,letterSpacing:5,color:'#294cff'}}>A TRADING FLOOR YOU CAN WATCH.</div><div style={{display:'flex',fontSize:150,fontWeight:900,letterSpacing:-10,marginTop:60}}>THE FLOOR<span style={{color:'#ff663d'}}>↗</span></div><div style={{display:'flex',height:12,background:'#294cff',marginTop:20}}/><div style={{display:'flex',fontSize:34,marginTop:48}}>TWELVE EGOS. ONE BALANCE SHEET.</div><div style={{display:'flex',fontSize:20,marginTop:28,color:'#66616a'}}>Original characters. Public reactions. Transparent paper trading.</div></div>,size);}

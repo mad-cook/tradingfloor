@@ -1,0 +1,15 @@
+node_modules
+.next
+.next-dev
+.git
+.env
+.env.*
+!.env.example
+data
+reports
+*.log
+*.tsbuildinfo
+.voice-build
+public/models/*.blend
+public/models/*.blend1
+docs

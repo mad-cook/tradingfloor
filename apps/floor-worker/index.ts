@@ -1,32 +1,35 @@
 import {createServer} from 'node:http';
-import {mkdir,appendFile} from 'node:fs/promises';
+import {mkdir,appendFile,stat,rename,rm} from 'node:fs/promises';
+import {join} from 'node:path';
 import {createStore} from '../../packages/db/store';
 import {FloorEngine} from '../../packages/core/sim/engine';
+import {Audience} from '../../packages/core/audience';
 import type {Snapshot} from '../../packages/core/types';
 if(process.env.PAPER==='0')throw Error('Live execution is not available');
-if(process.env.DATA_MODE&&process.env.DATA_MODE!=='demo')throw Error('Market mode remains gated by preflight; this worker is rehearsal only');
-await mkdir('data',{recursive:true});
-const engine=new FloorEngine();const store=await createStore();const stored=await store.load();if(stored){if(stored.mode!=='demo'||stored.desks?.length!==12)throw Error('Invalid saved rehearsal state');engine.restore(stored as Snapshot);}
-const clients=new Set<import('node:http').ServerResponse>();let writing=Promise.resolve();let lastLogged=0;
-function publish(){const payload=JSON.stringify(engine.state);for(const client of clients)client.write('data: '+payload+'\n\n');
+if(process.env.DATA_MODE&&process.env.DATA_MODE!=='demo')throw Error('This worker is rehearsal only');
+const data=process.env.DATA_DIR??'data';await mkdir(data,{recursive:true});
+const engine=new FloorEngine(),audience=new Audience();const store=await createStore();const stored=await store.load();
+if(stored){if(stored.mode!=='demo'||stored.desks?.length!==12)throw Error('Invalid saved rehearsal state');engine.restore(stored as Snapshot);}
+const clients=new Set<import('node:http').ServerResponse>();let writing=Promise.resolve(),healthy=true,stopping=false,lastLogged=engine.state.events.at(-1)?.id??0;
+function send(client:import('node:http').ServerResponse,payload:string){if(client.writableLength>1024*1024){client.destroy();clients.delete(client);}else client.write(payload);}
+function publish(){const payload=JSON.stringify(engine.state);for(const client of clients)send(client,'data: '+payload+'\n\n');
  const fresh=engine.state.events.filter(e=>e.id>lastLogged);lastLogged=Math.max(lastLogged,...engine.state.events.map(e=>e.id));
- writing=writing.then(async()=>{await store.save(JSON.parse(payload));if(fresh.length)await appendFile('data/events.jsonl',fresh.map(e=>JSON.stringify(e)).join('\n')+'\n');}).catch(e=>console.error('Persistence error',e.message));}
+ writing=writing.then(async()=>{await store.save(JSON.parse(payload));if(fresh.length){const log=join(data,'events.jsonl');const size=await stat(log).then(s=>s.size).catch(()=>0);if(size>10*1024*1024){await rm(log+'.1',{force:true});await rename(log,log+'.1');}await appendFile(log,fresh.map(e=>JSON.stringify(e)).join('\n')+'\n');}healthy=true;}).catch(()=>{healthy=false;console.error('Persistence write failed');});
+}
+async function readBody(req:import('node:http').IncomingMessage){let body='';for await(const chunk of req){body+=chunk;if(body.length>1000)throw Error('Body too large');}return JSON.parse(body);}
 const server=createServer(async(req,res)=>{
- const path=new URL(req.url??'/', 'http://localhost').pathname;
- res.setHeader('Cache-Control','no-store');
- if(path==='/health'){res.setHeader('Content-Type','application/json');res.end(JSON.stringify({ok:true,mode:'demo',paper:true}));return;}
+ const path=new URL(req.url??'/', 'http://localhost').pathname;res.setHeader('Cache-Control','no-store');
+ if(path==='/health'){res.statusCode=healthy&&!stopping?200:503;res.setHeader('Content-Type','application/json');res.end(JSON.stringify({ok:healthy&&!stopping,mode:'demo',paper:true}));return;}
  if(path==='/state'){res.setHeader('Content-Type','application/json');res.end(JSON.stringify(engine.state));return;}
- if(path==='/events'){res.writeHead(200,{'Content-Type':'text/event-stream',Connection:'keep-alive'});res.write('data: '+JSON.stringify(engine.state)+'\n\n');clients.add(res);req.on('close',()=>clients.delete(res));return;}
+ if(path==='/events'){if(clients.size>=1000){res.statusCode=503;res.end();return;}res.writeHead(200,{'Content-Type':'text/event-stream',Connection:'keep-alive'});res.write('data: '+JSON.stringify(engine.state)+'\n\n');clients.add(res);req.on('close',()=>clients.delete(res));return;}
+ if(path==='/audience'){res.setHeader('Content-Type','application/json');try{if(req.method==='GET')res.end(JSON.stringify(audience.snapshot()));else if(req.method==='POST'){const {id,reaction}=await readBody(req);if(typeof id!=='string'||!/^[a-f0-9]{64}$/.test(id))throw Error('Invalid viewer');res.end(JSON.stringify(audience.vote(id,reaction)));}else{res.statusCode=405;res.end();}}catch(e){res.statusCode=429;res.end(JSON.stringify({error:(e as Error).message}));}return;}
  if(path==='/command'&&req.method==='POST'){
- try{let body='';for await(const chunk of req){body+=chunk;if(body.length>1000)throw Error('Body too large');}
- const {action}=JSON.parse(body);engine.command(action);publish();res.end(JSON.stringify({ok:true}));}catch(e){res.statusCode=400;res.end(JSON.stringify({error:(e as Error).message}));}return;
- }
+ if(process.env.ALLOW_LOCAL_CONTROLS!=='1'){res.statusCode=403;res.end(JSON.stringify({error:'Operator controls disabled'}));return;}
+ try{const {action}=await readBody(req);if(!['pause','night','kill','close','risk'].includes(action))throw Error('Unknown action');engine.command(action);publish();res.end(JSON.stringify({ok:true}));}catch(e){res.statusCode=400;res.end(JSON.stringify({error:(e as Error).message}));}return;}
  res.statusCode=404;res.end('Not found');
 });
-setInterval(()=>{try{if(process.env.KILL_SWITCH==='1')engine.state.killed=true;engine.tick();publish();}catch(e){engine.state.killed=true;engine.emit('FAIL','Worker halted after an unexpected error');console.error(e);publish();}},5000);
-setInterval(()=>{for(const client of clients)client.write(': heartbeat\n\n');},15000);
-server.listen(Number(process.env.WORKER_PORT??3101),'127.0.0.1',()=>console.log('Floor worker http://127.0.0.1:'+ (process.env.WORKER_PORT??3101)+' · rehearsal only'));
-
-
-
-
+const ticker=setInterval(()=>{try{if(process.env.KILL_SWITCH==='1')engine.state.killed=true;engine.tick();publish();}catch{engine.state.killed=true;engine.emit('FAIL','Worker halted after an unexpected error');console.error('Worker tick failed');publish();}},5000);
+const heartbeat=setInterval(()=>{for(const client of clients)send(client,': heartbeat\n\n');},15000);
+async function shutdown(){if(stopping)return;stopping=true;clearInterval(ticker);clearInterval(heartbeat);for(const client of clients)client.end();clients.clear();server.close();publish();await writing;await store.close();process.exit(0);}
+process.on('SIGINT',()=>void shutdown());process.on('SIGTERM',()=>void shutdown());
+server.listen(Number(process.env.WORKER_PORT??3101),'127.0.0.1',()=>console.log('Floor worker ready · rehearsal only'));

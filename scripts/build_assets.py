@@ -6,7 +6,7 @@ os.makedirs(OUT,exist_ok=True)
 bpy.ops.object.select_all(action='SELECT'); bpy.ops.object.delete(use_global=False)
 def mat(name,hex):
  m=bpy.data.materials.new(name);m.diffuse_color=tuple(((int(hex[i:i+2],16)/255+.055)/1.055)**2.4 for i in (0,2,4))+(1,);m.use_nodes=True;m.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=m.diffuse_color;m.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value=.88;return m
-skin=mat('Skin','B7936C');shirt=mat('Jacket','C47546');hair=mat('Hair','40372E');white=mat('Eyes','EEE7CE');black=mat('Pupils','172B30');pants=mat('Trousers','263C43');paper=mat('Paper','DDD5B6');wood=mat('DeskWood','826245');teal=mat('Enamel','294B50');metal=mat('Metal','21373C');screen=mat('Screen','609E94');lamp=mat('Lamp','D1A35A')
+skin=mat('Skin','B7936C');shirt=mat('Jacket','C47546');hair=mat('Hair','40372E');white=mat('Eyes','EEE7CE');black=mat('Pupils','151622');pants=mat('Trousers','292C41');paper=mat('Paper','DDD5B6');wood=mat('DeskWood','826245');teal=mat('Enamel','394263');metal=mat('Metal','252735');screen=mat('Screen','7B98DF');lamp=mat('Lamp','D1A35A')
 pieces=[]
 def cube(name,loc,scale,material,bevel=0):
  bpy.ops.mesh.primitive_cube_add(size=1,location=loc);o=bpy.context.object;o.name=name;o.scale=scale;bpy.ops.object.transform_apply(location=False,rotation=False,scale=True);o.data.materials.append(material)
@@ -40,7 +40,13 @@ parts=[]
 def add(o,bone):parts.append((o,bone));return o
 add(ico('Angular torso',(0,0,1.0),(.29,.19,.37),shirt,2),'spine')
 add(cube('Cream shirtfront',(0,-.172,1.10),(.20,.036,.30),paper),'spine')
-add(cube('Tie',(0,-.20,1.06),(.048,.032,.25),teal),'spine')
+# Tapered silk blade, separate knot, and a visible gap from the shirt.
+tie=mat('Cobalt silk','294CFF')
+verts=[(-.026,-.218,1.18),(.026,-.218,1.18),(.042,-.222,.975),(0,-.226,.93),(-.042,-.222,.975)]
+mesh=bpy.data.meshes.new('Tie blade mesh');mesh.from_pydata(verts,[],[(0,1,2,3,4)]);mesh.materials.append(tie)
+blade=bpy.data.objects.new('Tapered necktie',mesh);bpy.context.collection.objects.link(blade)
+solid=blade.modifiers.new('Silk thickness','SOLIDIFY');solid.thickness=.012;bpy.context.view_layer.objects.active=blade;bpy.ops.object.modifier_apply(modifier=solid.name);add(blade,'spine')
+add(ico('Tie knot',(0,-.222,1.205),(.040,.023,.039),tie,1),'spine')
 add(ico('Long faceted head',(0,0,1.63),(.22,.18,.34),skin,2),'head')
 add(ico('Side swept hair',(0,.025,1.91),(.23,.18,.12),hair,1),'head')
 for x in [-.112,.112]:
@@ -53,13 +59,17 @@ for sign,label in [(-1,'L'),(1,'R')]:
  add(limb('Sleeve',shoulder,elbow,.105,shirt),'arm.'+label)
  add(limb('Forearm',elbow,hand,.075,skin),'forearm.'+label)
  add(ico('Mitten hand',hand,(.09,.085,.10),skin,1),'forearm.'+label)
- add(limb('Thigh',(sign*.13,0,.80),(sign*.16,-.24,.48),.115,pants),'leg.'+label)
- add(limb('Shin',(sign*.16,-.24,.48),(sign*.16,-.25,.12),.09,pants),'leg.'+label)
- add(cube('Shoe',(sign*.16,-.31,.08),(.19,.30,.12),black,.025),'leg.'+label)
+ add(limb('Thigh',(sign*.15,0,.94),(sign*.15,0,.58),.115,pants),'leg.'+label)
+ add(limb('Shin',(sign*.15,0,.58),(sign*.15,0,.08),.09,pants),'shin.'+label)
+ add(cube('Shoe',(sign*.15,-.07,.07),(.19,.29,.12),black,.025),'shin.'+label)
 add(cube('Handset in hand',(.40,-.30,.97),(.055,.16,.045),black,.015),'receiver')
+for ob,b in parts:
+ if not b.startswith(('leg.','shin.')):ob.location.z+=.36
+add(ico('Trouser waist',(0,0,.94),(.24,.17,.16),pants,1),'root')
 bpy.ops.object.armature_add(location=(0,0,0));rig=bpy.context.object;rig.name='AnalystRig';bpy.ops.object.mode_set(mode='EDIT');rig.data.edit_bones.remove(rig.data.edit_bones[0])
 bones={}
 def bone(name,a,b,parent=None):
+ if name!='root' and not name.startswith(('leg.','shin.')):a=(a[0],a[1],a[2]+.36);b=(b[0],b[1],b[2]+.36)
  v=rig.data.edit_bones.new(name);v.head=a;v.tail=b
  if parent:v.parent=bones[parent]
  bones[name]=v
@@ -68,7 +78,8 @@ bone('spine',(0,0,.65),(0,0,1.30),'root');bone('head',(0,0,1.30),(0,0,1.96),'spi
 for sign,label in [(-1,'L'),(1,'R')]:
  bone('arm.'+label,(sign*.27,0,1.23),(sign*.40,-.035,.96),'spine')
  bone('forearm.'+label,(sign*.40,-.035,.96),(sign*.40,-.30,.93),'arm.'+label)
- bone('leg.'+label,(sign*.13,0,.80),(sign*.16,-.25,.12),'root')
+ bone('leg.'+label,(sign*.15,0,.94),(sign*.15,0,.58),'root')
+ bone('shin.'+label,(sign*.15,0,.58),(sign*.15,0,.08),'leg.'+label)
 bone('receiver',(.40,-.30,.97),(.40,-.30,1.02),'forearm.R')
 bpy.ops.object.mode_set(mode='OBJECT')
 for o,b in parts:
@@ -77,23 +88,33 @@ character=join([o for o,b in parts],'Analyst');mod=character.modifiers.new('Rig'
 rig.animation_data_create()
 for name in ['idle','phone','standYell','deskSlam','walk']:
  action=bpy.data.actions.new(name);rig.animation_data.action=action
- for frame in [1,16,32,48,64]:
-  t=(frame-1)/63*math.pi*2
+ for frame in [1,9,17,25,33,41,49,57,65]:
+  t=(frame-1)/64*math.pi*2
   for p in rig.pose.bones:p.rotation_mode='XYZ';p.rotation_euler=(0,0,0);p.location=(0,0,0);p.scale=(1,1,1)
   rig.pose.bones['spine'].rotation_euler.x=math.sin(t)*.025
   rig.pose.bones['head'].rotation_euler.z=math.sin(t)*.08
   rig.pose.bones['receiver'].scale=(1,1,1) if name=='phone' else (.001,.001,.001)
   if name in ['standYell','phone']:rig.pose.bones['mouth'].scale.z=1+4*abs(math.sin(t*2))
+  # Root local Y is vertical. Walking uses straight legs; sitting bends both knees.
+  if name not in ['walk','standYell']:
+   rig.pose.bones['root'].location.y=-.36
+   for label in ['L','R']:
+    rig.pose.bones['leg.'+label].rotation_euler.x=-math.pi/2
+    rig.pose.bones['shin.'+label].rotation_euler.x=math.pi/2
   if name=='idle':
    rig.pose.bones['forearm.L'].rotation_euler.x=.055*math.sin(t*2)
    rig.pose.bones['forearm.R'].rotation_euler.x=-.045*math.sin(t*2)
   if name=='phone':rig.pose.bones['arm.R'].rotation_euler.x=-1.5;rig.pose.bones['forearm.R'].rotation_euler.y=-.8;rig.pose.bones['head'].rotation_euler.y=.13
   if name=='standYell':
-   rig.pose.bones['root'].location.z=.35+.04*math.sin(t);rig.pose.bones['arm.L'].rotation_euler.y=1.5+.2*math.sin(t);rig.pose.bones['arm.R'].rotation_euler.y=-1.4
+   rig.pose.bones['root'].location.y=.015*math.sin(t);rig.pose.bones['arm.L'].rotation_euler.y=1.5+.2*math.sin(t);rig.pose.bones['arm.R'].rotation_euler.y=-1.4
   if name=='deskSlam':
    rig.pose.bones['spine'].rotation_euler.x=.18*abs(math.sin(t));rig.pose.bones['arm.R'].rotation_euler.x=-.9*abs(math.sin(t))
   if name=='walk':
-   rig.pose.bones['root'].location.z=.03*abs(math.sin(t));rig.pose.bones['leg.L'].rotation_euler.x=.25*math.sin(t);rig.pose.bones['leg.R'].rotation_euler.x=-.25*math.sin(t)
+   rig.pose.bones['root'].location.y=.012*math.sin(t*2)
+   for label,phase in [('L',t),('R',t+math.pi)]:
+    rig.pose.bones['leg.'+label].rotation_euler.x=.28*math.sin(phase)
+    rig.pose.bones['shin.'+label].rotation_euler.x=.40*max(0,-math.sin(phase))
+    rig.pose.bones['arm.'+label].rotation_euler.x=-.18*math.sin(phase)
   for p in rig.pose.bones:p.keyframe_insert('rotation_euler',frame=frame);p.keyframe_insert('location',frame=frame);p.keyframe_insert('scale',frame=frame)
  track=rig.animation_data.nla_tracks.new();track.name=name;track.strips.new(name,1,action)
 rig.animation_data.action=None
@@ -143,7 +164,7 @@ bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT,'workstation.blend'))
 bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,'workstation.glb'),export_format='GLB')
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 props=[]
-floor=mat('Floor','355257');wall=mat('Wall','203C43');window=mat('Window','73989B');trim=mat('Brass','B59557')
+floor=mat('Floor','A49C8F');wall=mat('Wall','282A39');window=mat('Window','889CC0');trim=mat('Brass','B59557')
 props.append(cube('Floor slab',(0,0,-.12),(12.8,10.7,.24),floor,.08))
 for x in range(-6,7):
  props.append(cube('Floor joint',(x,0,.005),(.015,10.5,.012),teal))
