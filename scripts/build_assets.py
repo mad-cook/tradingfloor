@@ -47,7 +47,7 @@ for x in [-.112,.112]:
  add(ico('Big eye',(x,-.172,1.70),(.10,.072,.103),white,1),'head')
  add(ico('Pupil',(x+.012,-.237,1.70),(.035,.025,.04),black,1),'head')
 add(ico('Nose',(0,-.197,1.56),(.055,.088,.11),skin,1),'head')
-add(cube('Uneasy mouth',(0,-.173,1.43),(.125,.025,.025),black),'head')
+add(cube('Uneasy mouth',(0,-.173,1.43),(.125,.025,.025),black),'mouth')
 for sign,label in [(-1,'L'),(1,'R')]:
  shoulder=(sign*.27,0,1.23);elbow=(sign*.40,-.035,.96);hand=(sign*.40,-.30,.93)
  add(limb('Sleeve',shoulder,elbow,.105,shirt),'arm.'+label)
@@ -56,6 +56,7 @@ for sign,label in [(-1,'L'),(1,'R')]:
  add(limb('Thigh',(sign*.13,0,.80),(sign*.16,-.24,.48),.115,pants),'leg.'+label)
  add(limb('Shin',(sign*.16,-.24,.48),(sign*.16,-.25,.12),.09,pants),'leg.'+label)
  add(cube('Shoe',(sign*.16,-.31,.08),(.19,.30,.12),black,.025),'leg.'+label)
+add(cube('Handset in hand',(.40,-.30,.97),(.055,.16,.045),black,.015),'receiver')
 bpy.ops.object.armature_add(location=(0,0,0));rig=bpy.context.object;rig.name='AnalystRig';bpy.ops.object.mode_set(mode='EDIT');rig.data.edit_bones.remove(rig.data.edit_bones[0])
 bones={}
 def bone(name,a,b,parent=None):
@@ -63,11 +64,12 @@ def bone(name,a,b,parent=None):
  if parent:v.parent=bones[parent]
  bones[name]=v
 bone('root',(0,0,0),(0,0,.65))
-bone('spine',(0,0,.65),(0,0,1.30),'root');bone('head',(0,0,1.30),(0,0,1.96),'spine')
+bone('spine',(0,0,.65),(0,0,1.30),'root');bone('head',(0,0,1.30),(0,0,1.96),'spine');bone('mouth',(0,-.173,1.43),(0,-.173,1.46),'head')
 for sign,label in [(-1,'L'),(1,'R')]:
  bone('arm.'+label,(sign*.27,0,1.23),(sign*.40,-.035,.96),'spine')
  bone('forearm.'+label,(sign*.40,-.035,.96),(sign*.40,-.30,.93),'arm.'+label)
  bone('leg.'+label,(sign*.13,0,.80),(sign*.16,-.25,.12),'root')
+bone('receiver',(.40,-.30,.97),(.40,-.30,1.02),'forearm.R')
 bpy.ops.object.mode_set(mode='OBJECT')
 for o,b in parts:
  g=o.vertex_groups.new(name=b);g.add(list(range(len(o.data.vertices))),1,'REPLACE')
@@ -77,17 +79,22 @@ for name in ['idle','phone','standYell','deskSlam','walk']:
  action=bpy.data.actions.new(name);rig.animation_data.action=action
  for frame in [1,16,32,48,64]:
   t=(frame-1)/63*math.pi*2
-  for p in rig.pose.bones:p.rotation_mode='XYZ';p.rotation_euler=(0,0,0);p.location=(0,0,0)
+  for p in rig.pose.bones:p.rotation_mode='XYZ';p.rotation_euler=(0,0,0);p.location=(0,0,0);p.scale=(1,1,1)
   rig.pose.bones['spine'].rotation_euler.x=math.sin(t)*.025
   rig.pose.bones['head'].rotation_euler.z=math.sin(t)*.08
+  rig.pose.bones['receiver'].scale=(1,1,1) if name=='phone' else (.001,.001,.001)
+  if name in ['standYell','phone']:rig.pose.bones['mouth'].scale.z=1+4*abs(math.sin(t*2))
+  if name=='idle':
+   rig.pose.bones['forearm.L'].rotation_euler.x=.055*math.sin(t*2)
+   rig.pose.bones['forearm.R'].rotation_euler.x=-.045*math.sin(t*2)
   if name=='phone':rig.pose.bones['arm.R'].rotation_euler.x=-1.5;rig.pose.bones['forearm.R'].rotation_euler.y=-.8;rig.pose.bones['head'].rotation_euler.y=.13
   if name=='standYell':
-   rig.pose.bones['root'].location.z=.18+.03*math.sin(t);rig.pose.bones['arm.L'].rotation_euler.y=1.5+.2*math.sin(t);rig.pose.bones['arm.R'].rotation_euler.y=-1.4
+   rig.pose.bones['root'].location.z=.35+.04*math.sin(t);rig.pose.bones['arm.L'].rotation_euler.y=1.5+.2*math.sin(t);rig.pose.bones['arm.R'].rotation_euler.y=-1.4
   if name=='deskSlam':
    rig.pose.bones['spine'].rotation_euler.x=.18*abs(math.sin(t));rig.pose.bones['arm.R'].rotation_euler.x=-.9*abs(math.sin(t))
   if name=='walk':
    rig.pose.bones['root'].location.z=.03*abs(math.sin(t));rig.pose.bones['leg.L'].rotation_euler.x=.25*math.sin(t);rig.pose.bones['leg.R'].rotation_euler.x=-.25*math.sin(t)
-  for p in rig.pose.bones:p.keyframe_insert('rotation_euler',frame=frame);p.keyframe_insert('location',frame=frame)
+  for p in rig.pose.bones:p.keyframe_insert('rotation_euler',frame=frame);p.keyframe_insert('location',frame=frame);p.keyframe_insert('scale',frame=frame)
  track=rig.animation_data.nla_tracks.new();track.name=name;track.strips.new(name,1,action)
 rig.animation_data.action=None
 for tr in rig.animation_data.nla_tracks:tr.mute=True
@@ -101,13 +108,21 @@ props.append(cube('Desk top',(0,0,.88),(1.62,.82,.10),wood,.045))
 for x in [-.66,.66]:
  props.append(cube('Desk pedestal',(x,.04,.44),(.25,.66,.82),teal,.025))
  for z in [.36,.60]:props.append(cube('Drawer handle',(x,-.30,z),(.12,.035,.022),lamp))
-for x,angle in [(-.34,-.15),(.34,.15)]:
+angle=.24
+half_gap=.31*math.cos(angle)+.008
+for x,angle in [(-half_gap,angle),(half_gap,-angle)]:
  props.append(cube('Monitor foot',(x,.20,.97),(.28,.20,.055),metal))
  props.append(cube('Monitor neck',(x,.25,1.12),(.065,.065,.29),metal))
- o=cube('Monitor shell',(x,.23,1.31),(.62,.085,.39),metal,.025);o.rotation_euler.z=angle;props.append(o)
- o=cube('Monitor glass',(x,.179,1.31),(.54,.012,.31),screen);o.rotation_euler.z=angle;props.append(o)
+ panels=[cube('Monitor shell',(x,.23,1.31),(.62,.085,.39),metal,.025),
+         cube('Monitor glass',(x,.179,1.31),(.54,.012,.31),screen)]
  for n in range(5):
-  props.append(cube('Chart bar',(x-.20+n*.087,.166,1.25+n%3*.035),(.045,.014,.07+n%3*.035),lamp if n%3==0 else paper))
+  panels.append(cube('Chart bar',(x-.20+n*.087,.166,1.25+n%3*.035),(.045,.014,.07+n%3*.035),lamp if n%3==0 else paper))
+ for panel in panels:
+  px,py=panel.location.x-x,panel.location.y-.23
+  panel.location.x=x+px*math.cos(angle)-py*math.sin(angle)
+  panel.location.y=.23+px*math.sin(angle)+py*math.cos(angle)
+  panel.rotation_euler.z+=angle
+  props.append(panel)
 props.append(cube('Keyboard',(-.08,-.23,.96),(.57,.20,.025),metal,.01))
 props.append(cube('Telephone',(.61,-.23,.98),(.23,.22,.10),teal,.035))
 props.append(cube('Receiver',(.61,-.23,1.055),(.27,.09,.055),black,.02))
@@ -117,6 +132,13 @@ props.append(cube('Chair back',(0,-.96,.85),(.54,.10,.58),teal,.05))
 props.append(limb('Chair stem',(0,-.76,.08),(0,-.76,.50),.065,metal))
 for i in range(4):
  a=i*math.pi/2;props.append(limb('Chair base',(0,-.76,.08),(.29*math.cos(a),-.76+.29*math.sin(a),.06),.035,metal))
+# Papers, coffee and a coiled phone cord belong to every workstation.
+for k in range(3):
+ o=cube('Loose trade slip',(-.58+k*.045,-.03,.951+k*.006),(.24,.19,.006),paper);o.rotation_euler.z=-.16+k*.20;props.append(o)
+bpy.ops.mesh.primitive_cylinder_add(vertices=10,radius=.055,depth=.115,location=(.30,-.24,1.002));o=bpy.context.object;o.data.materials.append(paper);props.append(o)
+for k in range(12):
+ a=k*1.8;props.append(cube('Coiled phone cord',(.72+.018*math.cos(a),-.1+k*.014,.954),(.025,.019,.018),black))
+
 join(props,'Workstation')
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT,'workstation.blend'))
 bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,'workstation.glb'),export_format='GLB')
@@ -143,6 +165,14 @@ props.append(cube('Printer cabinet',(4.9,-3.9,.44),(.85,.8,.9),teal,.04))
 props.append(cube('Ticket printer',(4.9,-3.9,1.0),(.74,.65,.30),paper,.045))
 props.append(cube('Output slot',(4.9,-4.235,1.0),(.48,.035,.07),black))
 props.append(cube('Printed ticket',(4.9,-4.34,.96),(.29,.22,.012),paper))
+# Oversized quotation boards bring the room closer to an old trading floor.
+for bx in [-4.3,0,4.3]:
+ props.append(cube('Wall market board',(bx,4.98,2.42),(3.65,.12,1.0),metal,.025))
+ for row in range(4):
+  for col in range(12):
+   h=.024+(col*7+row*3)%5*.009
+   props.append(cube('Market quote light',(bx-1.58+col*.28,4.90,2.75-row*.21),(.16,.018,h),screen if (col+row)%3 else lamp))
+
 # Low-poly plants.
 for x,y in [(-5.6,4.4),(5.6,4.4),(-5.6,-4.4)]:
  bpy.ops.mesh.primitive_cone_add(vertices=7,radius1=.24,radius2=.34,depth=.48,location=(x,y,.24));o=bpy.context.object;o.data.materials.append(wood);props.append(o)
@@ -152,6 +182,8 @@ join(props,'TradingRoom')
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT,'room.blend'))
 bpy.ops.export_scene.gltf(filepath=os.path.join(OUT,'room.glb'),export_format='GLB')
 print('THE FLOOR: original Blender assets exported')
+
+
 
 
 

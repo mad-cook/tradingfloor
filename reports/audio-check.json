@@ -1,0 +1,422 @@
+{
+  "samples": [
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 1,
+      "effects": 1,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 1,
+      "effects": 1,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 1,
+      "effects": 1,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 1,
+      "effects": 1,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 1,
+      "effects": 2,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 2,
+      "effects": 2,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 2,
+      "effects": 2,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 2,
+      "effects": 3,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 2,
+      "effects": 3,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 2,
+      "effects": 4,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 3,
+      "effects": 4,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 3,
+      "effects": 5,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 3,
+      "effects": 5,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 3,
+      "effects": 5,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 3,
+      "effects": 6,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 3,
+      "effects": 6,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 3,
+      "effects": 6,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 3,
+      "effects": 6,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 3,
+      "effects": 6,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 0,
+      "played": 3,
+      "effects": 8,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 0,
+      "played": 3,
+      "effects": 8,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 0,
+      "played": 3,
+      "effects": 8,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 0,
+      "played": 3,
+      "effects": 8,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 4,
+      "effects": 9,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 4,
+      "effects": 9,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 4,
+      "effects": 9,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 4,
+      "effects": 9,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 5,
+      "effects": 9,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 5,
+      "effects": 10,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 5,
+      "effects": 11,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 5,
+      "effects": 11,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 5,
+      "effects": 11,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 5,
+      "effects": 12,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 5,
+      "effects": 12,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 5,
+      "effects": 12,
+      "failures": 0,
+      "queued": 3
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 5,
+      "effects": 12,
+      "failures": 0,
+      "queued": 3
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 6,
+      "effects": 14,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 6,
+      "effects": 14,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 6,
+      "effects": 14,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 6,
+      "effects": 15,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 6,
+      "effects": 16,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 6,
+      "effects": 16,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 7,
+      "effects": 16,
+      "failures": 0,
+      "queued": 0
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 7,
+      "effects": 17,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 7,
+      "effects": 17,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 1,
+      "played": 7,
+      "effects": 17,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 8,
+      "effects": 17,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 8,
+      "effects": 17,
+      "failures": 0,
+      "queued": 1
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 8,
+      "effects": 18,
+      "failures": 0,
+      "queued": 2
+    },
+    {
+      "enabled": true,
+      "active": 2,
+      "played": 8,
+      "effects": 19,
+      "failures": 0,
+      "queued": 2
+    }
+  ],
+  "muted": {
+    "enabled": false,
+    "active": 0,
+    "played": 8,
+    "effects": 19,
+    "failures": 0,
+    "queued": 0
+  },
+  "resumed": {
+    "enabled": true,
+    "active": 1,
+    "played": 10,
+    "effects": 26,
+    "failures": 0,
+    "queued": 0
+  },
+  "errors": [],
+  "missing": []
+}

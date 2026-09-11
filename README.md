@@ -24,7 +24,7 @@ Open http://localhost:3100. The worker listens on loopback port 3101. Alternativ
 - Local rehearsal controls for pause, night shift, oversized pitch, session close, and execution halt. No live endpoint.
 - Atomic local snapshot recovery and append-only event log in ignored `data/`.
 - Optional Postgres snapshot persistence via `DATABASE_URL`. Run `npm run db:migrate` on an empty development database first. Full normalized schema is supplied but the initial rehearsal worker writes only its runtime snapshot; production projections remain to implement.
-- Synthesized interaction tones with mute control. No generated voice bank yet.
+- 130 locally generated synthetic bark clips across thirteen processed voice profiles, a room-chatter bed, stereo desk voices, phones, keyboard and printer effects. At most two foreground voices play together. Entering the floor enables sound; the sound button mutes immediately. The voice bank is based on the installed Microsoft Zira voice with per-desk processing, not thirteen separate voice actors.
 
 ## Original assets
 
@@ -53,10 +53,15 @@ The initial delivery is a working rehearsal, **not the complete live-trading spe
 1. Provide the Quant Riku project location and the missing Mirror companion document if integration/reuse is desired.
 2. Configure model, Jupiter, and RPC connections. Verify the complete issuer registry, metadata, real executable quotes, scaled UI balance accounting, and benchmark route. The demo roster is a fixture, not a validated execution universe.
 3. Wire the real-market paper engine to the tested price/market-hours adapters, strict model adapter, allocation batching, and quote conversion. Those adapters exist but are not invoked by the rehearsal engine.
-4. Complete M0 model latency/reliability, RPC throughput, and offline voice-bank checks. The public registry, price, and market-hours endpoints responded successfully during initial preflight.
+4. Complete M0 model latency/reliability, RPC throughput, and production voice-provider checks. The public registry, price, and market-hours endpoints responded successfully during initial preflight.
 5. Complete normalized Postgres persistence, continuous-session scheduling, authenticated operator controls, monitoring, and deployment configuration.
 6. Implement and verify the live transaction signing/confirmation path only after explicit treasury authorization. No private key or live signer is present. `PAPER=0` fails closed.
 7. Implement the real ticket-to-Solscan path, non-custodial copy-desk, eligibility gating, and the full hiring walk choreography. No fake transaction hashes or wallet actions are shown.
 
 The attachment is preserved in `docs/BUILD_SPEC.md` as a reference. Its embedded instructions to purchase services or execute trades do not grant authorization. No purchases or real trades were made.
+
+
+## Rebuild the audio bank
+
+Run powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_voices.ps1 on Windows with System.Speech and ffmpeg installed. Generated MP3s and their text manifest are tracked under public/vo. Browser audio verification: node scripts/audio-check.mjs.
 

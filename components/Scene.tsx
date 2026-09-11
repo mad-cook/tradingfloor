@@ -9,7 +9,7 @@ import type {Desk} from '@/packages/core/types';
 const seats=Array.from({length:12},(_,i)=>[(-3.9+(i%4)*2.6),0,(-1.3+Math.floor(i/4)*2.05)] as [number,number,number]);
 function Asset({path,position=[0,0,0],rotation=0,scale=1}:{path:string;position?:[number,number,number];rotation?:number;scale?:number}){const {scene}=useGLTF(path);const object=useMemo(()=>scene.clone(true),[scene]);return <primitive object={object} position={position} rotation-y={rotation} scale={scale}/>;}
 function Analyst({desk,position,boss=false}:{desk?:Desk;position:[number,number,number];boss?:boolean}){
- const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??'#354c65');for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color]);const {actions}=useAnimations(animations,ref);const event=useFloor(s=>s.event);
+ const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??'#354c65');for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color]);const {actions}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===desk?.id));const event=voice??floorEvent;
  const [clip,setClip]=useState('idle');
  const lastReaction=useRef(-Infinity);
  const pending=useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -50,10 +50,11 @@ function Analyst({desk,position,boss=false}:{desk?:Desk;position:[number,number,
 }
 function DeskModel({desk,index}:{desk:Desk;index:number}){
  const selected=useFloor(s=>s.selected);const select=useFloor(s=>s.select);const event=useFloor(s=>s.event);const p=seats[index];
- const hot=event?.deskId===desk.id;
+ const voice=useFloor(s=>s.voices.find(v=>v.deskId===desk.id));const hot=event?.deskId===desk.id;
  return <group position={p} onClick={e=>{e.stopPropagation();select(desk.id);}} onPointerOver={()=>{document.body.style.cursor='pointer';}} onPointerOut={()=>{document.body.style.cursor='auto';}}>
  <Asset path="/models/workstation.glb"/>
  <Analyst desk={desk} position={[0,0,.76]}/>
+ {voice&&<Html position={[0,2.35,.76]} center zIndexRange={[20,11]}><div className="voice-bubble"><b>{desk.symbol}</b><span>{voice.text}</span></div></Html>}
  <mesh rotation-x={-Math.PI/2} position={[0,.016,.76]}><circleGeometry args={[.40,16]}/><meshBasicMaterial color="#07191c" transparent opacity={.36}/></mesh>
  <Html position={[0,.91,.52]} center zIndexRange={[10,0]}><button className={'desk-label '+(selected===desk.id?'selected':'')} onPointerDown={e=>e.stopPropagation()} onClick={e=>{e.stopPropagation();select(desk.id);}} style={{borderColor:hot?'#e5ad65':undefined}}><span style={{color:desk.color}}>●</span> {desk.symbol}<small>{hot?event?.kind.replaceAll('_',' ').toLowerCase():'analyst '+String(index+1).padStart(2,'0')}</small></button></Html>
  {selected===desk.id&&<mesh rotation-x={-Math.PI/2} position={[0,.022,.15]}><ringGeometry args={[.92,.96,32]}/><meshBasicMaterial color="#e7b263" transparent opacity={.9}/></mesh>}
@@ -79,6 +80,7 @@ export default function Scene(){
  </Suspense><CameraRig/><Metrics/>
  </Canvas>;
 }
+
 
 
 

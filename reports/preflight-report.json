@@ -145,8 +145,8 @@
     },
     {
       "id": "F4",
-      "status": "blocked",
-      "reason": "Offline voice bank pending; synthesized local sound effects selected for initial development."
+      "status": "observed",
+      "reason": "Local synthetic bank selected: 130 processed desk/principal MP3 clips plus a room-chatter bed. Browser checks verify playback, cap of two foreground voices, mute/resume, and zero missing audio assets. Uses installed Microsoft Zira voice with per-profile processing; no paid TTS provider involved."
     },
     {
       "id": "F5",

@@ -1,0 +1,548 @@
+﻿{
+    "amzn":  [
+                 {
+                     "text":  "Amazon! Boss, I want size!",
+                     "url":  "/vo/amzn/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/amzn/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/amzn/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/amzn/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/amzn/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/amzn/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/amzn/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/amzn/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/amzn/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/amzn/9.mp3"
+                 }
+             ],
+    "principal":  [
+                      {
+                          "text":  "Everybody! Boss, I want size!",
+                          "url":  "/vo/principal/0.mp3"
+                      },
+                      {
+                          "text":  "Pick up the phone! Come on!",
+                          "url":  "/vo/principal/1.mp3"
+                      },
+                      {
+                          "text":  "Watch the tape! Watch the tape!",
+                          "url":  "/vo/principal/2.mp3"
+                      },
+                      {
+                          "text":  "Get me a quote! Right now!",
+                          "url":  "/vo/principal/3.mp3"
+                      },
+                      {
+                          "text":  "Who approved that? Who approved that!",
+                          "url":  "/vo/principal/4.mp3"
+                      },
+                      {
+                          "text":  "Trimmed? You have got to be kidding!",
+                          "url":  "/vo/principal/5.mp3"
+                      },
+                      {
+                          "text":  "Risk desk killed it! Unbelievable!",
+                          "url":  "/vo/principal/6.mp3"
+                      },
+                      {
+                          "text":  "That is a fill! Print the ticket!",
+                          "url":  "/vo/principal/7.mp3"
+                      },
+                      {
+                          "text":  "I called it! I called that move!",
+                          "url":  "/vo/principal/8.mp3"
+                      },
+                      {
+                          "text":  "Keep it tight! Eyes on your screens!",
+                          "url":  "/vo/principal/9.mp3"
+                      }
+                  ],
+    "msft":  [
+                 {
+                     "text":  "Microsoft! Boss, I want size!",
+                     "url":  "/vo/msft/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/msft/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/msft/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/msft/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/msft/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/msft/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/msft/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/msft/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/msft/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/msft/9.mp3"
+                 }
+             ],
+    "mstr":  [
+                 {
+                     "text":  "Micro Strategy! Boss, I want size!",
+                     "url":  "/vo/mstr/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/mstr/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/mstr/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/mstr/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/mstr/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/mstr/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/mstr/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/mstr/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/mstr/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/mstr/9.mp3"
+                 }
+             ],
+    "qqq":  [
+                {
+                    "text":  "Nasdaq! Boss, I want size!",
+                    "url":  "/vo/qqq/0.mp3"
+                },
+                {
+                    "text":  "Pick up the phone! Come on!",
+                    "url":  "/vo/qqq/1.mp3"
+                },
+                {
+                    "text":  "Watch the tape! Watch the tape!",
+                    "url":  "/vo/qqq/2.mp3"
+                },
+                {
+                    "text":  "Get me a quote! Right now!",
+                    "url":  "/vo/qqq/3.mp3"
+                },
+                {
+                    "text":  "Who approved that? Who approved that!",
+                    "url":  "/vo/qqq/4.mp3"
+                },
+                {
+                    "text":  "Trimmed? You have got to be kidding!",
+                    "url":  "/vo/qqq/5.mp3"
+                },
+                {
+                    "text":  "Risk desk killed it! Unbelievable!",
+                    "url":  "/vo/qqq/6.mp3"
+                },
+                {
+                    "text":  "That is a fill! Print the ticket!",
+                    "url":  "/vo/qqq/7.mp3"
+                },
+                {
+                    "text":  "I called it! I called that move!",
+                    "url":  "/vo/qqq/8.mp3"
+                },
+                {
+                    "text":  "Keep it tight! Eyes on your screens!",
+                    "url":  "/vo/qqq/9.mp3"
+                }
+            ],
+    "crcl":  [
+                 {
+                     "text":  "Circle! Boss, I want size!",
+                     "url":  "/vo/crcl/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/crcl/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/crcl/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/crcl/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/crcl/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/crcl/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/crcl/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/crcl/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/crcl/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/crcl/9.mp3"
+                 }
+             ],
+    "tsla":  [
+                 {
+                     "text":  "Tesla! Boss, I want size!",
+                     "url":  "/vo/tsla/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/tsla/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/tsla/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/tsla/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/tsla/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/tsla/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/tsla/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/tsla/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/tsla/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/tsla/9.mp3"
+                 }
+             ],
+    "spy":  [
+                {
+                    "text":  "S and P! Boss, I want size!",
+                    "url":  "/vo/spy/0.mp3"
+                },
+                {
+                    "text":  "Pick up the phone! Come on!",
+                    "url":  "/vo/spy/1.mp3"
+                },
+                {
+                    "text":  "Watch the tape! Watch the tape!",
+                    "url":  "/vo/spy/2.mp3"
+                },
+                {
+                    "text":  "Get me a quote! Right now!",
+                    "url":  "/vo/spy/3.mp3"
+                },
+                {
+                    "text":  "Who approved that? Who approved that!",
+                    "url":  "/vo/spy/4.mp3"
+                },
+                {
+                    "text":  "Trimmed? You have got to be kidding!",
+                    "url":  "/vo/spy/5.mp3"
+                },
+                {
+                    "text":  "Risk desk killed it! Unbelievable!",
+                    "url":  "/vo/spy/6.mp3"
+                },
+                {
+                    "text":  "That is a fill! Print the ticket!",
+                    "url":  "/vo/spy/7.mp3"
+                },
+                {
+                    "text":  "I called it! I called that move!",
+                    "url":  "/vo/spy/8.mp3"
+                },
+                {
+                    "text":  "Keep it tight! Eyes on your screens!",
+                    "url":  "/vo/spy/9.mp3"
+                }
+            ],
+    "nvda":  [
+                 {
+                     "text":  "Nvidia! Boss, I want size!",
+                     "url":  "/vo/nvda/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/nvda/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/nvda/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/nvda/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/nvda/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/nvda/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/nvda/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/nvda/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/nvda/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/nvda/9.mp3"
+                 }
+             ],
+    "spcx":  [
+                 {
+                     "text":  "Space X! Boss, I want size!",
+                     "url":  "/vo/spcx/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/spcx/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/spcx/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/spcx/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/spcx/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/spcx/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/spcx/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/spcx/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/spcx/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/spcx/9.mp3"
+                 }
+             ],
+    "meta":  [
+                 {
+                     "text":  "Meta! Boss, I want size!",
+                     "url":  "/vo/meta/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/meta/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/meta/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/meta/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/meta/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/meta/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/meta/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/meta/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/meta/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/meta/9.mp3"
+                 }
+             ],
+    "goog":  [
+                 {
+                     "text":  "Google! Boss, I want size!",
+                     "url":  "/vo/goog/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/goog/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/goog/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/goog/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/goog/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/goog/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/goog/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/goog/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/goog/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/goog/9.mp3"
+                 }
+             ],
+    "aapl":  [
+                 {
+                     "text":  "Apple! Boss, I want size!",
+                     "url":  "/vo/aapl/0.mp3"
+                 },
+                 {
+                     "text":  "Pick up the phone! Come on!",
+                     "url":  "/vo/aapl/1.mp3"
+                 },
+                 {
+                     "text":  "Watch the tape! Watch the tape!",
+                     "url":  "/vo/aapl/2.mp3"
+                 },
+                 {
+                     "text":  "Get me a quote! Right now!",
+                     "url":  "/vo/aapl/3.mp3"
+                 },
+                 {
+                     "text":  "Who approved that? Who approved that!",
+                     "url":  "/vo/aapl/4.mp3"
+                 },
+                 {
+                     "text":  "Trimmed? You have got to be kidding!",
+                     "url":  "/vo/aapl/5.mp3"
+                 },
+                 {
+                     "text":  "Risk desk killed it! Unbelievable!",
+                     "url":  "/vo/aapl/6.mp3"
+                 },
+                 {
+                     "text":  "That is a fill! Print the ticket!",
+                     "url":  "/vo/aapl/7.mp3"
+                 },
+                 {
+                     "text":  "I called it! I called that move!",
+                     "url":  "/vo/aapl/8.mp3"
+                 },
+                 {
+                     "text":  "Keep it tight! Eyes on your screens!",
+                     "url":  "/vo/aapl/9.mp3"
+                 }
+             ]
+}
