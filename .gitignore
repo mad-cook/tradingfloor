@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.env
+.env.local
+.env.*.local
+*.log
+.sites-runtime/
+data/
+
+.next-dev/
+*.blend1
+*.tsbuildinfo
