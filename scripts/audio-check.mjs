@@ -3,8 +3,12 @@ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--ena
 const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];const samples=[];const missing=[];
 page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().includes('/vo/')&&!r.ok())missing.push(r.url());});
 await page.goto('http://localhost:3100');await page.getByRole('button',{name:'Enter the floor'}).click();
-for(let i=0;i<50;i++){await page.waitForTimeout(250);samples.push(await page.evaluate(()=>window.__floorAudio));}
+for(let i=0;i<160;i++){await page.waitForTimeout(250);samples.push(await page.evaluate(()=>window.__floorAudio));}
 const active=samples.filter(Boolean);assert.ok(active.some(x=>x.played>=2),'Voices must actually play after entry');assert.ok(active.every(x=>x.active<=2),'No more than two foreground voices');assert.ok(active.at(-1).effects>0,'Office sound effects must play');
+const last=active.at(-1);assert.equal(new Set(last.recentLines).size,last.recentLines.length,'No repeated phrase patterns');
+assert.ok(last.recentCategories.includes('challenge'),'A desk starts an argument');
+assert.ok(last.recentCategories.includes('reply'),'Another desk answers');
+assert.ok(last.recentCategories.includes('boss'),'The principal interrupts');
 await page.screenshot({path:'reports/floor-voices.png',fullPage:true});
 await page.getByRole('button',{name:'Mute sound',exact:true}).click();await page.waitForTimeout(1000);
 const muted=await page.evaluate(()=>window.__floorAudio);assert.equal(muted.enabled,false);assert.equal(muted.active,0);assert.equal(await page.locator('.voice-bubble').count(),0);
@@ -12,4 +16,5 @@ await page.getByRole('button',{name:'Enable sound',exact:true}).click();await pa
 assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);assert.equal(resumed.failures,0);
 await writeFile('reports/audio-check.json',JSON.stringify({samples:active,muted,resumed,errors,missing},null,2));console.log(JSON.stringify({maxVoices:Math.max(...active.map(s=>s.active)),muted,resumed,errors,missing},null,2));
 await browser.close();
+
 

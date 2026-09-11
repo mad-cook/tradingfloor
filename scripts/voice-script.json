@@ -1,0 +1,4328 @@
+{
+  "nvda": [
+    {
+      "text": "These chips are paying for somebody’s yacht. Not mine yet.",
+      "category": "ambient",
+      "key": "nvda-ambient-0"
+    },
+    {
+      "text": "Stop drawing arrows on my Nvidia chart.",
+      "category": "ambient",
+      "key": "nvda-ambient-1"
+    },
+    {
+      "text": "I need a second opinion, not a second sandwich.",
+      "category": "ambient",
+      "key": "nvda-ambient-2"
+    },
+    {
+      "text": "Can somebody explain this candle without waving their arms?",
+      "category": "ambient",
+      "key": "nvda-ambient-3"
+    },
+    {
+      "text": "My screen has more green than the office plant.",
+      "category": "ambient",
+      "key": "nvda-ambient-4"
+    },
+    {
+      "text": "I have three models and four different answers.",
+      "category": "ambient",
+      "key": "nvda-ambient-5"
+    },
+    {
+      "text": "The semiconductor desk would like some breathing room.",
+      "category": "ambient",
+      "key": "nvda-ambient-6"
+    },
+    {
+      "text": "That is a thesis. Your coffee stain is not a thesis.",
+      "category": "ambient",
+      "key": "nvda-ambient-7"
+    },
+    {
+      "text": "If this phone rings again, I am billing the phone.",
+      "category": "ambient",
+      "key": "nvda-ambient-8"
+    },
+    {
+      "text": "Nobody touch my lucky calculator.",
+      "category": "ambient",
+      "key": "nvda-ambient-9"
+    },
+    {
+      "text": "I have been staring at this chip chart since breakfast.",
+      "category": "ambient",
+      "key": "nvda-ambient-10"
+    },
+    {
+      "text": "The server is hot and so is my patience.",
+      "category": "ambient",
+      "key": "nvda-ambient-11"
+    },
+    {
+      "text": "Someone tell the boss this is a research process.",
+      "category": "ambient",
+      "key": "nvda-ambient-12"
+    },
+    {
+      "text": "The chart moved while I was explaining the chart.",
+      "category": "ambient",
+      "key": "nvda-ambient-13"
+    },
+    {
+      "text": "I need the latest volume, not yesterday’s gossip.",
+      "category": "ambient",
+      "key": "nvda-ambient-14"
+    },
+    {
+      "text": "Who put a sticky note over my risk numbers?",
+      "category": "ambient",
+      "key": "nvda-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Nvidia. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Nvidia case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Nvidia argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Nvidia forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Nvidia position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Nvidia setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Nvidia has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Nvidia. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Nvidia. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Nvidia. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Nvidia. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Nvidia allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Nvidia allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Nvidia size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Nvidia position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Nvidia budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Nvidia. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Nvidia, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Nvidia. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Nvidia ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Nvidia. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Nvidia request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Nvidia order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Nvidia. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Nvidia filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Nvidia. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Nvidia ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Nvidia fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Nvidia paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Nvidia is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Nvidia forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Nvidia. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Nvidia desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Nvidia direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Nvidia call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Nvidia forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Nvidia forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Nvidia. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Nvidia desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Nvidia call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Nvidia. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Nvidia. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "spy": [
+    {
+      "text": "The benchmark desk would like everyone to take a breath.",
+      "category": "ambient",
+      "key": "spy-ambient-0"
+    },
+    {
+      "text": "Five hundred companies and somehow this room is louder.",
+      "category": "ambient",
+      "key": "spy-ambient-1"
+    },
+    {
+      "text": "You cannot diversify away your personality.",
+      "category": "ambient",
+      "key": "spy-ambient-2"
+    },
+    {
+      "text": "I am comparing returns, not decibel levels.",
+      "category": "ambient",
+      "key": "spy-ambient-3"
+    },
+    {
+      "text": "Can we have one opinion supported by arithmetic?",
+      "category": "ambient",
+      "key": "spy-ambient-4"
+    },
+    {
+      "text": "The index does not care about your lucky tie.",
+      "category": "ambient",
+      "key": "spy-ambient-5"
+    },
+    {
+      "text": "That is the market. Your stock is a small part of it.",
+      "category": "ambient",
+      "key": "spy-ambient-6"
+    },
+    {
+      "text": "I brought the benchmark. Who brought the perspective?",
+      "category": "ambient",
+      "key": "spy-ambient-7"
+    },
+    {
+      "text": "Everyone is a genius until we subtract the index.",
+      "category": "ambient",
+      "key": "spy-ambient-8"
+    },
+    {
+      "text": "The broad market desk requests a quieter telephone.",
+      "category": "ambient",
+      "key": "spy-ambient-9"
+    },
+    {
+      "text": "If you need me, I will be counting calmly.",
+      "category": "ambient",
+      "key": "spy-ambient-10"
+    },
+    {
+      "text": "There is an entire economy outside your monitor.",
+      "category": "ambient",
+      "key": "spy-ambient-11"
+    },
+    {
+      "text": "Please stop using my desk as a podium.",
+      "category": "ambient",
+      "key": "spy-ambient-12"
+    },
+    {
+      "text": "I would like my spreadsheet back in one piece.",
+      "category": "ambient",
+      "key": "spy-ambient-13"
+    },
+    {
+      "text": "Your chart is dramatic. My chart is useful.",
+      "category": "ambient",
+      "key": "spy-ambient-14"
+    },
+    {
+      "text": "One number at a time, people.",
+      "category": "ambient",
+      "key": "spy-ambient-15"
+    },
+    {
+      "text": "I have a proposal on S and P. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the S and P case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the S and P argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The S and P forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this S and P position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a S and P setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "S and P has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on S and P. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to S and P. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on S and P. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on S and P. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The S and P allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed S and P allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the S and P size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller S and P position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The S and P budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on S and P. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes S and P, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on S and P. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The S and P ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked S and P. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The S and P request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That S and P order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on S and P. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "S and P filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on S and P. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The S and P ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our S and P fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The S and P paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "S and P is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The S and P forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on S and P. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the S and P desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the S and P direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The S and P call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the S and P forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The S and P forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on S and P. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The S and P desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That S and P call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on S and P. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on S and P. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "tsla": [
+    {
+      "text": "The Tesla desk has consumed all the emergency coffee.",
+      "category": "ambient",
+      "key": "tsla-ambient-0"
+    },
+    {
+      "text": "I looked away for one second. One second!",
+      "category": "ambient",
+      "key": "tsla-ambient-1"
+    },
+    {
+      "text": "My chair is moving less than this chart.",
+      "category": "ambient",
+      "key": "tsla-ambient-2"
+    },
+    {
+      "text": "Who installed the panic button next to the calculator?",
+      "category": "ambient",
+      "key": "tsla-ambient-3"
+    },
+    {
+      "text": "I am perfectly calm. Where is my other phone?",
+      "category": "ambient",
+      "key": "tsla-ambient-4"
+    },
+    {
+      "text": "Somebody lower the volume on that candlestick.",
+      "category": "ambient",
+      "key": "tsla-ambient-5"
+    },
+    {
+      "text": "This desk needs seat belts.",
+      "category": "ambient",
+      "key": "tsla-ambient-6"
+    },
+    {
+      "text": "I have revised my opinion and also my lunch plans.",
+      "category": "ambient",
+      "key": "tsla-ambient-7"
+    },
+    {
+      "text": "Do not confuse my hand gestures with a buy signal.",
+      "category": "ambient",
+      "key": "tsla-ambient-8"
+    },
+    {
+      "text": "The Tesla desk would like to file a noise complaint against itself.",
+      "category": "ambient",
+      "key": "tsla-ambient-9"
+    },
+    {
+      "text": "I need a quote and possibly a walk.",
+      "category": "ambient",
+      "key": "tsla-ambient-10"
+    },
+    {
+      "text": "Stop saying relax while pointing at my screen.",
+      "category": "ambient",
+      "key": "tsla-ambient-11"
+    },
+    {
+      "text": "My risk assessment has several exclamation marks.",
+      "category": "ambient",
+      "key": "tsla-ambient-12"
+    },
+    {
+      "text": "The coffee is decaf? That explains absolutely nothing.",
+      "category": "ambient",
+      "key": "tsla-ambient-13"
+    },
+    {
+      "text": "Who moved my stress ball to the risk desk?",
+      "category": "ambient",
+      "key": "tsla-ambient-14"
+    },
+    {
+      "text": "I am not pacing. I am gathering information.",
+      "category": "ambient",
+      "key": "tsla-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Tesla. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Tesla case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Tesla argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Tesla forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Tesla position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Tesla setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Tesla has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Tesla. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Tesla. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Tesla. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Tesla. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Tesla allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Tesla allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Tesla size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Tesla position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Tesla budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Tesla. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Tesla, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Tesla. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Tesla ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Tesla. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Tesla request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Tesla order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Tesla. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Tesla filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Tesla. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Tesla ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Tesla fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Tesla paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Tesla is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Tesla forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Tesla. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Tesla desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Tesla direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Tesla call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Tesla forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Tesla forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Tesla. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Tesla desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Tesla call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Tesla. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Tesla. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "crcl": [
+    {
+      "text": "The Circle desk is accepting facts, preferably fresh ones.",
+      "category": "ambient",
+      "key": "crcl-ambient-0"
+    },
+    {
+      "text": "Stablecoin plumbing is not glamorous, but somebody has to watch it.",
+      "category": "ambient",
+      "key": "crcl-ambient-1"
+    },
+    {
+      "text": "You cannot settle an argument with a louder keyboard.",
+      "category": "ambient",
+      "key": "crcl-ambient-2"
+    },
+    {
+      "text": "I said liquidity, not liquid lunch.",
+      "category": "ambient",
+      "key": "crcl-ambient-3"
+    },
+    {
+      "text": "Somebody trace that flow before naming it a trend.",
+      "category": "ambient",
+      "key": "crcl-ambient-4"
+    },
+    {
+      "text": "I want the actual quote, not an enthusiastic approximation.",
+      "category": "ambient",
+      "key": "crcl-ambient-5"
+    },
+    {
+      "text": "This is a cash-flow conversation. Please stop singing.",
+      "category": "ambient",
+      "key": "crcl-ambient-6"
+    },
+    {
+      "text": "The spread deserves a second look.",
+      "category": "ambient",
+      "key": "crcl-ambient-7"
+    },
+    {
+      "text": "I have found a discrepancy and misplaced my pen.",
+      "category": "ambient",
+      "key": "crcl-ambient-8"
+    },
+    {
+      "text": "Who borrowed the Circle desk’s charging cable?",
+      "category": "ambient",
+      "key": "crcl-ambient-9"
+    },
+    {
+      "text": "If it is so obvious, put it in the forecast.",
+      "category": "ambient",
+      "key": "crcl-ambient-10"
+    },
+    {
+      "text": "The story is interesting. Now show me the numbers.",
+      "category": "ambient",
+      "key": "crcl-ambient-11"
+    },
+    {
+      "text": "My monitor has fingerprints from three different arguments.",
+      "category": "ambient",
+      "key": "crcl-ambient-12"
+    },
+    {
+      "text": "I would enjoy one meeting without the word moon.",
+      "category": "ambient",
+      "key": "crcl-ambient-13"
+    },
+    {
+      "text": "Give me thirty seconds and an unbroken pencil.",
+      "category": "ambient",
+      "key": "crcl-ambient-14"
+    },
+    {
+      "text": "Settlement waits for nobody. Neither does this phone.",
+      "category": "ambient",
+      "key": "crcl-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Circle. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Circle case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Circle argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Circle forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Circle position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Circle setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Circle has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Circle. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Circle. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Circle. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Circle. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Circle allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Circle allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Circle size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Circle position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Circle budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Circle. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Circle, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Circle. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Circle ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Circle. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Circle request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Circle order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Circle. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Circle filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Circle. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Circle ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Circle fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Circle paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Circle is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Circle forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Circle. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Circle desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Circle direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Circle call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Circle forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Circle forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Circle. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Circle desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Circle call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Circle. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Circle. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "aapl": [
+    {
+      "text": "The Apple desk has heard this story before.",
+      "category": "ambient",
+      "key": "aapl-ambient-0"
+    },
+    {
+      "text": "New headline, same spreadsheet.",
+      "category": "ambient",
+      "key": "aapl-ambient-1"
+    },
+    {
+      "text": "I prefer my forecasts with fewer fireworks.",
+      "category": "ambient",
+      "key": "aapl-ambient-2"
+    },
+    {
+      "text": "Is that a catalyst or just a very expensive rumor?",
+      "category": "ambient",
+      "key": "aapl-ambient-3"
+    },
+    {
+      "text": "Someone has confused a product launch with a trading plan.",
+      "category": "ambient",
+      "key": "aapl-ambient-4"
+    },
+    {
+      "text": "Put the shiny phone down and read the numbers.",
+      "category": "ambient",
+      "key": "aapl-ambient-5"
+    },
+    {
+      "text": "I am waiting for a price, not applause.",
+      "category": "ambient",
+      "key": "aapl-ambient-6"
+    },
+    {
+      "text": "If the thesis fits on a sticker, check it again.",
+      "category": "ambient",
+      "key": "aapl-ambient-7"
+    },
+    {
+      "text": "This desk runs on skepticism and black coffee.",
+      "category": "ambient",
+      "key": "aapl-ambient-8"
+    },
+    {
+      "text": "Everybody loves a story. I would like a margin.",
+      "category": "ambient",
+      "key": "aapl-ambient-9"
+    },
+    {
+      "text": "The Apple desk is not taking fashion advice.",
+      "category": "ambient",
+      "key": "aapl-ambient-10"
+    },
+    {
+      "text": "You cannot swipe away the risk limit.",
+      "category": "ambient",
+      "key": "aapl-ambient-11"
+    },
+    {
+      "text": "I am rechecking the reference price. Again.",
+      "category": "ambient",
+      "key": "aapl-ambient-12"
+    },
+    {
+      "text": "That presentation had more gradients than evidence.",
+      "category": "ambient",
+      "key": "aapl-ambient-13"
+    },
+    {
+      "text": "Please stop naming chart patterns after your lunch.",
+      "category": "ambient",
+      "key": "aapl-ambient-14"
+    },
+    {
+      "text": "I have one question. Unfortunately it is about valuation.",
+      "category": "ambient",
+      "key": "aapl-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Apple. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Apple case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Apple argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Apple forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Apple position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Apple setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Apple has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Apple. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Apple. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Apple. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Apple. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Apple allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Apple allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Apple size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Apple position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Apple budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Apple. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Apple, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Apple. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Apple ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Apple. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Apple request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Apple order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Apple. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Apple filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Apple. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Apple ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Apple fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Apple paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Apple is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Apple forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Apple. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Apple desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Apple direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Apple call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Apple forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Apple forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Apple. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Apple desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Apple call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Apple. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Apple. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "qqq": [
+    {
+      "text": "The Nasdaq desk is counting the same names everyone is yelling about.",
+      "category": "ambient",
+      "key": "qqq-ambient-0"
+    },
+    {
+      "text": "Congratulations, you have rediscovered concentration risk.",
+      "category": "ambient",
+      "key": "qqq-ambient-1"
+    },
+    {
+      "text": "Technology is the theme. Arithmetic is the method.",
+      "category": "ambient",
+      "key": "qqq-ambient-2"
+    },
+    {
+      "text": "Someone turn down the optimism on monitor two.",
+      "category": "ambient",
+      "key": "qqq-ambient-3"
+    },
+    {
+      "text": "I want the basket, not the loudest ingredient.",
+      "category": "ambient",
+      "key": "qqq-ambient-4"
+    },
+    {
+      "text": "How many of those positions are secretly the same trade?",
+      "category": "ambient",
+      "key": "qqq-ambient-5"
+    },
+    {
+      "text": "The sector map is not a personality test.",
+      "category": "ambient",
+      "key": "qqq-ambient-6"
+    },
+    {
+      "text": "I need one clean data feed and two minutes.",
+      "category": "ambient",
+      "key": "qqq-ambient-7"
+    },
+    {
+      "text": "Your diversification appears to be wearing three different hats.",
+      "category": "ambient",
+      "key": "qqq-ambient-8"
+    },
+    {
+      "text": "The Nasdaq desk has a question about your assumptions.",
+      "category": "ambient",
+      "key": "qqq-ambient-9"
+    },
+    {
+      "text": "Stop dragging windows across my benchmark chart.",
+      "category": "ambient",
+      "key": "qqq-ambient-10"
+    },
+    {
+      "text": "We are discussing exposure, not screen brightness.",
+      "category": "ambient",
+      "key": "qqq-ambient-11"
+    },
+    {
+      "text": "That correlation did not vanish because you stopped looking.",
+      "category": "ambient",
+      "key": "qqq-ambient-12"
+    },
+    {
+      "text": "I have a spreadsheet for that argument.",
+      "category": "ambient",
+      "key": "qqq-ambient-13"
+    },
+    {
+      "text": "Can somebody answer the phone without announcing it?",
+      "category": "ambient",
+      "key": "qqq-ambient-14"
+    },
+    {
+      "text": "The weightings are small print for a reason. Read them.",
+      "category": "ambient",
+      "key": "qqq-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Nasdaq. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Nasdaq case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Nasdaq argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Nasdaq forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Nasdaq position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Nasdaq setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Nasdaq has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Nasdaq. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Nasdaq. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Nasdaq. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Nasdaq. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Nasdaq allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Nasdaq allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Nasdaq size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Nasdaq position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Nasdaq budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Nasdaq. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Nasdaq, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Nasdaq. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Nasdaq ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Nasdaq. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Nasdaq request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Nasdaq order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Nasdaq. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Nasdaq filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Nasdaq. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Nasdaq ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Nasdaq fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Nasdaq paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Nasdaq is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Nasdaq forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Nasdaq. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Nasdaq desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Nasdaq direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Nasdaq call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Nasdaq forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Nasdaq forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Nasdaq. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Nasdaq desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Nasdaq call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Nasdaq. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Nasdaq. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "mstr": [
+    {
+      "text": "The Micro Strategy desk requests stronger coffee and weaker opinions.",
+      "category": "ambient",
+      "key": "mstr-ambient-0"
+    },
+    {
+      "text": "Two charts, one headache.",
+      "category": "ambient",
+      "key": "mstr-ambient-1"
+    },
+    {
+      "text": "Before you shout, tell me which exposure you mean.",
+      "category": "ambient",
+      "key": "mstr-ambient-2"
+    },
+    {
+      "text": "That premium is not a rounding error.",
+      "category": "ambient",
+      "key": "mstr-ambient-3"
+    },
+    {
+      "text": "I have been awake since the first confusing headline.",
+      "category": "ambient",
+      "key": "mstr-ambient-4"
+    },
+    {
+      "text": "Someone has put a rocket sticker on my risk sheet.",
+      "category": "ambient",
+      "key": "mstr-ambient-5"
+    },
+    {
+      "text": "This thesis has layers. Most of them are noisy.",
+      "category": "ambient",
+      "key": "mstr-ambient-6"
+    },
+    {
+      "text": "Can we separate the company from the thing it holds?",
+      "category": "ambient",
+      "key": "mstr-ambient-7"
+    },
+    {
+      "text": "I asked for a scenario, not a prophecy.",
+      "category": "ambient",
+      "key": "mstr-ambient-8"
+    },
+    {
+      "text": "Nobody is allowed to say guaranteed at this desk.",
+      "category": "ambient",
+      "key": "mstr-ambient-9"
+    },
+    {
+      "text": "The Micro Strategy phone has developed a nervous habit.",
+      "category": "ambient",
+      "key": "mstr-ambient-10"
+    },
+    {
+      "text": "I am checking the premium before checking my messages.",
+      "category": "ambient",
+      "key": "mstr-ambient-11"
+    },
+    {
+      "text": "Put the bullhorn down. Pick the calculator up.",
+      "category": "ambient",
+      "key": "mstr-ambient-12"
+    },
+    {
+      "text": "That is leverage wearing a nicer jacket.",
+      "category": "ambient",
+      "key": "mstr-ambient-13"
+    },
+    {
+      "text": "If you quote me, include the entire sentence.",
+      "category": "ambient",
+      "key": "mstr-ambient-14"
+    },
+    {
+      "text": "The market has questions. So does my accountant.",
+      "category": "ambient",
+      "key": "mstr-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Micro Strategy. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Micro Strategy case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Micro Strategy argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Micro Strategy forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Micro Strategy position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Micro Strategy setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Micro Strategy has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Micro Strategy. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Micro Strategy. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Micro Strategy. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Micro Strategy. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Micro Strategy allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Micro Strategy allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Micro Strategy size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Micro Strategy position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Micro Strategy budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Micro Strategy. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Micro Strategy, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Micro Strategy. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Micro Strategy ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Micro Strategy. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Micro Strategy request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Micro Strategy order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Micro Strategy. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Micro Strategy filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Micro Strategy. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Micro Strategy ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Micro Strategy fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Micro Strategy paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Micro Strategy is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Micro Strategy forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Micro Strategy. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Micro Strategy desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Micro Strategy direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Micro Strategy call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Micro Strategy forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Micro Strategy forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Micro Strategy. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Micro Strategy desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Micro Strategy call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Micro Strategy. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Micro Strategy. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "spcx": [
+    {
+      "text": "The Space X desk is watching the spread, not the launch pad.",
+      "category": "ambient",
+      "key": "spcx-ambient-0"
+    },
+    {
+      "text": "A countdown is not an investment thesis.",
+      "category": "ambient",
+      "key": "spcx-ambient-1"
+    },
+    {
+      "text": "I need a reference price that exists on this planet.",
+      "category": "ambient",
+      "key": "spcx-ambient-2"
+    },
+    {
+      "text": "Please stop making rocket noises behind my chair.",
+      "category": "ambient",
+      "key": "spcx-ambient-3"
+    },
+    {
+      "text": "The premium has my attention. The headline can wait.",
+      "category": "ambient",
+      "key": "spcx-ambient-4"
+    },
+    {
+      "text": "Someone has stapled a moon drawing to the order form.",
+      "category": "ambient",
+      "key": "spcx-ambient-5"
+    },
+    {
+      "text": "We are measuring liquidity, not altitude.",
+      "category": "ambient",
+      "key": "spcx-ambient-6"
+    },
+    {
+      "text": "I would like a quieter orbit around this desk.",
+      "category": "ambient",
+      "key": "spcx-ambient-7"
+    },
+    {
+      "text": "The space jokes are now officially over budget.",
+      "category": "ambient",
+      "key": "spcx-ambient-8"
+    },
+    {
+      "text": "Your enthusiasm appears to have escaped the atmosphere.",
+      "category": "ambient",
+      "key": "spcx-ambient-9"
+    },
+    {
+      "text": "Can we land this discussion on an actual number?",
+      "category": "ambient",
+      "key": "spcx-ambient-10"
+    },
+    {
+      "text": "The Space X desk requests fewer metaphors.",
+      "category": "ambient",
+      "key": "spcx-ambient-11"
+    },
+    {
+      "text": "A tiny quote is not proof of a deep market.",
+      "category": "ambient",
+      "key": "spcx-ambient-12"
+    },
+    {
+      "text": "Let me finish checking the route.",
+      "category": "ambient",
+      "key": "spcx-ambient-13"
+    },
+    {
+      "text": "Mission control has asked for your source.",
+      "category": "ambient",
+      "key": "spcx-ambient-14"
+    },
+    {
+      "text": "I have a launch window for my lunch break.",
+      "category": "ambient",
+      "key": "spcx-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Space X. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Space X case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Space X argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Space X forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Space X position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Space X setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Space X has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Space X. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Space X. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Space X. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Space X. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Space X allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Space X allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Space X size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Space X position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Space X budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Space X. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Space X, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Space X. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Space X ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Space X. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Space X request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Space X order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Space X. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Space X filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Space X. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Space X ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Space X fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Space X paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Space X is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Space X forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Space X. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Space X desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Space X direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Space X call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Space X forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Space X forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Space X. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Space X desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Space X call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Space X. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Space X. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "meta": [
+    {
+      "text": "The Meta desk has muted this argument in three different tabs.",
+      "category": "ambient",
+      "key": "meta-ambient-0"
+    },
+    {
+      "text": "Engagement is high. Evidence is still pending.",
+      "category": "ambient",
+      "key": "meta-ambient-1"
+    },
+    {
+      "text": "That headline has been shared more than it has been read.",
+      "category": "ambient",
+      "key": "meta-ambient-2"
+    },
+    {
+      "text": "I am researching the company, not your group chat.",
+      "category": "ambient",
+      "key": "meta-ambient-3"
+    },
+    {
+      "text": "The comments section is not a data source.",
+      "category": "ambient",
+      "key": "meta-ambient-4"
+    },
+    {
+      "text": "Who changed my spreadsheet to dark mode?",
+      "category": "ambient",
+      "key": "meta-ambient-5"
+    },
+    {
+      "text": "I want the flow behind the story.",
+      "category": "ambient",
+      "key": "meta-ambient-6"
+    },
+    {
+      "text": "You cannot like your way out of a bad entry.",
+      "category": "ambient",
+      "key": "meta-ambient-7"
+    },
+    {
+      "text": "This desk has too many open windows and not enough air.",
+      "category": "ambient",
+      "key": "meta-ambient-8"
+    },
+    {
+      "text": "Somebody is pitching a narrative with no numbers attached.",
+      "category": "ambient",
+      "key": "meta-ambient-9"
+    },
+    {
+      "text": "We are all aware of the headline. What changed?",
+      "category": "ambient",
+      "key": "meta-ambient-10"
+    },
+    {
+      "text": "I have hidden the rocket emoji column.",
+      "category": "ambient",
+      "key": "meta-ambient-11"
+    },
+    {
+      "text": "That is a popular opinion. Is it a useful one?",
+      "category": "ambient",
+      "key": "meta-ambient-12"
+    },
+    {
+      "text": "The Meta desk will respond after verifying the claim.",
+      "category": "ambient",
+      "key": "meta-ambient-13"
+    },
+    {
+      "text": "Stop tagging me in your price targets.",
+      "category": "ambient",
+      "key": "meta-ambient-14"
+    },
+    {
+      "text": "My phone is vibrating itself toward the edge.",
+      "category": "ambient",
+      "key": "meta-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Meta. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Meta case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Meta argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Meta forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Meta position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Meta setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Meta has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Meta. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Meta. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Meta. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Meta. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Meta allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Meta allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Meta size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Meta position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Meta budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Meta. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Meta, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Meta. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Meta ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Meta. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Meta request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Meta order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Meta. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Meta filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Meta. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Meta ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Meta fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Meta paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Meta is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Meta forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Meta. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Meta desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Meta direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Meta call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Meta forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Meta forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Meta. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Meta desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Meta call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Meta. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Meta. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "amzn": [
+    {
+      "text": "The Amazon desk has ordered a replacement for this conversation.",
+      "category": "ambient",
+      "key": "amzn-ambient-0"
+    },
+    {
+      "text": "Delivery estimate for your evidence: still pending.",
+      "category": "ambient",
+      "key": "amzn-ambient-1"
+    },
+    {
+      "text": "I would like to return this unsupported assumption.",
+      "category": "ambient",
+      "key": "amzn-ambient-2"
+    },
+    {
+      "text": "Margins first. Dramatic hand gestures second.",
+      "category": "ambient",
+      "key": "amzn-ambient-3"
+    },
+    {
+      "text": "Someone stacked trade slips where my lunch used to be.",
+      "category": "ambient",
+      "key": "amzn-ambient-4"
+    },
+    {
+      "text": "That is a very large business and a very small sample.",
+      "category": "ambient",
+      "key": "amzn-ambient-5"
+    },
+    {
+      "text": "The cloud numbers are not hiding behind the retail numbers.",
+      "category": "ambient",
+      "key": "amzn-ambient-6"
+    },
+    {
+      "text": "I need the full basket of facts.",
+      "category": "ambient",
+      "key": "amzn-ambient-7"
+    },
+    {
+      "text": "Please do not put another package on my keyboard.",
+      "category": "ambient",
+      "key": "amzn-ambient-8"
+    },
+    {
+      "text": "I am comparing segments, not shopping for narratives.",
+      "category": "ambient",
+      "key": "amzn-ambient-9"
+    },
+    {
+      "text": "Your forecast arrived without instructions.",
+      "category": "ambient",
+      "key": "amzn-ambient-10"
+    },
+    {
+      "text": "The Amazon desk has a question about the cost base.",
+      "category": "ambient",
+      "key": "amzn-ambient-11"
+    },
+    {
+      "text": "We have same-day delivery and last-week data. Wonderful.",
+      "category": "ambient",
+      "key": "amzn-ambient-12"
+    },
+    {
+      "text": "I put that rumor in the returns pile.",
+      "category": "ambient",
+      "key": "amzn-ambient-13"
+    },
+    {
+      "text": "The printer has become our busiest employee.",
+      "category": "ambient",
+      "key": "amzn-ambient-14"
+    },
+    {
+      "text": "Can somebody sign for this spreadsheet?",
+      "category": "ambient",
+      "key": "amzn-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Amazon. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Amazon case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Amazon argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Amazon forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Amazon position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Amazon setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Amazon has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Amazon. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Amazon. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Amazon. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Amazon. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Amazon allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Amazon allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Amazon size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Amazon position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Amazon budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Amazon. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Amazon, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Amazon. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Amazon ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Amazon. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Amazon request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Amazon order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Amazon. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Amazon filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Amazon. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Amazon ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Amazon fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Amazon paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Amazon is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Amazon forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Amazon. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Amazon desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Amazon direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Amazon call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Amazon forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Amazon forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Amazon. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Amazon desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Amazon call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Amazon. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Amazon. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "goog": [
+    {
+      "text": "The Google desk found six answers and trusts two of them.",
+      "category": "ambient",
+      "key": "goog-ambient-0"
+    },
+    {
+      "text": "I have searched the entire room for a quiet opinion.",
+      "category": "ambient",
+      "key": "goog-ambient-1"
+    },
+    {
+      "text": "Your source appears to be somebody repeating your source.",
+      "category": "ambient",
+      "key": "goog-ambient-2"
+    },
+    {
+      "text": "The first result is not automatically the right result.",
+      "category": "ambient",
+      "key": "goog-ambient-3"
+    },
+    {
+      "text": "I am following the revenue, not the slogan.",
+      "category": "ambient",
+      "key": "goog-ambient-4"
+    },
+    {
+      "text": "Who left seventeen browser tabs on my machine?",
+      "category": "ambient",
+      "key": "goog-ambient-5"
+    },
+    {
+      "text": "That claim needs a date and a denominator.",
+      "category": "ambient",
+      "key": "goog-ambient-6"
+    },
+    {
+      "text": "I would like the underlying numbers before the summary.",
+      "category": "ambient",
+      "key": "goog-ambient-7"
+    },
+    {
+      "text": "Search says maybe. The spreadsheet says check again.",
+      "category": "ambient",
+      "key": "goog-ambient-8"
+    },
+    {
+      "text": "The Google desk is currently fact-checking the room.",
+      "category": "ambient",
+      "key": "goog-ambient-9"
+    },
+    {
+      "text": "I did not ask the printer for a second opinion.",
+      "category": "ambient",
+      "key": "goog-ambient-10"
+    },
+    {
+      "text": "We have enough keywords. We need a conclusion.",
+      "category": "ambient",
+      "key": "goog-ambient-11"
+    },
+    {
+      "text": "Someone has bookmarked the wrong chart again.",
+      "category": "ambient",
+      "key": "goog-ambient-12"
+    },
+    {
+      "text": "That is an excellent question with a suspiciously fast answer.",
+      "category": "ambient",
+      "key": "goog-ambient-13"
+    },
+    {
+      "text": "Please stop calling every small move a revolution.",
+      "category": "ambient",
+      "key": "goog-ambient-14"
+    },
+    {
+      "text": "I found the missing number. It was under your coffee.",
+      "category": "ambient",
+      "key": "goog-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Google. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Google case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Google argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Google forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Google position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Google setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Google has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Google. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Google. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Google. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Google. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Google allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Google allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Google size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Google position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Google budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Google. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Google, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Google. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Google ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Google. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Google request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Google order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Google. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Google filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Google. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Google ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Google fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Google paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Google is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Google forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Google. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Google desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Google direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Google call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Google forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Google forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Google. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Google desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Google call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Google. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Google. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "msft": [
+    {
+      "text": "The Microsoft desk has saved this argument as version twelve.",
+      "category": "ambient",
+      "key": "msft-ambient-0"
+    },
+    {
+      "text": "Your thesis has unsaved changes.",
+      "category": "ambient",
+      "key": "msft-ambient-1"
+    },
+    {
+      "text": "I need the cloud figures, not a cloud of hand waving.",
+      "category": "ambient",
+      "key": "msft-ambient-2"
+    },
+    {
+      "text": "Someone has turned my risk sheet into a presentation.",
+      "category": "ambient",
+      "key": "msft-ambient-3"
+    },
+    {
+      "text": "We are one spreadsheet away from a civilized office.",
+      "category": "ambient",
+      "key": "msft-ambient-4"
+    },
+    {
+      "text": "The model works. The assumptions would like a word.",
+      "category": "ambient",
+      "key": "msft-ambient-5"
+    },
+    {
+      "text": "Please stop restarting the conversation.",
+      "category": "ambient",
+      "key": "msft-ambient-6"
+    },
+    {
+      "text": "I have highlighted the part everyone keeps skipping.",
+      "category": "ambient",
+      "key": "msft-ambient-7"
+    },
+    {
+      "text": "This desk is installing a patience update.",
+      "category": "ambient",
+      "key": "msft-ambient-8"
+    },
+    {
+      "text": "The Microsoft phone is requesting administrator approval.",
+      "category": "ambient",
+      "key": "msft-ambient-9"
+    },
+    {
+      "text": "If your forecast crashes, do not blame the keyboard.",
+      "category": "ambient",
+      "key": "msft-ambient-10"
+    },
+    {
+      "text": "Can we agree which version of the number we are using?",
+      "category": "ambient",
+      "key": "msft-ambient-11"
+    },
+    {
+      "text": "That is a recurring revenue story, not a recurring excuse.",
+      "category": "ambient",
+      "key": "msft-ambient-12"
+    },
+    {
+      "text": "I would like to close six unnecessary meetings.",
+      "category": "ambient",
+      "key": "msft-ambient-13"
+    },
+    {
+      "text": "The formula is correct. Your input is a coffee stain.",
+      "category": "ambient",
+      "key": "msft-ambient-14"
+    },
+    {
+      "text": "I am saving before anybody touches anything.",
+      "category": "ambient",
+      "key": "msft-ambient-15"
+    },
+    {
+      "text": "I have a proposal on Microsoft. Hear me out.",
+      "category": "pitch",
+      "key": "pitch-0"
+    },
+    {
+      "text": "Boss, the Microsoft case is on your desk.",
+      "category": "pitch",
+      "key": "pitch-1"
+    },
+    {
+      "text": "Let me make the Microsoft argument before you say no.",
+      "category": "pitch",
+      "key": "pitch-2"
+    },
+    {
+      "text": "The Microsoft forecast is written down. Your call.",
+      "category": "pitch",
+      "key": "pitch-3"
+    },
+    {
+      "text": "I want a hearing for this Microsoft position.",
+      "category": "pitch",
+      "key": "pitch-4"
+    },
+    {
+      "text": "There is a Microsoft setup worth discussing.",
+      "category": "pitch",
+      "key": "pitch-5"
+    },
+    {
+      "text": "Microsoft has approval. Checking the order details.",
+      "category": "approved",
+      "key": "approved-0"
+    },
+    {
+      "text": "Got the nod on Microsoft. Keep the paperwork straight.",
+      "category": "approved",
+      "key": "approved-1"
+    },
+    {
+      "text": "The boss said yes to Microsoft. Stay disciplined.",
+      "category": "approved",
+      "key": "approved-2"
+    },
+    {
+      "text": "Approved on Microsoft. Nobody improvise the size.",
+      "category": "approved",
+      "key": "approved-3"
+    },
+    {
+      "text": "Permission through on Microsoft. Watch the quote.",
+      "category": "approved",
+      "key": "approved-4"
+    },
+    {
+      "text": "The Microsoft allocation cleared the boss. Now the checks.",
+      "category": "approved",
+      "key": "approved-5"
+    },
+    {
+      "text": "Half a sandwich and a trimmed Microsoft allocation. Great.",
+      "category": "trim",
+      "key": "trim-0"
+    },
+    {
+      "text": "You cut the Microsoft size? I had a whole speech ready.",
+      "category": "trim",
+      "key": "trim-1"
+    },
+    {
+      "text": "Fine, smaller Microsoft position. Same thesis.",
+      "category": "trim",
+      "key": "trim-2"
+    },
+    {
+      "text": "The Microsoft budget just got a haircut.",
+      "category": "trim",
+      "key": "trim-3"
+    },
+    {
+      "text": "Trimmed on Microsoft. I heard you the first time.",
+      "category": "trim",
+      "key": "trim-4"
+    },
+    {
+      "text": "The boss likes Microsoft, apparently in miniature.",
+      "category": "trim",
+      "key": "trim-5"
+    },
+    {
+      "text": "No order on Microsoft. Risk has the last word.",
+      "category": "risk",
+      "key": "risk-0"
+    },
+    {
+      "text": "The Microsoft ticket hit a hard limit.",
+      "category": "risk",
+      "key": "risk-1"
+    },
+    {
+      "text": "Risk blocked Microsoft. Put the enthusiasm away.",
+      "category": "risk",
+      "key": "risk-2"
+    },
+    {
+      "text": "The Microsoft request failed the checks. Read the reason.",
+      "category": "risk",
+      "key": "risk-3"
+    },
+    {
+      "text": "That Microsoft order is not going anywhere.",
+      "category": "risk",
+      "key": "risk-4"
+    },
+    {
+      "text": "Rejected by risk on Microsoft. Back to the desk.",
+      "category": "risk",
+      "key": "risk-5"
+    },
+    {
+      "text": "Microsoft filled. Get that receipt out.",
+      "category": "fill",
+      "key": "fill-0"
+    },
+    {
+      "text": "Paper fill on Microsoft. Check the quantity.",
+      "category": "fill",
+      "key": "fill-1"
+    },
+    {
+      "text": "The Microsoft ticket is through. Record the price.",
+      "category": "fill",
+      "key": "fill-2"
+    },
+    {
+      "text": "That is our Microsoft fill. Keep the receipt.",
+      "category": "fill",
+      "key": "fill-3"
+    },
+    {
+      "text": "Print it. The Microsoft paper order filled.",
+      "category": "fill",
+      "key": "fill-4"
+    },
+    {
+      "text": "Microsoft is in the ledger. Somebody mind the printer.",
+      "category": "fill",
+      "key": "fill-5"
+    },
+    {
+      "text": "The Microsoft forecast hit. It is in the record.",
+      "category": "hit",
+      "key": "hit-0"
+    },
+    {
+      "text": "Right direction on Microsoft. Check the timestamp.",
+      "category": "hit",
+      "key": "hit-1"
+    },
+    {
+      "text": "One forecast point for the Microsoft desk.",
+      "category": "hit",
+      "key": "hit-2"
+    },
+    {
+      "text": "I got the Microsoft direction. Do not lose that page.",
+      "category": "hit",
+      "key": "hit-3"
+    },
+    {
+      "text": "The Microsoft call held up at the deadline.",
+      "category": "hit",
+      "key": "hit-4"
+    },
+    {
+      "text": "Score the Microsoft forecast. This one was right.",
+      "category": "hit",
+      "key": "hit-5"
+    },
+    {
+      "text": "The Microsoft forecast missed. Leave it on the record.",
+      "category": "miss",
+      "key": "miss-0"
+    },
+    {
+      "text": "Wrong direction on Microsoft. I am rechecking the thesis.",
+      "category": "miss",
+      "key": "miss-1"
+    },
+    {
+      "text": "The Microsoft desk owes the spreadsheet an apology.",
+      "category": "miss",
+      "key": "miss-2"
+    },
+    {
+      "text": "That Microsoft call did not hold up. No excuses.",
+      "category": "miss",
+      "key": "miss-3"
+    },
+    {
+      "text": "Mark the miss on Microsoft. We keep those too.",
+      "category": "miss",
+      "key": "miss-4"
+    },
+    {
+      "text": "I was wrong on Microsoft. Let me find the assumption.",
+      "category": "miss",
+      "key": "miss-5"
+    },
+    {
+      "text": "The cash market is closed. I am watching the token spread.",
+      "category": "night",
+      "key": "night-0"
+    },
+    {
+      "text": "Reference is last close. Do not call that a live stock price.",
+      "category": "night",
+      "key": "night-1"
+    },
+    {
+      "text": "Night shift again. At least the phones are quiet.",
+      "category": "night",
+      "key": "night-2"
+    },
+    {
+      "text": "Frozen reference, moving token. Label the difference.",
+      "category": "night",
+      "key": "night-3"
+    },
+    {
+      "text": "Would you defend that forecast without the hand gestures?",
+      "category": "challenge",
+      "key": "challenge-0"
+    },
+    {
+      "text": "That is confidence. Where is the evidence?",
+      "category": "challenge",
+      "key": "challenge-1"
+    },
+    {
+      "text": "Did you check the benchmark before raising your voice?",
+      "category": "challenge",
+      "key": "challenge-2"
+    },
+    {
+      "text": "Can the next person bring numbers instead of volume?",
+      "category": "challenge",
+      "key": "challenge-3"
+    },
+    {
+      "text": "The assumptions are written down. You are welcome to read them.",
+      "category": "reply",
+      "key": "reply-0"
+    },
+    {
+      "text": "I have the numbers. Let me finish the sentence.",
+      "category": "reply",
+      "key": "reply-1"
+    },
+    {
+      "text": "The forecast is on record. We will both see the result.",
+      "category": "reply",
+      "key": "reply-2"
+    },
+    {
+      "text": "You can challenge the model after I explain the model.",
+      "category": "reply",
+      "key": "reply-3"
+    }
+  ],
+  "principal": [
+    {
+      "text": "One at a time. I can only reject so many ideas at once.",
+      "category": "boss",
+      "key": "boss-0"
+    },
+    {
+      "text": "Enough theater. Bring me the numbers.",
+      "category": "boss",
+      "key": "boss-1"
+    },
+    {
+      "text": "Keep the aisle clear and the cash reserve intact.",
+      "category": "boss",
+      "key": "boss-2"
+    },
+    {
+      "text": "You are all very confident with my spreadsheet.",
+      "category": "boss",
+      "key": "boss-3"
+    },
+    {
+      "text": "Nobody gets a larger limit by shouting.",
+      "category": "boss",
+      "key": "boss-4"
+    },
+    {
+      "text": "I want competing theses, not competing ringtones.",
+      "category": "boss",
+      "key": "boss-5"
+    },
+    {
+      "text": "The risk desk is not an obstacle course.",
+      "category": "boss",
+      "key": "boss-6"
+    },
+    {
+      "text": "Somebody answer that phone before I reassign it.",
+      "category": "boss",
+      "key": "boss-7"
+    },
+    {
+      "text": "Put it in writing. Then argue about it.",
+      "category": "boss",
+      "key": "boss-8"
+    },
+    {
+      "text": "We run one treasury. Remember the word one.",
+      "category": "boss",
+      "key": "boss-9"
+    },
+    {
+      "text": "Take a breath. Check the quote. Then talk.",
+      "category": "boss",
+      "key": "boss-10"
+    },
+    {
+      "text": "The loudest desk is not automatically the best desk.",
+      "category": "boss",
+      "key": "boss-11"
+    },
+    {
+      "text": "I need a decision, a size, and a reason.",
+      "category": "boss",
+      "key": "boss-12"
+    },
+    {
+      "text": "Who put a coffee cup on the session report?",
+      "category": "boss",
+      "key": "boss-13"
+    },
+    {
+      "text": "We are not holding a shouting competition. Yet.",
+      "category": "boss",
+      "key": "boss-14"
+    },
+    {
+      "text": "If the printer jams, we still keep the ledger.",
+      "category": "boss",
+      "key": "boss-15"
+    },
+    {
+      "text": "I can hear the confidence. I cannot hear the evidence.",
+      "category": "boss",
+      "key": "boss-16"
+    },
+    {
+      "text": "No victory speeches before the forecast resolves.",
+      "category": "boss",
+      "key": "boss-17"
+    },
+    {
+      "text": "Your next sentence should contain a number.",
+      "category": "boss",
+      "key": "boss-18"
+    },
+    {
+      "text": "Back to your desks. We have work to do.",
+      "category": "boss",
+      "key": "boss-19"
+    }
+  ]
+}

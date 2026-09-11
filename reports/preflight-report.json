@@ -146,7 +146,7 @@
     {
       "id": "F4",
       "status": "observed",
-      "reason": "Local synthetic bank selected: 130 processed desk/principal MP3 clips plus a room-chatter bed. Browser checks verify playback, cap of two foreground voices, mute/resume, and zero missing audio assets. Uses installed Microsoft Zira voice with per-profile processing; no paid TTS provider involved."
+      "reason": "Expanded offline synthetic bank: 860 clips, 728 distinct spoken lines, 266 phrase patterns, 16 bespoke ambient lines per desk, six variants for each trade outcome, and a longer muffled crowd bed. Eight-minute shared phrase cooldown with session refresh persistence. All 860 files exist. No paid TTS provider involved."
     },
     {
       "id": "F5",

@@ -24,7 +24,7 @@ Open http://localhost:3100. The worker listens on loopback port 3101. Alternativ
 - Local rehearsal controls for pause, night shift, oversized pitch, session close, and execution halt. No live endpoint.
 - Atomic local snapshot recovery and append-only event log in ignored `data/`.
 - Optional Postgres snapshot persistence via `DATABASE_URL`. Run `npm run db:migrate` on an empty development database first. Full normalized schema is supplied but the initial rehearsal worker writes only its runtime snapshot; production projections remain to implement.
-- 130 locally generated synthetic bark clips across thirteen processed voice profiles, a room-chatter bed, stereo desk voices, phones, keyboard and printer effects. At most two foreground voices play together. Entering the floor enables sound; the sound button mutes immediately. The voice bank is based on the installed Microsoft Zira voice with per-desk processing, not thirteen separate voice actors.
+- 860 locally generated synthetic bark clips (728 distinct spoken lines and 266 phrase patterns) across thirteen processed voice profiles, a room-chatter bed, stereo desk voices, phones, keyboard and printer effects. At most two foreground voices play together. Entering the floor enables sound; the sound button mutes immediately. The voice bank is based on the installed Microsoft Zira voice with per-desk processing, not thirteen separate voice actors.
 
 ## Original assets
 
@@ -44,7 +44,7 @@ node scripts/browser-check.mjs
 npm run preflight
 ```
 
-Browser verification requires the local viewer/worker and installed Chrome. Screenshots and public-endpoint observations are under `reports/`. Current core suite: 30 passing tests. The first measured desktop scene rendered about 119 fps, 39 draw calls, and 19,576 triangles in local headless Chrome; this is not a cross-device performance guarantee.
+Browser verification requires the local viewer/worker and installed Chrome. Screenshots and public-endpoint observations are under `reports/`. Current suite: 34 passing core and dialogue tests. The first measured desktop scene rendered about 119 fps, 39 draw calls, and 19,576 triangles in local headless Chrome; this is not a cross-device performance guarantee.
 
 ## Production gates — not complete
 
@@ -64,4 +64,11 @@ The attachment is preserved in `docs/BUILD_SPEC.md` as a reference. Its embedded
 ## Rebuild the audio bank
 
 Run powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_voices.ps1 on Windows with System.Speech and ffmpeg installed. Generated MP3s and their text manifest are tracked under public/vo. Browser audio verification: node scripts/audio-check.mjs.
+
+
+## Dialogue and watchability
+
+The dialogue selector enforces an eight-minute shared phrase cooldown, retains session history across refresh, and uses fresh desk banter instead of repeating exhausted event lines. The floor now stages challenge/reply/principal exchanges, uneven rushes, rival-facing swivels, and printer paper on fills. See docs/WATCHABILITY.md for the next choreography priorities.
+
+Edit scripts/dialogue.mjs, run node scripts/dialogue.mjs, then run scripts/build_voices.ps1 to regenerate the expanded bank. The runtime uses manifest-v2.json and room-babble-v2.mp3; older audio remains unused for reference.
 

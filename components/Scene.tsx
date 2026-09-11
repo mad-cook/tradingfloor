@@ -9,7 +9,7 @@ import type {Desk} from '@/packages/core/types';
 const seats=Array.from({length:12},(_,i)=>[(-3.9+(i%4)*2.6),0,(-1.3+Math.floor(i/4)*2.05)] as [number,number,number]);
 function Asset({path,position=[0,0,0],rotation=0,scale=1}:{path:string;position?:[number,number,number];rotation?:number;scale?:number}){const {scene}=useGLTF(path);const object=useMemo(()=>scene.clone(true),[scene]);return <primitive object={object} position={position} rotation-y={rotation} scale={scale}/>;}
 function Analyst({desk,position,boss=false}:{desk?:Desk;position:[number,number,number];boss?:boolean}){
- const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??'#354c65');for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color]);const {actions}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===desk?.id));const event=voice??floorEvent;
+ const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??'#354c65');for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color]);const {actions}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===(desk?.id??'principal')));const event=voice??floorEvent;
  const [clip,setClip]=useState('idle');
  const lastReaction=useRef(-Infinity);
  const pending=useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -17,8 +17,8 @@ function Analyst({desk,position,boss=false}:{desk?:Desk;position:[number,number,
  const currentClip=useRef('idle');
  const previousAction=useRef<THREE.AnimationAction|null>(null);
  useEffect(()=>{
-  if(!desk?.id||event?.deskId!==desk.id)return;
-  const next=event.kind==='PITCH_MADE'||event.kind==='FORECAST_HIT'?'standYell'
+  if(event?.deskId!==(desk?.id??'principal'))return;
+  const next=['PITCH_MADE','FORECAST_HIT','BANTER','BOSS_CALL','AMBIENT_CALL'].includes(event.kind)?'standYell'
    :['PITCH_APPROVED','PITCH_TRIMMED','FILL'].includes(event.kind)?'phone'
    :['RISK_BLOCK','PITCH_REJECTED','FORECAST_MISS','FAIL','FIRED'].includes(event.kind)?'deskSlam':null;
   if(!next)return;
@@ -46,6 +46,7 @@ function Analyst({desk,position,boss=false}:{desk?:Desk;position:[number,number,
   previousAction.current=action;
   if(ref.current)ref.current.userData={analyst:desk?.id??'principal',clip,transitions:(ref.current.userData.transitions??0)+1};
  },[actions,clip,desk?.seed,desk?.id]);
+ useFrame((_,delta)=>{if(ref.current){const turn=voice?.kind==='BANTER'?((desk?.seed??0)%2?-.65:.65):0;ref.current.rotation.y=THREE.MathUtils.damp(ref.current.rotation.y,Math.PI+turn,4,delta);}});
  return <group ref={ref} position={position} rotation-y={Math.PI} scale={boss?1.08:1}><primitive object={character}/></group>;
 }
 function DeskModel({desk,index}:{desk:Desk;index:number}){
@@ -54,7 +55,7 @@ function DeskModel({desk,index}:{desk:Desk;index:number}){
  return <group position={p} onClick={e=>{e.stopPropagation();select(desk.id);}} onPointerOver={()=>{document.body.style.cursor='pointer';}} onPointerOut={()=>{document.body.style.cursor='auto';}}>
  <Asset path="/models/workstation.glb"/>
  <Analyst desk={desk} position={[0,0,.76]}/>
- {voice&&<Html position={[0,2.35,.76]} center zIndexRange={[20,11]}><div className="voice-bubble"><b>{desk.symbol}</b><span>{voice.text}</span></div></Html>}
+ {voice&&<Html position={[0,2.35+(index%3)*.18,.76]} center zIndexRange={[20,11]}><div className="voice-bubble"><b>{desk.symbol}</b><span>{voice.text}</span></div></Html>}
  <mesh rotation-x={-Math.PI/2} position={[0,.016,.76]}><circleGeometry args={[.40,16]}/><meshBasicMaterial color="#07191c" transparent opacity={.36}/></mesh>
  <Html position={[0,.91,.52]} center zIndexRange={[10,0]}><button className={'desk-label '+(selected===desk.id?'selected':'')} onPointerDown={e=>e.stopPropagation()} onClick={e=>{e.stopPropagation();select(desk.id);}} style={{borderColor:hot?'#e5ad65':undefined}}><span style={{color:desk.color}}>●</span> {desk.symbol}<small>{hot?event?.kind.replaceAll('_',' ').toLowerCase():'analyst '+String(index+1).padStart(2,'0')}</small></button></Html>
  {selected===desk.id&&<mesh rotation-x={-Math.PI/2} position={[0,.022,.15]}><ringGeometry args={[.92,.96,32]}/><meshBasicMaterial color="#e7b263" transparent opacity={.9}/></mesh>}
@@ -67,19 +68,30 @@ function CameraRig(){
  return <OrbitControls ref={controls} enablePan={false} minDistance={3} maxDistance={23} maxPolarAngle={Math.PI*.47} minPolarAngle={.2} autoRotate={!selected&&!moving.current} autoRotateSpeed={.12}/>;
 }
 function Metrics(){const n=useRef(0);const elapsed=useRef(0);useFrame(({gl},delta)=>{n.current++;elapsed.current+=delta;if(elapsed.current>2){(window as any).__floorMetrics={fps:Math.round(n.current/elapsed.current),drawCalls:gl.info.render.calls,triangles:gl.info.render.triangles};n.current=0;elapsed.current=0;}});return null;}
+function PrinterTickets(){
+ const event=useFloor(s=>s.event);const group=useRef<THREE.Group>(null);const started=useRef(-Infinity);
+ useEffect(()=>{if(event?.kind==='FILL')started.current=performance.now();},[event]);
+ useFrame(()=>{if(!group.current)return;const elapsed=(performance.now()-started.current)/1000;group.current.visible=elapsed<2.6;
+  group.current.children.forEach((card,i)=>{const t=Math.max(0,elapsed-i*.16);card.position.set(4.9+Math.sin(i*2)*t*.16,Math.max(.035,1.04+t*.16-t*t*.4),4.25+t*.38);card.rotation.set(-Math.PI/2+t*.7,i*.3+t*.4,t*.2);});
+ });
+ return <group ref={group} visible={false}>{[0,1,2].map(i=><mesh key={i}><planeGeometry args={[.24,.32]}/><meshStandardMaterial color="#e4d9b3" side={THREE.DoubleSide}/></mesh>)}</group>;
+}
 export default function Scene(){
- const snapshot=useFloor(s=>s.snapshot);
+ const snapshot=useFloor(s=>s.snapshot);const principalVoice=useFloor(s=>s.voices.find(v=>v.deskId==='principal'));
  return <Canvas dpr={[1,1.5]} camera={{position:[12,11,14],fov:40}} gl={{antialias:true}}>
  <color attach="background" args={['#14282e']}/><fog attach="fog" args={['#14282e',24,44]}/>
  <ambientLight intensity={snapshot?.marketOpen ? 1.35 : .35}/><hemisphereLight args={['#c7e5e2','#252f34',.65]}/><directionalLight position={[-5,9,3]} intensity={snapshot?.marketOpen?2:.6} color="#ffd5a0"/>
  <Suspense fallback={null}><Asset path="/models/room.glb"/>
  {snapshot?.desks.map((d,i)=><DeskModel key={d.id} desk={d} index={i}/>)}
  <Asset path="/models/workstation.glb" position={[0,.12,-3.65]}/><Analyst position={[0,.12,-2.89]} boss/>
+ <PrinterTickets/>
+ {principalVoice&&<Html position={[0,2.45,-2.89]} center zIndexRange={[21,21]}><div className="voice-bubble boss-bubble"><b>THE PRINCIPAL</b><span>{principalVoice.text}</span></div></Html>}
  <Html position={[0,2.75,-2.22]} center><div className="office-sign">THE PRINCIPAL<span>CAPITAL ALLOCATION</span></div></Html>
  <Html position={[4.9,1.55,3.9]} center><button className="printer-label" onClick={()=>window.dispatchEvent(new Event('open-blotter'))}>TRADE TICKETS ↗</button></Html>
  </Suspense><CameraRig/><Metrics/>
  </Canvas>;
 }
+
 
 
 
