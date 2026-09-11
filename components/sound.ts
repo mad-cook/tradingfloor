@@ -15,6 +15,7 @@ export class FloorSound{
   this.context=new AudioContext();this.master=this.context.createGain();this.master.gain.value=0;this.room=this.context.createGain();this.room.connect(this.master);
   const limiter=this.context.createDynamicsCompressor();limiter.threshold.value=-16;limiter.ratio.value=6;this.master.connect(limiter).connect(this.context.destination);
   void fetch('/vo/manifest-v2.json').then(r=>{if(!r.ok)throw Error('Voice bank missing');return r.json();}).then(m=>{this.manifest=m;}).catch(()=>{this.failures++;});
+  void this.buffer('/vo/cutaway/pistol-shot.mp3').catch(()=>{this.failures++;});
   this.timer=setInterval(()=>this.tick(),250);
  }
  private async buffer(url:string){let b=this.buffers.get(url);if(!b){const r=await fetch(url);if(!r.ok)throw Error('Missing audio');b=await this.context.decodeAudioData(await r.arrayBuffer());if(this.buffers.size>=48)this.buffers.delete(this.buffers.keys().next().value!);this.buffers.set(url,b);}return b;}
@@ -99,15 +100,13 @@ export class FloorSound{
   if(phase==='aftermath')this.nextAmbient=performance.now();this.debug();
  }
  private async cinemaVoice(name:string){const epoch=this.epoch;try{const buffer=await this.buffer('/vo/cutaway/'+name+'.mp3');if(!this.enabled||epoch!==this.epoch)return;const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=buffer;gain.gain.value=.8;source.connect(gain).connect(this.master);this.cinemaSources.add(source);source.onended=()=>this.cinemaSources.delete(source);source.start();}catch{this.failures++;}}
- private shot(){
-  const rate=this.context.sampleRate,buffer=this.context.createBuffer(1,Math.ceil(rate*.95),rate),data=buffer.getChannelData(0);let low=0;
-  for(let i=0;i<data.length;i++){const t=i/rate,noise=Math.random()*2-1;low=low*.82+noise*.18;
-   // Sharp transient, low concussion, then discrete reflections in the room.
-   let v=noise*.8*Math.exp(-t*145)+low*1.5*Math.exp(-t*24)+Math.sin(2*Math.PI*(110*t-26*t*t))*.55*Math.exp(-t*32);
-   for(const [delay,level] of [[.075,.25],[.135,.15],[.22,.08]])if(t>=delay)v+=noise*level*Math.exp(-(t-delay)*38);
-   data[i]=Math.tanh(v*1.5)*.8;
-  }
-  const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=buffer;gain.gain.value=.72;source.connect(gain).connect(this.master);this.cinemaSources.add(source);source.onended=()=>this.cinemaSources.delete(source);source.start(this.context.currentTime+.06);this.shotCount++;
+ private async shot(){
+  const epoch=this.epoch,requestedAt=performance.now();
+  try{
+   const buffer=await this.buffer('/vo/cutaway/pistol-shot.mp3');
+   if(!this.enabled||this.cinemaPhase!=='blackout'||epoch!==this.epoch||performance.now()-requestedAt>250)return;
+   const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=buffer;gain.gain.value=.9;source.connect(gain).connect(this.master);this.cinemaSources.add(source);source.onended=()=>this.cinemaSources.delete(source);source.start(this.context.currentTime+.06);this.shotCount++;this.debug();
+  }catch{this.failures++;this.debug();}
  }
  private debug(){(window as any).__floorAudio={enabled:this.enabled,cinemaPhase:this.cinemaPhase,roomGain:this.room.gain.value,shotCount:this.shotCount,active:this.active,played:this.played,effects:this.effects,failures:this.failures,queued:this.queue.length,intensity:this.intensity,recentLines:this.recentLines,recentCategories:this.recentCategories};}
  dispose(){clearInterval(this.timer);for(const source of this.sources)try{source.stop();}catch{};void this.context.close();useFloor.getState().clearVoices();}

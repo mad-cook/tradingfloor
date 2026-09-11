@@ -1,0 +1,11 @@
+Pistol shot: excerpt from cz.wav, Gunshot Sounds by Tabasco.
+Source: https://opengameart.org/content/gunshot-sounds
+Original archive: https://opengameart.org/sites/default/files/sounds.zip
+Archive copyright notice: Copyright (c) 2009 Vincent Sevedge.
+The source page lists CC0, while the archive's creativecommons.txt specifies
+Creative Commons Attribution 3.0 Unported. We retain attribution and distribute
+this edited excerpt under CC BY 3.0 to respect the bundled license.
+License: https://creativecommons.org/licenses/by/3.0/
+Changes by The Floor: one pistol shot excerpted, background noise reduced,
+low-frequency rumble removed, gain adjusted, tail faded, converted to MP3.
+No endorsement by the original author is implied.
