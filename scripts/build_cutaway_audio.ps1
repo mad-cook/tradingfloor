@@ -4,7 +4,12 @@ $voice=New-Object System.Speech.Synthesis.SpeechSynthesizer
 $voice.SelectVoice('Microsoft Zira Desktop')
 $voice.Rate=3
 New-Item -ItemType Directory -Force '.voice-build','public/vo/cutaway' | Out-Null
-$lines=@{panic='Ah! No! No, no, no!';arrival='Right. Where were we?'}
+$lines=@{
+ 'panic-0'='Who sold? WHO SOLD? I said buy the dip, not dig a bloody crater! Get investor relations on the phone. We do not HAVE investor relations?'
+ 'panic-1'='Why is it red? Who approved all this red? I promised the holders a yacht! That is not a chart. That is a fucking waterfall!'
+ 'panic-2'='Stop the chart! Can somebody stop the chart? The holders are watching! Tell them it is maintenance. What do you mean they can see the wallet?'
+ arrival='Right. Where were we?'
+}
 foreach($name in $lines.Keys){
  $wav=[IO.Path]::GetFullPath(".voice-build/cutaway-$name.wav")
  $voice.SetOutputToWaveFile($wav);$voice.Speak($lines[$name]);$voice.SetOutputToNull()

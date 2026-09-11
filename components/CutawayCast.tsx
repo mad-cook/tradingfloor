@@ -6,6 +6,7 @@ import {clone} from 'three/examples/jsm/utils/SkeletonUtils.js';
 import * as THREE from 'three';
 import {useFloor} from './store';
 import {cutawayClock} from './CutawayDirector';
+import {PANIC_LINES} from '@/packages/core/cutaway';
 import {samplePath} from './choreography';
 const IN:[number,number,number][]=[[7,0,4.5],[5.85,0,4.5],[5.85,0,-2.35],[2,0,-2.35]];
 const OUT:[number,number,number][]=[...IN].reverse();OUT[OUT.length-1]=[10,0,4.5];
@@ -25,17 +26,17 @@ function Actor({role}:{role:'old'|'cleaner'|'new'}){
  if(role==='old'&&episode.phase!=='panic'&&actions.walk)actions.walk.time=0;
  let position:[number,number,number]=[0,.12,-2.89],heading=0,lying=false;
  if(role==='old'){
- root.current.visible=t<23000;lying=t>=4200;
- if(lying){position=[-.65,.25,-2.35];heading=Math.PI/2;if(t>=15500){const length=BODY.slice(1).reduce((sum,p,i)=>sum+Math.hypot(p[0]-BODY[i][0],p[2]-BODY[i][2]),0);const path=samplePath(BODY,Math.max(0,((t-15500)/7500)*(length-2.65)/length));heading=path.heading;position=path.position;}}
- }else if(role==='cleaner'){root.current.visible=t>=9500&&t<23000;const path=t<15500?samplePath(IN,(t-9500)/6000):samplePath(OUT,(t-15500)/7500);position=path.position;heading=path.heading+(t>=15500?Math.PI:0);}
- else{root.current.visible=t>=23000;const path=samplePath(REPLACEMENT,(t-23000)/8000);position=path.position;heading=t>=31000?0:path.heading;}
- if(role==='old'&&episode.phase==='draw')stageProp.position.y=.85+.44*Math.min(1,Math.max(0,(t-3000)/450));
+ root.current.visible=t<30000;lying=t>=11200;
+ if(lying){position=[-.65,.25,-2.35];heading=Math.PI/2;if(t>=22500){const length=BODY.slice(1).reduce((sum,p,i)=>sum+Math.hypot(p[0]-BODY[i][0],p[2]-BODY[i][2]),0);const path=samplePath(BODY,Math.max(0,((t-22500)/7500)*(length-2.65)/length));heading=path.heading;position=path.position;}}
+ }else if(role==='cleaner'){root.current.visible=t>=16500&&t<30000;const path=t<22500?samplePath(IN,(t-16500)/6000):samplePath(OUT,(t-22500)/7500);position=path.position;heading=path.heading+(t>=22500?Math.PI:0);}
+ else{root.current.visible=t>=30000;const path=samplePath(REPLACEMENT,(t-30000)/8000);position=path.position;heading=t>=38000?0:path.heading;}
+ if(role==='old'&&episode.phase==='draw')stageProp.position.y=.85+.46*Math.min(1,Math.max(0,(t-9000)/450));
  root.current.position.set(...position);const rotation=root.current.rotation.y;root.current.rotation.y=rotation+Math.atan2(Math.sin(heading-rotation),Math.cos(heading-rotation))*(1-Math.exp(-delta*10));pose.current.rotation.x=lying?Math.PI/2:0;
  root.current.userData={cutawayActor:role,phase:episode.phase,visible:root.current.visible,lying,position};
  });
  return <group ref={root} visible={false} scale={role==='cleaner'?.96:1.08}><group ref={pose}><primitive object={character}/>{role==='cleaner'&&<primitive object={uniform}/>}
- {role==='old'&&episode.phase==='draw'&&<primitive object={stageProp} position={[.40,1.29,.30]} rotation-x={Math.PI/2}/>}</group>
- {role==='old'&&episode.phase==='panic'&&<Html position={[0,2.65,0]} center zIndexRange={[24,24]}><div className="voice-bubble boss-bubble"><b>THE PRINCIPAL</b><span>AH! NO, NO, NO!</span></div></Html>}
+ {role==='old'&&episode.phase==='draw'&&<primitive object={stageProp} position={[.43,1.31,.38]} rotation-x={1.0} scale={1.25}/>}</group>
+ {role==='old'&&episode.phase==='panic'&&<Html position={[0,2.65,0]} center zIndexRange={[24,24]}><div className="voice-bubble boss-bubble"><b>THE PRINCIPAL</b><span>{PANIC_LINES[(episode.generation-2+PANIC_LINES.length)%PANIC_LINES.length]}</span></div></Html>}
  {role==='new'&&episode.phase==='introduction'&&<Html position={[0,2.65,0]} center zIndexRange={[24,24]}><div className="voice-bubble boss-bubble"><b>PRINCIPAL {String(episode.generation).padStart(2,'0')}</b><span>Right. Where were we?</span></div></Html>}
  </group>;
 }

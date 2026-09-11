@@ -93,13 +93,22 @@ export class FloorSound{
   for(const source of this.cinemaSources)try{source.stop();}catch{};
   if(this.quiet){this.queue=[];for(const source of this.sources)try{source.stop();}catch{};useFloor.getState().clearVoices();}
   this.room.gain.cancelScheduledValues(this.context.currentTime);this.room.gain.setValueAtTime(this.quiet?0:1,this.context.currentTime);
-  if(phase==='panic'&&this.enabled)void this.cinemaVoice('panic');
+  if(phase==='panic'&&this.enabled)void this.cinemaVoice('panic-'+((useFloor.getState().cutaway!.generation-2+3)%3));
   if(phase==='introduction'&&this.enabled)void this.cinemaVoice('arrival');
-  if(phase==='blackout'&&previous==='draw'&&elapsed<4800&&this.enabled)this.shot();
+  if(phase==='blackout'&&previous==='draw'&&elapsed<11800&&this.enabled)this.shot();
   if(phase==='aftermath')this.nextAmbient=performance.now();this.debug();
  }
  private async cinemaVoice(name:string){const epoch=this.epoch;try{const buffer=await this.buffer('/vo/cutaway/'+name+'.mp3');if(!this.enabled||epoch!==this.epoch)return;const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=buffer;gain.gain.value=.8;source.connect(gain).connect(this.master);this.cinemaSources.add(source);source.onended=()=>this.cinemaSources.delete(source);source.start();}catch{this.failures++;}}
- private shot(){const buffer=this.context.createBuffer(1,Math.ceil(this.context.sampleRate*.22),this.context.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.exp(-i/data.length*12);const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=buffer;gain.gain.value=.32;source.connect(gain).connect(this.master);this.cinemaSources.add(source);source.onended=()=>this.cinemaSources.delete(source);source.start(this.context.currentTime+.06);this.shotCount++;}
+ private shot(){
+  const rate=this.context.sampleRate,buffer=this.context.createBuffer(1,Math.ceil(rate*.95),rate),data=buffer.getChannelData(0);let low=0;
+  for(let i=0;i<data.length;i++){const t=i/rate,noise=Math.random()*2-1;low=low*.82+noise*.18;
+   // Sharp transient, low concussion, then discrete reflections in the room.
+   let v=noise*.8*Math.exp(-t*145)+low*1.5*Math.exp(-t*24)+Math.sin(2*Math.PI*(110*t-26*t*t))*.55*Math.exp(-t*32);
+   for(const [delay,level] of [[.075,.25],[.135,.15],[.22,.08]])if(t>=delay)v+=noise*level*Math.exp(-(t-delay)*38);
+   data[i]=Math.tanh(v*1.5)*.8;
+  }
+  const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=buffer;gain.gain.value=.72;source.connect(gain).connect(this.master);this.cinemaSources.add(source);source.onended=()=>this.cinemaSources.delete(source);source.start(this.context.currentTime+.06);this.shotCount++;
+ }
  private debug(){(window as any).__floorAudio={enabled:this.enabled,cinemaPhase:this.cinemaPhase,roomGain:this.room.gain.value,shotCount:this.shotCount,active:this.active,played:this.played,effects:this.effects,failures:this.failures,queued:this.queue.length,intensity:this.intensity,recentLines:this.recentLines,recentCategories:this.recentCategories};}
  dispose(){clearInterval(this.timer);for(const source of this.sources)try{source.stop();}catch{};void this.context.close();useFloor.getState().clearVoices();}
 }

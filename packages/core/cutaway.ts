@@ -1,5 +1,5 @@
-export const CUTAWAY_DURATION=34000;
-export const STAGES=[['panic',0],['draw',3000],['blackout',4200],['aftermath',7500],['cleaner',9500],['removal',15500],['replacement',23000],['introduction',31000]] as const;
+export const CUTAWAY_DURATION=41000;
+export const STAGES=[['panic',0],['draw',9000],['blackout',11200],['aftermath',14500],['cleaner',16500],['removal',22500],['replacement',30000],['introduction',38000]] as const;
 export type CutawayPhase=typeof STAGES[number][0];
 export type CutawayEvent={id:string;startedAt:number;generation:number};
 export type CutawayState=CutawayEvent&{phase:CutawayPhase;preview:boolean};
@@ -17,3 +17,9 @@ export class CrashMonitor{
  return {id:mint+':'+at,startedAt:now,generation:++this.generation};
  }
 }
+
+export const PANIC_LINES=[
+ "Who sold? WHO SOLD? I said buy the dip, not dig a bloody crater! Get investor relations on the phone. We do not HAVE investor relations?",
+ "Why is it red? Who approved all this red? I promised the holders a yacht! That is not a chart. That is a fucking waterfall!",
+ "Stop the chart! Can somebody stop the chart? The holders are watching! Tell them it is maintenance. What do you mean they can see the wallet?"
+] as const;
