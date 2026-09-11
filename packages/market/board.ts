@@ -1,3 +1,5 @@
+import {CrashMonitor,CUTAWAY_DURATION,type CutawayEvent} from '../core/cutaway';
+const crashMonitor=new CrashMonitor();let latestCutaway:CutawayEvent|undefined;
 import {address,getAddressEncoder,getProgramDerivedAddress} from '@solana/addresses';
 import {pickTokenPair,finiteValue,type BoardData} from '../core/board';
 const PUMP='6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P',AMM='pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA';
@@ -22,7 +24,12 @@ async function readBoard():Promise<BoardData>{
   (async()=>{if(!mint)return;try{address(mint);const r=await fetch('https://api.dexscreener.com/token-pairs/v1/solana/'+mint,{signal:AbortSignal.timeout(6500),cache:'no-store'});if(!r.ok)throw Error();const data=await r.json();const pair=pickTokenPair(Array.isArray(data)?data:[],mint);if(!pair)throw Error();result.token={...result.token,symbol:typeof pair.baseToken.symbol==='string'?pair.baseToken.symbol.slice(0,20):null,marketCapUsd:finiteValue(pair.marketCap),fdvUsd:finiteValue(pair.fdv),priceUsd:finiteValue(Number(pair.priceUsd)),change24h:typeof pair.priceChange?.h24==='number'&&Number.isFinite(pair.priceChange.h24)?pair.priceChange.h24:null,liquidityUsd:finiteValue(pair.liquidity?.usd),at:Date.now(),pair:pair.pairAddress};}catch{result.token.error='Market data unavailable';}})(),
   (async()=>{if(!creator)return;try{address(creator);const balance=await rpc('getBalance',[creator,{commitment:'confirmed'}]);if(!Number.isSafeInteger(balance.value)||balance.value<0)throw Error();result.wallet.sol=balance.value/1e9;result.wallet.balanceAt=Date.now();}catch{result.wallet.error='Wallet balance unavailable';}})(),
   (async()=>{if(!creator)return;try{address(creator);result.wallet.feesSol=await creatorFees(creator);result.wallet.feesAt=Date.now();}catch{result.wallet.error=result.wallet.error?'Wallet and fee reads unavailable':'Creator fee read unavailable';}})()
- ]);return result;
+ ]);
+ if(result.mode==='project'&&result.token.mint&&result.token.marketCapUsd&&result.token.at&&!result.token.error){
+ const event=crashMonitor.observe(result.token.mint,result.token.marketCapUsd,result.token.at,Date.now());if(event)latestCutaway=event;
+ }
+ if(result.mode==='project'&&latestCutaway?.id.startsWith(result.token.mint+':')&&Date.now()-latestCutaway.startedAt<CUTAWAY_DURATION)result.cutaway=latestCutaway;
+ return result;
 }
 let cached:{data:BoardData;expires:number}|null=null;let pending:Promise<BoardData>|null=null;
 export function getBoard(){if(cached&&Date.now()<cached.expires)return Promise.resolve(cached.data);if(pending)return pending;pending=readBoard().then(data=>{cached={data,expires:Date.now()+30_000};return data;}).finally(()=>{pending=null;});return pending;}

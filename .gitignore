@@ -11,3 +11,4 @@ data/
 *.blend1
 *.tsbuildinfo
 .voice-build/
+reports/cutaway-*

@@ -1,5 +1,6 @@
+import type {CutawayEvent} from './cutaway';
 import type {AudienceState} from './audience';
-export type BoardData={
+export type BoardData={cutaway?:CutawayEvent;
  mode:'test'|'project';
  token:{mint:string|null;symbol:string|null;marketCapUsd:number|null;fdvUsd:number|null;priceUsd:number|null;change24h:number|null;liquidityUsd:number|null;at:number|null;error:string|null;pair:string|null};
  wallet:{address:string|null;sol:number|null;feesSol:number|null;balanceAt:number|null;feesAt:number|null;error:string|null;feeScope:string};

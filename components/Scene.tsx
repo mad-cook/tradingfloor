@@ -1,4 +1,5 @@
 'use client';
+import CutawayCast from './CutawayCast';
 import {OfficeBoard} from './Board';
 import {Canvas,useFrame,useThree} from '@react-three/fiber';
 import {useGLTF,useAnimations,OrbitControls,Html} from '@react-three/drei';
@@ -12,7 +13,7 @@ import {useChoreography} from './useChoreography';
 const seats=SEATS;
 function Asset({path,position=[0,0,0],rotation=0,scale=1}:{path:string;position?:[number,number,number];rotation?:number;scale?:number}){const {scene}=useGLTF(path);const object=useMemo(()=>scene.clone(true),[scene]);return <primitive object={object} position={position} rotation-y={rotation} scale={scale}/>;}
 function Analyst({desk,position,boss=false,cue,clock,visit,paused=false}:{desk?:Desk;position:[number,number,number];boss?:boolean;cue?:Cue;clock:React.RefObject<number>;visit?:Visit|null;paused?:boolean}){
- const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??'#354c65');for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color]);const {actions,mixer}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===(desk?.id??'principal')));const event=voice??floorEvent;
+ const generation=useFloor(s=>s.principalNumber);const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??(generation%2?'#354c65':'#75466d'));for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color,generation]);const {actions,mixer}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===(desk?.id??'principal')));const event=voice??floorEvent;
  const [clip,setClip]=useState('idle');const [forced,setForced]=useState<string|null>(null);const forcedRef=useRef<string|null>(null);const posture=useRef<THREE.Group>(null);
  const audience=useFloor(s=>s.audience);const board=useFloor(s=>s.board);const marketPressure=Boolean(board?.token.at&&Date.now()-board.token.at<90000&&(board.token.change24h??0)<-5);const mood=desk?deskMood(desk):marketPressure?'strained':'neutral';const playClip=forced??clip;
  useEffect(()=>{mixer.timeScale=paused?0:1;},[mixer,paused]);
@@ -89,7 +90,7 @@ function DeskProps({desk,cue,clock}:{desk:Desk;cue?:Cue;clock:React.RefObject<nu
  return <><group ref={cup} position={[.30,.945,.24]}><Asset path="/models/coffee.glb"/></group><primitive object={cord} visible={false}/><instancedMesh ref={papers} args={[undefined,undefined,18]}><boxGeometry args={[.24,.005,.17]}/><meshStandardMaterial color="#d8cfaf"/></instancedMesh>{cue&&['coffee','tangle'].includes(cue.kind)&&<Html position={[.3,1.9,.6]} center zIndexRange={[12,11]}><div className="mishap-note">{cue.kind==='coffee'?'SAVE THE COFFEE!':'WHO TANGLED THIS?'}</div></Html>}</>;
 }
 function DeskModel({desk,index,cue,clock,paused}:{desk:Desk;index:number;cue?:Cue;clock:React.RefObject<number>;paused:boolean}){
- const selected=useFloor(s=>s.selected);const select=useFloor(s=>s.select);const event=useFloor(s=>s.event);const p=seats[index];
+ const selected=useFloor(s=>s.selected);const cutaway=useFloor(s=>s.cutaway);const select=useFloor(s=>s.select);const event=useFloor(s=>s.event);const p=seats[index];
  const voice=useFloor(s=>s.voices.find(v=>v.deskId===desk.id));const hot=event?.deskId===desk.id;
  return <group position={p} onClick={e=>{e.stopPropagation();select(desk.id);}} onPointerOver={()=>{document.body.style.cursor='pointer';}} onPointerOut={()=>{document.body.style.cursor='auto';}}>
  <Asset path="/models/workstation.glb"/>
@@ -101,13 +102,13 @@ function DeskModel({desk,index,cue,clock,paused}:{desk:Desk;index:number;cue?:Cu
  </group>;
 }
 function CameraRig(){
- const controls=useRef<any>(null);const selected=useFloor(s=>s.selected);const camera=useThree(s=>s.camera);const size=useThree(s=>s.size);useEffect(()=>{if(camera instanceof THREE.PerspectiveCamera){camera.fov=size.width<700?65:40;camera.updateProjectionMatrix();}},[camera,size.width]);const destination=useRef(new THREE.Vector3(12,11,14));const target=useRef(new THREE.Vector3(0,0,0));const moving=useRef(false);
- useEffect(()=>{const index=useFloor.getState().snapshot?.desks.findIndex(d=>d.id===selected)??-1;const p=seats[index];if(p){destination.current.set(p[0]+3.3,3.4,p[2]+4.3);target.current.set(p[0],.9,p[2]);}else{destination.current.set(12,11,14);target.current.set(0,.3,0);}moving.current=true;},[selected]);
+ const controls=useRef<any>(null);const selected=useFloor(s=>s.selected);const cutaway=useFloor(s=>s.cutaway);const camera=useThree(s=>s.camera);const size=useThree(s=>s.size);useEffect(()=>{if(camera instanceof THREE.PerspectiveCamera){camera.fov=size.width<700?65:40;camera.updateProjectionMatrix();}},[camera,size.width]);const destination=useRef(new THREE.Vector3(12,11,14));const target=useRef(new THREE.Vector3(0,0,0));const moving=useRef(false);
+ useEffect(()=>{const index=useFloor.getState().snapshot?.desks.findIndex(d=>d.id===selected)??-1;const p=seats[index];if(cutaway&&(cutaway.phase==='panic'||cutaway.phase==='draw')){destination.current.set(4.5,4.5,3);target.current.set(0,1,-2.8);}else if(cutaway&&['blackout','aftermath','cleaner'].includes(cutaway.phase)){destination.current.set(3.5,10,-.2);target.current.set(.7,0,-2.3);}else if(cutaway){destination.current.set(10,11,3);target.current.set(2,.3,-.5);}else if(p&&!cutaway){destination.current.set(p[0]+3.3,3.4,p[2]+4.3);target.current.set(p[0],.9,p[2]);}else{destination.current.set(12,11,14);target.current.set(0,.3,0);}moving.current=true;},[selected,cutaway?.phase]);
  useFrame((_,delta)=>{if(moving.current&&controls.current){camera.position.lerp(destination.current,1-Math.exp(-delta*3));controls.current.target.lerp(target.current,1-Math.exp(-delta*3));if(camera.position.distanceTo(destination.current)<.03)moving.current=false;controls.current.update();}});
- return <OrbitControls ref={controls} enablePan={false} minDistance={3} maxDistance={23} maxPolarAngle={Math.PI*.47} minPolarAngle={.2} autoRotate={!selected&&!moving.current} autoRotateSpeed={.12}/>;
+ return <OrbitControls ref={controls} enablePan={false} minDistance={3} maxDistance={23} maxPolarAngle={Math.PI*.47} minPolarAngle={.2} autoRotate={!selected&&!cutaway&&!moving.current} autoRotateSpeed={.12}/>;
 }
 function ChoreographyClock({clock,running}:{clock:React.RefObject<number>;running:boolean}){useFrame((_,delta)=>{if(running&&!document.hidden)clock.current+=Math.min(delta,.1)*1000;});return null;}
-function Metrics(){const n=useRef(0);const elapsed=useRef(0);useFrame(({gl,scene},delta)=>{n.current++;elapsed.current+=delta;if(elapsed.current>2){const actors:any[]=[];const props:any[]=[];scene.traverse(o=>{if(o.userData.analyst)actors.push({...o.userData,position:o.getWorldPosition(new THREE.Vector3()).toArray()});if(o.userData.deskProp)props.push({...o.userData});});(window as any).__floorMetrics={actors,props,fps:Math.round(n.current/elapsed.current),drawCalls:gl.info.render.calls,triangles:gl.info.render.triangles};n.current=0;elapsed.current=0;}});return null;}
+function Metrics(){const n=useRef(0);const elapsed=useRef(0);useFrame(({gl,scene},delta)=>{n.current++;elapsed.current+=delta;if(elapsed.current>2){const actors:any[]=[];const props:any[]=[];scene.traverse(o=>{if(o.userData.analyst||o.userData.cutawayActor)actors.push({...o.userData,position:o.getWorldPosition(new THREE.Vector3()).toArray()});if(o.userData.deskProp)props.push({...o.userData});});(window as any).__floorMetrics={actors,props,fps:Math.round(n.current/elapsed.current),drawCalls:gl.info.render.calls,triangles:gl.info.render.triangles};n.current=0;elapsed.current=0;}});return null;}
 function PrinterTickets(){
  const event=useFloor(s=>s.event);const group=useRef<THREE.Group>(null);const started=useRef(-Infinity);
  useEffect(()=>{if(event?.kind==='FILL')started.current=performance.now();},[event]);
@@ -117,13 +118,13 @@ function PrinterTickets(){
  return <group ref={group} visible={false}>{[0,1,2].map(i=><mesh key={i}><planeGeometry args={[.24,.32]}/><meshStandardMaterial color="#e4d9b3" side={THREE.DoubleSide}/></mesh>)}</group>;
 }
 export default function Scene(){
- const snapshot=useFloor(s=>s.snapshot);const floorEvent=useFloor(s=>s.event);const {state:choreo,clock}=useChoreography(snapshot?.desks??[],floorEvent,Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen));
+ const cutaway=useFloor(s=>s.cutaway);const generation=useFloor(s=>s.principalNumber);const snapshot=useFloor(s=>s.snapshot);const floorEvent=useFloor(s=>s.event);const {state:choreo,clock}=useChoreography(snapshot?.desks??[],floorEvent,Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen&&!cutaway));
  return <Canvas dpr={[1,1.5]} camera={{position:[12,11,14],fov:40}} gl={{antialias:true}}>
- <ChoreographyClock clock={clock} running={Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen)}/><color attach="background" args={['#e8e1d4']}/><fog attach="fog" args={['#e8e1d4',24,44]}/>
+ <ChoreographyClock clock={clock} running={Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen&&!cutaway)}/><color attach="background" args={['#e8e1d4']}/><fog attach="fog" args={['#e8e1d4',24,44]}/>
  <ambientLight intensity={snapshot?.marketOpen ? 1.35 : .35}/><hemisphereLight args={['#e9e7ff','#3e3545',.65]}/><directionalLight position={[-5,9,3]} intensity={snapshot?.marketOpen?2:.6} color="#ffd5a0"/>
  <Suspense fallback={null}><Asset path="/models/room.glb"/>
  {snapshot?.desks.map((d,i)=><DeskModel key={d.id} desk={d} index={i} cue={choreo.cues[d.id]} clock={clock} paused={Boolean(snapshot?.paused)}/>)}
- <Asset path="/models/workstation.glb" position={[0,.12,-3.65]}/><Analyst position={[0,.12,-2.89]} boss clock={clock} visit={choreo.visit} paused={Boolean(snapshot?.paused)}/>
+ <Asset path="/models/workstation.glb" position={[0,.12,-3.65]}/>{cutaway?<CutawayCast/>:<Analyst key={generation} position={[0,.12,-2.89]} boss clock={clock} visit={choreo.visit} paused={Boolean(snapshot?.paused)}/>}
  <PrinterTickets/><group position={[0,3.65,-4.95]}><mesh><boxGeometry args={[3.85,2.15,.16]}/><meshStandardMaterial color="#191923"/></mesh><Html transform distanceFactor={5.7} position={[0,0,.095]} zIndexRange={[4,0]}><OfficeBoard/></Html></group>
  <Html position={[0,2.75,-2.22]} center zIndexRange={[3,0]}><div className="office-sign">THE PRINCIPAL<span>CAPITAL ALLOCATION</span></div></Html>
  <Html position={[4.9,1.55,3.9]} center zIndexRange={[3,0]}><button className="printer-label" onClick={()=>window.dispatchEvent(new Event('open-blotter'))}>TRADE TICKETS ↗</button></Html>

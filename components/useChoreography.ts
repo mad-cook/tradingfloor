@@ -9,6 +9,7 @@ export function useChoreography(desks:Desk[],event:FloorEvent|null,running:boole
  const publish=()=>setState({...data.current,cues:{...data.current.cues}});
  useEffect(()=>{
 
+  if(!running){data.current={cues:{},visit:null};publish();}
   const timer=setInterval(()=>{if(!running||document.hidden)return;
    const now=clock.current;let changed=false;
    for(const [id,cue] of Object.entries(data.current.cues))if(cue.end<=now){delete data.current.cues[id];changed=true;}
@@ -22,7 +23,7 @@ export function useChoreography(desks:Desk[],event:FloorEvent|null,running:boole
   },100);return()=>clearInterval(timer);
  },[running]);
  useEffect(()=>{
-  if(!event||event.id<=lastId.current||!desks.length)return;lastId.current=event.id;const now=clock.current;
+  if(!event||event.id<=lastId.current||!desks.length)return;lastId.current=event.id;if(!running)return;const now=clock.current;
   if(now-lastWave.current>=4500){const wave=reactionWave(event,desks,now);if(Object.keys(wave).length){lastWave.current=now;for(const [id,cue] of Object.entries(wave))if(!data.current.cues[id]||data.current.cues[id].end<=now)data.current.cues[id]=cue;}}
   if(event.kind==='RISK_BLOCK'&&event.deskId){
    const times=[...(blocks.current.get(event.deskId)??[]).filter(t=>now-t<90000),now];blocks.current.set(event.deskId,times);
@@ -35,6 +36,6 @@ export function useChoreography(desks:Desk[],event:FloorEvent|null,running:boole
    }
   }
   publish();
- },[event,desks]);
+ },[event,desks,running]);
  return {state,clock};
 }

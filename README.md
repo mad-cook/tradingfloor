@@ -75,3 +75,10 @@ Edit scripts/dialogue.mjs, run node scripts/dialogue.mjs, then run scripts/build
 ## Launch and brand
 
 See [Railway deployment](docs/RAILWAY.md), [live launch plan](docs/LAUNCH_PLAN.md), and [brand guide](docs/BRAND.md). The app now includes a real read-only token/wallet board and anonymous gallery reactions. The trading engine remains a paper rehearsal.
+
+### Principal cutaway
+Local rehearsal controls include **Preview principal cutaway** (sound follows the sound button). The 34-second fictional scene uses panic, a lowered stage prop, blackout before the sound effect, silent hold, cleanup, and a replacement. No visible injury or blood. It pauses with the simulation, hidden page, or another app view. It changes no trading or treasury state.
+
+Automatic playback is enabled only with `BOARD_MODE=project`: two fresh readings at least 35% below the observed 15-minute market-cap peak, with a ten-minute cooldown. Invalid/stale readings and duplicate samples cannot trigger it. The monitor lives in the web process and resets on restart; one Railway replica is required. Test-token mode is manual only.
+
+Rebuild cinematic props with `scripts/build_cutaway_assets.py` in Blender, and voices with `scripts/build_cutaway_audio.ps1` on Windows. `node scripts/cutaway-check.mjs` rehearses the complete scene against the running local app.
