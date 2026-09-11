@@ -1,5 +1,6 @@
 'use client';
 import {CompanyBoard,Gallery,useBoardData} from './Board';
+import ContractAddress from './ContractAddress';
 import dynamic from 'next/dynamic';import {FloorSound} from './sound';import {useEffect,useRef,useState} from 'react';import {useFloor} from './store';import type {Desk,FloorEvent} from '@/packages/core/types';
 const Scene=dynamic(()=>import('./Scene'),{ssr:false,loading:()=> <div className="scene-loading">Setting out the desks…</div>});
 const money=(v:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(v);
@@ -29,7 +30,7 @@ export default function FloorApp({localControls=false}:{localControls?:boolean})
  async function command(action:string){setBusy(true);setError('');try{const r=await fetch('/api/floor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action})});if(!r.ok)throw Error((await r.json()).error);}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
  const desk=s?.desks.find(d=>d.id===selected);
  return <main>
- <header><a className="brand" href="/" aria-label="The Floor home"><img className="brand-mark" src="/favicon.svg" width="44" height="44" alt=""/><span>THE FLOOR<small>TWELVE EGOS. ONE BALANCE SHEET.</small></span></a><nav aria-label="Views">{(['floor','ledger','people'] as const).map(t=><button className={tab===t?'active':''} key={t} onClick={()=>setTab(t)}>{t==='floor'?'Trading floor':t==='ledger'?'Trade ledger':'Personnel'}</button>)}</nav><div className="header-right"><span className="mode-badge">PAPER REHEARSAL</span><button className="sound" onClick={()=>enableSound(muted)} aria-label={muted?'Enable sound':'Mute sound'}>{muted?'Sound off':'Sound on'} <span>{muted?'◌':'◖'}</span></button></div></header>
+ <header><a className="brand" href="/" aria-label="The Floor home"><img className="brand-mark" src="/favicon.svg" width="44" height="44" alt=""/><span>THE FLOOR<small>TWELVE EGOS. ONE BALANCE SHEET.</small></span></a><nav aria-label="Views">{(['floor','ledger','people'] as const).map(t=><button className={tab===t?'active':''} key={t} onClick={()=>setTab(t)}>{t==='floor'?'Trading floor':t==='ledger'?'Trade ledger':'Personnel'}</button>)}</nav><div className="header-right"><ContractAddress/><button className="sound" onClick={()=>enableSound(muted)} aria-label={muted?'Enable sound':'Mute sound'}>{muted?'Sound off':'Sound on'} <span>{muted?'◌':'◖'}</span></button></div></header>
  <div className="ticker"><span className="ticker-label">DEMO TAPE</span><div className="ticker-track">{s?.desks.map(d=><button key={d.id} onClick={()=>{useFloor.getState().select(d.id);setTab('floor');}}><b>{d.symbol}</b><span>{money(d.price)}</span><small className={d.change>=0?'positive':'negative'}>{d.change>=0?'+':''}{d.change.toFixed(2)}%</small></button>)}</div></div>
  <section className="summary"><div className="session-label"><span className={'live-dot '+(!connected?'offline':'')}/><div><b>{!connected?'Connecting to the floor':s?.killed?'Execution halted':s?.paused?'Rehearsal paused':s?.marketOpen?'The floor is open':'The night shift'}</b><small>SESSION {String(s?.session??1).padStart(3,'0')} <span> / </span> {s?time(s.now):'—'} SIM TIME</small></div></div><div className="stat"><label>PAPER TREASURY</label><strong>{s?money(s.nav):'—'}</strong></div><div className="stat"><label>PAPER P&L</label><strong className={(s?.nav??500)>=(s?.openNav??500)?'positive':'negative'}>{s?money(s.nav-s.openNav):'—'}</strong></div><div className="stat"><label>PAPER CASH</label><strong>{s?money(s.cash):'—'}</strong></div><div className="mini-chart"><Spark values={s?.curve.map(p=>p.nav)??[500]}/><span>$500 opening treasury</span></div></section>
  <CompanyBoard/>
@@ -46,3 +47,4 @@ export default function FloorApp({localControls=false}:{localControls?:boolean})
  <div className="disclosure">Analysts are fictional. Rehearsal prices and decisions are simulated. Theses are a transparency record, not investment advice. The Floor accepts no deposits. Token issuers control eligibility, backing, and redemption. Live trading and copy-desk are not enabled.</div>
  </main>;
 }
+
