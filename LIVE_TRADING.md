@@ -33,9 +33,22 @@ Portfolio value includes native SOL and the twelve allowlisted stocks. Other wal
 1. Configure the real public creator address and RPC, select `shadow`, leave PAPER=1 and LIVE_TRADING_ENABLED=0. Verify balances, stock prices and UI against Solscan.
 2. Enter TRADING_PRIVATE_KEY directly in Railway. Merely setting it in shadow mode does not sign anything.
 3. Confirm a small unsigned swap simulation for the actual wallet and review the configured limits.
-4. Enable live explicitly using DATA_MODE=live, PAPER=0, LIVE_TRADING_ENABLED=1. The live journal starts separately from shadow and demo state.
+4. Arm signing using DATA_MODE=live, PAPER=0, LIVE_TRADING_ENABLED=1. The new live journal starts with automatic trading OFF. Use the owner control to initiate the bounded test; use Start only when ready to launch.
 5. Check the first finalized buy and sell against their Solscan receipts. No funded execution has been tested by the build process.
 
 To stop new orders: set KILL_SWITCH=1 and redeploy, or stop the Railway service for an immediate process stop. An already submitted transaction may still settle. The persisted killed flag is latched; investigate before resuming. The public audience controls cannot enable trading or change limits.
 
 API references: https://developers.jup.ag/docs/swap/order-and-execute and https://developers.jup.ag/docs/price/v3 . Asset availability and issuer eligibility restrictions still apply; a route alone is not evidence of eligibility.
+
+
+## Owner start/stop control
+
+Double-click `Trading Control.cmd` on the owner's PC. The menu offers Status, Start automatic trading, Stop trading, and Test buy/sell. Starting requires typing START. Tests require typing TEST and never enable the automatic traders. No login or key entry is needed once the local owner credential is configured.
+
+The owner credential is stored outside the repository at `%USERPROFILE%\.the-floor\wallet-backup\trading-control-token.txt` and must match the private Railway TRADING_CONTROL_TOKEN variable. The wallet key is a separate credential. Neither is embedded in the command file. The private endpoint requires a bearer credential; the ordinary public rehearsal endpoint stays disabled.
+
+Even with DATA_MODE=live, PAPER=0 and LIVE_TRADING_ENABLED=1, a new journal starts with automatic trading OFF. Only an authenticated explicit start enables it. Start/stop choices persist across restarts: stopping stays stopped, and a launch that you explicitly started resumes after a normal restart. Deploying or funding the wallet does not turn trading on. Already submitted transactions may still settle after Stop.
+
+Test mode uses one 0.01 SOL NVDAx buy followed by a sale of exactly the raw tokens acquired. It never sells pre-existing holdings. Worst-case native debits are reserved before submission against a persistent cumulative 0.2 SOL test cap. Each transaction simulation also protects the starting native balance minus 0.2 SOL. Quote/simulation failures do not spend funds, and six rejected attempts stop the test. Test completion leaves automatic trading OFF. If a sell fails, the acquired tokens remain visible; choosing Test again resumes only that sell. The default test normally reserves at most 0.023 SOL of the 0.2 SOL ceiling.
+
+For scripted use: `powershell -File scripts/trading-control.ps1 -Action status` or `-Action stop`. Start and test prompt for confirmation unless explicitly run with `-Confirmed`. Do not use `-Confirmed` in unattended startup scripts.

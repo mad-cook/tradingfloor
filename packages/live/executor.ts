@@ -6,7 +6,7 @@ type Signer={publicKey:string;sign:(message:Uint8Array)=>Buffer};
 import bs58 from 'bs58';
 import {LIMITS,SOL,STOCKS,TOKEN_PROGRAMS} from './config';
 import {rpc} from './market';
-export type Intent={deskId:string;side:'BUY'|'SELL';mint:string;amount:string;decimals:number;solPrice:number;tokenPrice:number;multiplier?:number;at:number};
+export type Intent={deskId:string;side:'BUY'|'SELL';mint:string;amount:string;decimals:number;solPrice:number;tokenPrice:number;multiplier?:number;test?:boolean;maxNativeSpendLamports?:number;minNativeBalanceLamports?:number;at:number};
 export type Pending={intent:Intent;signature:string;lastValidBlockHeight:number;submittedAt:number};
 export function loadSigner(owner:string){
  const secret=process.env.TRADING_PRIVATE_KEY;if(!secret)throw Error('TRADING_PRIVATE_KEY is not configured');
@@ -42,6 +42,8 @@ export function checkSimulation(before:any[],after:any[],intent:Intent,minOutput
  if(after.length!==before.length||!after[0]||after[0].owner!=='11111111111111111111111111111111'||after[0].executable)throw Error('Unexpected simulated wallet');
  const nativeSpend=before[0].lamports-after[0].lamports;
  const allowance=LIMITS.maxFeeLamports+LIMITS.maxRentLamports;
+ if(intent.maxNativeSpendLamports!==undefined&&nativeSpend>intent.maxNativeSpendLamports)throw Error('Test spending cap exceeded');
+ if(intent.minNativeBalanceLamports!==undefined&&after[0].lamports<intent.minNativeBalanceLamports)throw Error('Protected wallet balance would be spent');
  if(after[0].lamports<LIMITS.reserveLamports||nativeSpend>(intent.side==='BUY'?Number(intent.amount):0)+allowance)throw Error('Simulation exceeds SOL budget');
  if(intent.side==='SELL'&&BigInt(Math.floor(-nativeSpend+allowance))<minOutput)throw Error('Simulation returns too little SOL');
  let spent=0n,received=0n;
@@ -71,7 +73,11 @@ export class Executor{
   const loadedWritable:string[]=[],loadedReadonly:string[]=[];
   for(const lookup of message.addressTableLookups??[]){const a=await rpc('getAccountInfo',[lookup.lookupTableAddress,{encoding:'base64',commitment:'confirmed'}]);if(!a.value||a.value.owner!=='AddressLookupTab1e1111111111111111111111111')throw Error('Missing lookup table');const raw=Buffer.from(a.value.data[0],'base64');
    for(const [indexes,dest] of [[lookup.writableIndexes,loadedWritable],[lookup.readonlyIndexes,loadedReadonly]] as const)for(const index of indexes){const key=raw.subarray(56+index*32,88+index*32);if(key.length!==32)throw Error('Invalid lookup address');dest.push(bs58.encode(key));}}
-  const keys=[...message.staticAccounts,...loadedWritable,...loadedReadonly];for(const ix of message.instructions)if(!PROGRAMS.has(keys[ix.programAddressIndex]))throw Error('Unexpected transaction program');
+  const keys=[...message.staticAccounts,...loadedWritable,...loadedReadonly];
+  for(const ix of message.instructions){const program=keys[ix.programAddressIndex];if(!PROGRAMS.has(program))throw Error('Unexpected transaction program');
+   // Swaps must not change mint authorities, approve delegates, mint, burn, freeze, or thaw.
+   if(TOKEN_PROGRAMS.includes(program)&&![1,3,9,12,16,17,18,21,22].includes(ix.data?.[0]??-1))throw Error('Unexpected token instruction');
+  }
   const mintInfo=await rpc('getAccountInfo',[intent.mint,{encoding:'base64',commitment:'finalized'}]);if(!mintInfo.value||!TOKEN_PROGRAMS.includes(mintInfo.value.owner))throw Error('Unexpected mint program');
   const accounts=await Promise.all(TOKEN_PROGRAMS.map(programId=>rpc('getTokenAccountsByOwner',[this.owner,{programId},{encoding:'base64',commitment:'confirmed'}])));
   const [outputAta]=await getProgramDerivedAddress({seeds:[bs58.decode(this.owner),bs58.decode(mintInfo.value.owner),bs58.decode(intent.mint)],programAddress:address('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL')});

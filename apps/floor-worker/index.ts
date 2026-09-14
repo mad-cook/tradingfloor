@@ -2,6 +2,7 @@ import {createServer} from 'node:http';
 import {mkdir,appendFile,stat,rename,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import {createStore} from '../../packages/db/store';
+import {authorizedOperator} from '../../packages/live/control';
 import {LiveEngine} from '../../packages/live/engine';
 import {FloorEngine} from '../../packages/core/sim/engine';
 import {Audience} from '../../packages/core/audience';
@@ -25,6 +26,11 @@ const server=createServer(async(req,res)=>{
  if(path==='/state'){res.setHeader('Content-Type','application/json');res.end(JSON.stringify(engine.state));return;}
  if(path==='/events'){if(clients.size>=1000){res.statusCode=503;res.end();return;}res.writeHead(200,{'Content-Type':'text/event-stream',Connection:'keep-alive'});res.write('data: '+JSON.stringify(engine.state)+'\n\n');clients.add(res);req.on('close',()=>clients.delete(res));return;}
  if(path==='/audience'){res.setHeader('Content-Type','application/json');try{if(req.method==='GET')res.end(JSON.stringify(audience.snapshot()));else if(req.method==='POST'){const {id,reaction}=await readBody(req);if(typeof id!=='string'||!/^[a-f0-9]{64}$/.test(id))throw Error('Invalid viewer');res.end(JSON.stringify(audience.vote(id,reaction)));}else{res.statusCode=405;res.end();}}catch(e){res.statusCode=429;res.end(JSON.stringify({error:(e as Error).message}));}return;}
+ if(path==='/operator'&&req.method==='POST'){
+  if(!authorizedOperator(req.headers.authorization)){res.statusCode=403;res.end(JSON.stringify({error:'Owner authorization required'}));return;}
+  res.setHeader('Content-Type','application/json');
+  try{if(!(engine instanceof LiveEngine))throw Error('Wallet mode is required');const body=await readBody(req);const result=await engine.control(body.action,body.wallet,body.confirmation);publish();res.end(JSON.stringify(result));}catch(e){res.statusCode=400;res.end(JSON.stringify({error:(e as Error).message}));}return;
+ }
  if(path==='/command'&&req.method==='POST'){
  if(process.env.ALLOW_LOCAL_CONTROLS!=='1'){res.statusCode=403;res.end(JSON.stringify({error:'Operator controls disabled'}));return;}
  try{const {action}=await readBody(req);if(!['pause','night','kill','close','risk'].includes(action))throw Error('Unknown action');engine.command(action);publish();res.end(JSON.stringify({ok:true}));}catch(e){res.statusCode=400;res.end(JSON.stringify({error:(e as Error).message}));}return;}

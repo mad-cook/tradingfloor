@@ -4,10 +4,11 @@ import {FloorEngine} from '../core/sim/engine';
 import type {Snapshot,Desk} from '../core/types';
 import {STOCKS,SOL,LIMITS,buyingBudget,buySize} from './config';
 import {readPrices,readWallet,rpc,freshPrice,type Wallet,type Price} from './market';
+import {TEST_BUDGET_LAMPORTS,TEST_BUY_LAMPORTS,automaticTradingAllowed,type TestRun} from './control';
 import {Executor,loadSigner,type Intent,type Pending} from './executor';
-type Journal={version:1;owner:string;mode:'live'|'shadow';snapshot:Snapshot;expected:Wallet|null;netFundingUsd:number;highWater:number;pending:Pending|null;lastAttempt:number;day:string;dailyTrades:number;receipts?:{signature:string;at:number;failed:boolean;intent:Intent}[];history:Record<string,{at:number;price:number}[]>};
+type Journal={running?:boolean;controlRevision?:number;test?:TestRun;testReservedLamports?:number;version:1;owner:string;mode:'live'|'shadow';snapshot:Snapshot;expected:Wallet|null;netFundingUsd:number;highWater:number;pending:Pending|null;lastAttempt:number;day:string;dailyTrades:number;receipts?:{signature:string;at:number;failed:boolean;intent:Intent}[];history:Record<string,{at:number;price:number}[]>};
 export class LiveEngine extends FloorEngine{
- private journal:Journal;private file:string;private executor?:Executor;private lastError='';private stopRequested=false;
+ private journal:Journal;private file:string;private executor?:Executor;private lastError='';private stopRequested=false;private writes:Promise<void>=Promise.resolve();private controlling=false;
  requestStop(){this.stopRequested=true;}
  private constructor(owner:string,mode:'live'|'shadow',dir:string){
   super();this.file=join(dir,'trading-'+mode+'.json');
@@ -22,13 +23,13 @@ export class LiveEngine extends FloorEngine{
   try{const j=JSON.parse(await readFile(engine.file,'utf8')) as Journal;if(j.version!==1||j.owner!==owner||j.mode!==mode||j.snapshot.desks.length!==12)throw Error('Trading journal does not match this wallet');engine.journal=j;engine.restore(j.snapshot);}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
   await engine.persist();return engine;
  }
- private async persist(){this.journal.snapshot=this.state;await writeFile(this.file+'.tmp',JSON.stringify(this.journal),{mode:0o600});await rename(this.file+'.tmp',this.file);}
+ private async persist(){this.journal.snapshot=this.state;const payload=JSON.stringify(this.journal);this.writes=this.writes.then(async()=>{await writeFile(this.file+'.tmp',payload,{mode:0o600});await rename(this.file+'.tmp',this.file);});await this.writes;}
  private status(message:string){if(this.state.treasury)this.state.treasury.status=message;}
  private async settle(){
   const p=this.journal.pending;if(!p)return 0;
   const tx=await rpc('getTransaction',[p.signature,{encoding:'json',commitment:'finalized',maxSupportedTransactionVersion:0}]);
   if(!tx){const status=await rpc('getSignatureStatuses',[[p.signature],{searchTransactionHistory:true}]);const height=await rpc('getBlockHeight',[{commitment:'finalized'}]);
-   if(!status.value[0]&&height>p.lastValidBlockHeight+150){this.emit('ORDER_EXPIRED','Unconfirmed order expired without a receipt.',p.intent.deskId);this.journal.pending=null;await this.persist();return 0;}
+   if(!status.value[0]&&height>p.lastValidBlockHeight+150){this.emit('ORDER_EXPIRED','Unconfirmed order expired without a receipt.',p.intent.deskId);if(p.intent.test&&this.journal.test){this.journal.test.phase='failed';this.journal.test.error='Transaction expired';}this.journal.pending=null;await this.persist();return 0;}
    this.status('Waiting for finalized transaction');return -1;
   }
   if(!tx.meta||!this.journal.expected)throw Error('Missing transaction accounting');
@@ -48,6 +49,12 @@ export class LiveEngine extends FloorEngine{
    this.emit('FILL',d.symbol+' '+p.intent.side+' confirmed on Solana.',d.id);
    this.state.tickets.unshift({id:this.state.events.at(-1)!.id,at:Date.now(),deskId:d.id,symbol:d.symbol,side:p.intent.side,usd,qty,price:usd/qty,paper:false,signature:p.signature});this.state.tickets=this.state.tickets.slice(0,500);d.state='ELATED';
   }
+  if(p.intent.test&&this.journal.test){const t=this.journal.test;
+   if(tx.meta.err){t.phase='failed';t.error='On-chain transaction failed';}
+   else if(p.intent.side==='BUY'){t.rawAcquired=(deltas.get(p.intent.mint)?.amount??0n).toString();t.buySignature=p.signature;if(t.phase!=='stopped')t.phase='sell';t.attempts=0;}
+   else{t.rawAcquired=(BigInt(t.rawAcquired)+(deltas.get(p.intent.mint)?.amount??0n)).toString();t.sellSignature=p.signature;t.phase=BigInt(t.rawAcquired)===0n?'complete':'failed';if(t.phase==='failed')t.error='Test stock balance not fully closed';}
+   this.journal.running=false;
+  }
   this.journal.receipts??=[];this.journal.receipts.push({signature:p.signature,at:Date.now(),failed:!!tx.meta.err,intent:p.intent});this.journal.expected=expected;this.journal.pending=null;await this.persist();return tx.slot;
  }
  async cycle(){
@@ -63,8 +70,10 @@ export class LiveEngine extends FloorEngine{
    this.lastError='';this.state.connected=true;
    if(process.env.KILL_SWITCH==='1')this.state.killed=true;
    if(this.state.nav<this.journal.highWater*(1-LIMITS.drawdownFraction)){this.state.killed=true;this.emit('CIRCUIT_BREAKER','Treasury drawdown reached 15%. Trading halted.');}
-   this.status(this.state.killed?'Trading halted':this.journal.mode==='shadow'?'Observing wallet · execution disabled':'Watching stock markets');
+   this.status(this.state.killed?'Trading halted':this.journal.mode==='shadow'?'Observing wallet · execution disabled':this.journal.running?'Automatic trading running':'Trading stopped · waiting for owner');
    await this.persist();
+   if(this.journal.test&&['buy','sell'].includes(this.journal.test.phase)){await this.testCycle(wallet,prices);return;}
+   if(this.journal.mode==='live'&&!automaticTradingAllowed(this.journal.running,this.state.killed,!!this.journal.pending,this.journal.test))return;
    if(this.stopRequested||this.state.killed||this.state.paused||Date.now()-this.journal.lastAttempt<LIMITS.intervalMs||this.journal.dailyTrades>=LIMITS.maxDailyTrades)return;
    const intent=this.propose(wallet,prices);if(!intent)return;
    this.journal.lastAttempt=Date.now();const d=this.state.desks.find(d=>d.id===intent.deskId)!;d.state='PITCHING';d.lastThink=Date.now();this.emit('PITCH_MADE',d.symbol+': '+intent.side+' proposed from observed market prices.',d.id);
@@ -72,8 +81,8 @@ export class LiveEngine extends FloorEngine{
    d.forecasts.push(forecast);d.forecasts=d.forecasts.slice(-200);
    d.pitches.unshift({id:forecast.id,at:forecast.at,side:intent.side,conviction:5,usd:Number(intent.amount)/10**(intent.side==='BUY'?9:intent.decimals)*(intent.side==='BUY'?intent.solPrice:intent.tokenPrice),thesis:intent.side==='BUY'?'Small starter position or positive price momentum. Shared treasury limits apply.':'Reducing exposure after a gain, loss, or negative momentum.',bark:'Boss, check the tape!',decision:this.executor?'VALIDATING':'OBSERVE',reason:this.executor?'Awaiting quote and transaction checks.':'Wallet preview does not execute orders.',forecast,violations:[]});d.pitches=d.pitches.slice(0,100);await this.persist();
    if(!this.executor){this.emit('PITCH_APPROVED',d.symbol+': observation only; no order signed or sent.',d.id);await this.persist();return;}
-   const prepared=await this.executor.prepare(intent);
-   if(this.stopRequested||process.env.KILL_SWITCH==='1'||this.state.killed)return;
+   const revision=this.journal.controlRevision;const prepared=await this.executor.prepare(intent);
+   if(this.stopRequested||process.env.KILL_SWITCH==='1'||this.state.killed||!this.journal.running||revision!==this.journal.controlRevision)return;
    this.journal.pending=prepared.pending;this.journal.dailyTrades++;this.status('Transaction pending');this.state.treasury!.pendingSignature=prepared.pending.signature;
    this.emit('ORDER_SENT',d.symbol+': submitting validated Solana swap.',d.id);
    // Durable intent precedes all network submission. A crashed process only reconciles this signature.
@@ -93,7 +102,7 @@ export class LiveEngine extends FloorEngine{
   if(old&&Math.abs(flow)>.01)this.emit('TREASURY_FLOW',(flow>=0?'Funding received: $':'Treasury withdrawal: $')+Math.abs(flow).toFixed(2)+'. Excluded from trading profit.');
   this.state.cash=wallet.lamports/1e9*solPrice;this.state.nav=this.state.cash+this.state.desks.reduce((v,d)=>v+d.qty*d.price,0);this.state.openNav=this.journal.netFundingUsd;
   this.journal.highWater=Math.max(this.journal.highWater,this.state.nav);this.journal.expected=wallet;
-  this.state.treasury={wallet:this.journal.owner,sol:wallet.lamports/1e9,availableSol:buyingBudget(wallet.lamports)/1e9,netFundingUsd:this.journal.netFundingUsd,pnlUsd:this.state.nav-this.journal.netFundingUsd,updatedAt:Date.now(),status:'Connected'};
+  this.state.treasury={wallet:this.journal.owner,sol:wallet.lamports/1e9,availableSol:buyingBudget(wallet.lamports)/1e9,netFundingUsd:this.journal.netFundingUsd,pnlUsd:this.state.nav-this.journal.netFundingUsd,updatedAt:Date.now(),status:'Connected',tradingEnabled:this.journal.running===true,testStatus:this.journal.test?.phase};
   this.state.curve.push({at:Date.now(),nav:this.state.nav-this.journal.netFundingUsd});this.state.curve=this.state.curve.slice(-240);
  }
  private propose(wallet:Wallet,prices:Record<string,Price>):Intent|undefined{
@@ -108,6 +117,55 @@ export class LiveEngine extends FloorEngine{
    if(!Number.isSafeInteger(units)||units<=0||valueSol<LIMITS.minTradeLamports/1e9)continue;
    return {deskId:d.id,side:sell?'SELL':'BUY',mint:stock.mint,amount:String(units),decimals:p.decimals,solPrice:prices[SOL].usdPrice,tokenPrice:p.usdPrice*(p.multiplier??1),multiplier:p.multiplier??1,at:Date.now()};
   }
+ }
+ public controlStatus(){return {wallet:this.journal.owner,mode:this.journal.mode,running:this.journal.running===true,killed:this.state.killed,pending:this.journal.pending?.signature??null,sol:this.state.treasury?.sol??null,test:this.journal.test??null,testBudgetSol:TEST_BUDGET_LAMPORTS/1e9,testReservedSol:(this.journal.testReservedLamports??0)/1e9};}
+ public async control(action:string,wallet?:string,confirmation?:string){
+  if(action==='status')return this.controlStatus();
+  if(this.controlling)throw Error('Another owner command is being saved');this.controlling=true;
+  try{
+   if(wallet!==this.journal.owner)throw Error('Owner command wallet mismatch');
+   if(action==='stop'){this.journal.running=false;if(this.journal.test&&['buy','sell'].includes(this.journal.test.phase))this.journal.test.phase='stopped';}
+   else if(action==='start'){
+    if(confirmation!=='START_TRADING')throw Error('Explicit start confirmation required');
+    if(!this.executor||this.journal.mode!=='live')throw Error('Signing capability is not configured');
+    if(this.journal.pending||this.journal.test&&['buy','sell'].includes(this.journal.test.phase))throw Error('Wait for the test or pending transaction');
+    if(process.env.KILL_SWITCH==='1')throw Error('Railway kill switch is active');
+    if(this.state.killed)throw Error('Risk halt is latched; investigate before resetting it');
+    this.journal.running=true;
+   }else if(action==='test'){
+    if(confirmation!=='TEST_ONLY')throw Error('Explicit test confirmation required');
+    if(!this.executor||this.journal.mode!=='live')throw Error('Signing capability is not configured');
+    if(this.journal.running||this.journal.pending)throw Error('Stop automatic trading and wait for pending transactions first');
+    if(this.state.killed||process.env.KILL_SWITCH==='1')throw Error('Risk halt is active');
+    if(this.journal.test&&['buy','sell','complete'].includes(this.journal.test.phase))return this.controlStatus();
+    const expected=this.journal.expected;if(!expected||!this.state.treasury||Date.now()-this.state.treasury.updatedAt>90_000)throw Error('Wait for a fresh wallet balance');
+    if(expected.lamports<LIMITS.reserveLamports+TEST_BUY_LAMPORTS+2*(LIMITS.maxFeeLamports+LIMITS.maxRentLamports))throw Error('Insufficient balance for test and reserve');
+    if(this.journal.test){if(BigInt(this.journal.test.rawAcquired)>0n){this.journal.test.phase='sell';this.journal.test.attempts=0;this.journal.test.lastAttempt=0;}else throw Error('Previous test ended; inspect it before another buy');}
+    else this.journal.test={phase:'buy',startedAt:Date.now(),floorLamports:Math.max(LIMITS.reserveLamports,expected.lamports-TEST_BUDGET_LAMPORTS),reservedLamports:0,rawAcquired:'0',attempts:0,lastAttempt:0};
+    this.journal.running=false;
+   }else throw Error('Unknown owner command');
+   this.journal.controlRevision=(this.journal.controlRevision??0)+1;
+   if(this.state.treasury){this.state.treasury.tradingEnabled=this.journal.running===true;this.state.treasury.testStatus=this.journal.test?.phase;this.state.treasury.status=this.journal.running?'Automatic trading running':action==='test'?'Bounded test requested':'Trading stopped · waiting for owner';}
+   this.emit('OWNER_CONTROL',action==='start'?'Owner started automatic trading.':action==='test'?'Owner requested a bounded test buy and sell.':'Owner stopped trading.');
+   await this.persist();return this.controlStatus();
+  }finally{this.controlling=false;}
+ }
+ private async testCycle(wallet:Wallet,prices:Record<string,Price>){
+  const t=this.journal.test!;if(this.stopRequested||this.state.killed||this.state.paused||process.env.KILL_SWITCH==='1'||!this.executor||this.journal.pending)return;
+  this.status('Test '+t.phase+' · automatic trading off');
+  if(Date.now()-t.lastAttempt<30_000)return;
+  if(t.attempts>=6){t.phase='failed';t.error='Test stopped after six rejected quotes';await this.persist();return;}
+  const stock=STOCKS[0],p=prices[stock.mint];if(!freshPrice(p,wallet.slot))return;
+  const revision=this.journal.controlRevision,phase=t.phase,side=phase==='buy'?'BUY':'SELL';
+  const intent:Intent={deskId:stock.deskId,mint:stock.mint,side,amount:side==='BUY'?String(TEST_BUY_LAMPORTS):t.rawAcquired,decimals:p.decimals,solPrice:prices[SOL].usdPrice,tokenPrice:p.usdPrice*(p.multiplier??1),multiplier:p.multiplier,at:Date.now(),test:true,minNativeBalanceLamports:t.floorLamports,maxNativeSpendLamports:(side==='BUY'?TEST_BUY_LAMPORTS:0)+LIMITS.maxFeeLamports+LIMITS.maxRentLamports};
+  if((this.journal.testReservedLamports??0)+intent.maxNativeSpendLamports!>TEST_BUDGET_LAMPORTS){t.phase='failed';t.error='Cumulative test budget exhausted';await this.persist();return;}
+  t.attempts++;t.lastAttempt=Date.now();await this.persist();
+  try{const prepared=await this.executor.prepare(intent);
+   if(this.stopRequested||this.state.killed||process.env.KILL_SWITCH==='1'||revision!==this.journal.controlRevision||t.phase!==phase||this.journal.running)return;
+   this.journal.testReservedLamports=(this.journal.testReservedLamports??0)+intent.maxNativeSpendLamports!;t.reservedLamports+=intent.maxNativeSpendLamports!;
+   this.journal.pending=prepared.pending;this.state.treasury!.pendingSignature=prepared.pending.signature;this.emit('ORDER_SENT',stock.symbol+': bounded test '+side+' submitted.',stock.deskId);
+   await this.persist();await this.executor.submit(prepared);
+  }catch(e){t.error=(e as Error).message;this.emit('RISK_BLOCK','Test blocked: '+t.error,stock.deskId);await this.persist();}
  }
  override command(action:string){if(action==='pause')this.state.paused=!this.state.paused;else if(action==='kill')this.state.killed=!this.state.killed;else throw Error('Simulation commands are disabled for a real wallet');}
 }
