@@ -80,3 +80,6 @@ Eight five-beat stories have two voiced scripts each (80 new clips): printer rev
 Stories are cosmetic, per-viewer presentations of the shared fictional account. They do not modify positions, cash, or trades. Recurring adjacent-desk rivalries and performance-sensitive casting pick the characters. Tabs, hidden pages, and simulation pause freeze story time; the principal cutaway has priority. Cinema view and the director camera are optional. Dragging the room releases the director camera. Escape exits cinema view.
 
 Edit packages/core/show-scenes.json and run scripts/build_show_audio.ps1 to rebuild the story voices. Local rehearsal controls preview each story. Browser verification: node scripts/show-check.mjs; automatic audience story checks: node scripts/show-audience-check.mjs. Full scripts and their text captions work with sound muted. New props are original procedural Three.js geometry.
+
+
+Wallet-backed stock trading is available as an opt-in mode. See [LIVE_TRADING.md](LIVE_TRADING.md) for read-only preview, signing configuration, budget rules, and launch checks. The default demo remains unsigned.

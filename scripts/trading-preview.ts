@@ -1,0 +1,12 @@
+import {existsSync} from 'node:fs';
+import {Executor} from '../packages/live/executor';
+import {readPrices,readWallet,freshPrice} from '../packages/live/market';
+import {STOCKS,SOL,buyingBudget} from '../packages/live/config';
+if(existsSync('.env.local'))process.loadEnvFile('.env.local');
+const owner=process.env.CREATOR_WALLET;if(!owner)throw Error('Configure the public CREATOR_WALLET first');
+const stock=STOCKS.find(s=>s.symbol.toLowerCase()===(process.argv[2]??'NVDAx').toLowerCase());if(!stock)throw Error('Choose an allowlisted xStock symbol');
+const [prices,wallet]=await Promise.all([readPrices(),readWallet(owner)]),p=prices[stock.mint];
+if(!freshPrice(p,wallet.slot)||!freshPrice(prices[SOL],wallet.slot))throw Error('Fresh prices are required');
+if(buyingBudget(wallet.lamports)<17_000_000)throw Error('Insufficient wallet balance for the 0.01 SOL preview plus account costs and reserve');
+await new Executor(owner).preview({deskId:stock.deskId,side:'BUY',mint:stock.mint,amount:'10000000',decimals:p.decimals,solPrice:prices[SOL].usdPrice,tokenPrice:p.usdPrice*(p.multiplier??1),multiplier:p.multiplier,at:Date.now()});
+console.log(JSON.stringify({wallet:owner,stock:stock.symbol,inputSol:.01,validated:true,signed:false,submitted:false}));

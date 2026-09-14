@@ -6,17 +6,21 @@
     "worker": "tsx apps/floor-worker/index.ts",
     "build": "next build",
     "start": "node scripts/start.mjs",
-    "test": "tsx --test tests/core.test.ts tests/dialogue.test.ts tests/choreography.test.ts tests/board.test.ts tests/cutaway.test.ts tests/show.test.ts",
+    "test": "tsx --test tests/core.test.ts tests/dialogue.test.ts tests/choreography.test.ts tests/board.test.ts tests/cutaway.test.ts tests/show.test.ts tests/live.test.ts",
     "preflight": "node scripts/preflight.mjs",
     "assets:build": "\"C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe\" --background --python scripts/build_assets.py",
     "dev:all": "node scripts/dev.mjs",
     "db:migrate": "tsx packages/db/migrate.ts",
-    "start:web": "next start -p 3100"
+    "start:web": "next start -p 3100",
+    "trading:preview": "tsx scripts/trading-preview.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.0",
     "@react-three/fiber": "^9.3.0",
     "@solana/addresses": "^8.3.0",
+    "@solana/transaction-messages": "^8.3.0",
+    "@solana/transactions": "^8.3.0",
+    "bs58": "^6.0.0",
     "drizzle-orm": "^0.45.2",
     "next": "^15.5.0",
     "postgres": "^3.4.7",
