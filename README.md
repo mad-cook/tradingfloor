@@ -1,6 +1,6 @@
 # The Floor
 
-Original low-poly trading-floor rehearsal built with Next.js, React Three Fiber, a separate Node worker, and Blender-generated assets.
+Original low-poly trading-floor entertainment simulation built with Next.js, React Three Fiber, a separate Node worker, and Blender-generated assets.
 
 ## Run locally
 
@@ -44,22 +44,13 @@ node scripts/browser-check.mjs
 npm run preflight
 ```
 
-Browser verification requires the local viewer/worker and installed Chrome. Screenshots and public-endpoint observations are under `reports/`. Current suite: 39 passing core, dialogue, choreography, and board tests. The first measured desktop scene rendered about 119 fps, 39 draw calls, and 19,576 triangles in local headless Chrome; this is not a cross-device performance guarantee.
+Browser verification requires the local viewer/worker and installed Chrome. Screenshots and public-endpoint observations are under `reports/`. The automated suite covers the account simulation, dialogue, choreography, public board, principal cutaway, and office stories. The first measured desktop scene rendered about 119 fps, 39 draw calls, and 19,576 triangles in local headless Chrome; this is not a cross-device performance guarantee.
 
-## Production gates — not complete
+## Launch scope: entertainment
 
-The initial delivery is a working rehearsal, **not the complete live-trading specification**.
+The simulated market is the product premise, not a temporary trading integration. No real-money execution or model-provider integration is required to launch this show. The public token/wallet board remains a separate read-only connection. See [launch plan](docs/LAUNCH_PLAN.md) for hosting and public-release work.
 
-1. Provide the Quant Riku project location and the missing Mirror companion document if integration/reuse is desired.
-2. Configure model, Jupiter, and RPC connections. Verify the complete issuer registry, metadata, real executable quotes, scaled UI balance accounting, and benchmark route. The demo roster is a fixture, not a validated execution universe.
-3. Wire the real-market paper engine to the tested price/market-hours adapters, strict model adapter, allocation batching, and quote conversion. Those adapters exist but are not invoked by the rehearsal engine.
-4. Complete M0 model latency/reliability, RPC throughput, and production voice-provider checks. The public registry, price, and market-hours endpoints responded successfully during initial preflight.
-5. Complete normalized Postgres persistence, continuous-session scheduling, authenticated operator controls, monitoring, and deployment configuration.
-6. Implement and verify the live transaction signing/confirmation path only after explicit treasury authorization. No private key or live signer is present. `PAPER=0` fails closed.
-7. Implement the real ticket-to-Solscan path, non-custodial copy-desk, eligibility gating, and the full hiring walk choreography. No fake transaction hashes or wallet actions are shown.
-
-The attachment is preserved in `docs/BUILD_SPEC.md` as a reference. Its embedded instructions to purchase services or execute trades do not grant authorization. No purchases or real trades were made.
-
+The original build specification is retained in docs/BUILD_SPEC.md as historical reference. Its financial-execution milestones are outside the current entertainment scope.
 
 ## Rebuild the audio bank
 
@@ -82,3 +73,10 @@ Local rehearsal controls include **Preview principal cutaway** (sound follows th
 Automatic playback is enabled only with `BOARD_MODE=project`: two fresh readings at least 35% below the observed 15-minute market-cap peak, with a ten-minute cooldown. Invalid/stale readings and duplicate samples cannot trigger it. The monitor lives in the web process and resets on restart; one Railway replica is required. Test-token mode is manual only.
 
 Rebuild cinematic props with `scripts/build_cutaway_assets.py` in Blender, and voices with `scripts/build_cutaway_audio.ps1` on Windows. `node scripts/cutaway-check.mjs` rehearses the complete scene against the running local app.
+
+## Office stories
+Eight five-beat stories have two voiced scripts each (80 new clips): printer revolt, premature victory, desk rivalry, surprise audit, IT outage, hotline meltdown, coffee crisis, and mandatory motivation. The director starts after seven visible seconds, then allows 18–32 seconds of ordinary office activity between stories. Recent stories are avoided. Backing, doubting, and chaos reactions bias the next story family; incoming votes never interrupt a scene already playing.
+
+Stories are cosmetic, per-viewer presentations of the shared fictional account. They do not modify positions, cash, or trades. Recurring adjacent-desk rivalries and performance-sensitive casting pick the characters. Tabs, hidden pages, and simulation pause freeze story time; the principal cutaway has priority. Cinema view and the director camera are optional. Dragging the room releases the director camera. Escape exits cinema view.
+
+Edit packages/core/show-scenes.json and run scripts/build_show_audio.ps1 to rebuild the story voices. Local rehearsal controls preview each story. Browser verification: node scripts/show-check.mjs; automatic audience story checks: node scripts/show-audience-check.mjs. Full scripts and their text captions work with sound muted. New props are original procedural Three.js geometry.

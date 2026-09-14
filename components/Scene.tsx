@@ -1,4 +1,7 @@
 'use client';
+import ShowEffects from './ShowEffects';
+import {showClock} from './ShowDirector';
+import {definition,showSpeaker} from '@/packages/core/show';
 import CutawayCast from './CutawayCast';
 import {OfficeBoard} from './Board';
 import {Canvas,useFrame,useThree} from '@react-three/fiber';
@@ -13,7 +16,7 @@ import {useChoreography} from './useChoreography';
 const seats=SEATS;
 function Asset({path,position=[0,0,0],rotation=0,scale=1}:{path:string;position?:[number,number,number];rotation?:number;scale?:number}){const {scene}=useGLTF(path);const object=useMemo(()=>scene.clone(true),[scene]);return <primitive object={object} position={position} rotation-y={rotation} scale={scale}/>;}
 function Analyst({desk,position,boss=false,cue,clock,visit,paused=false}:{desk?:Desk;position:[number,number,number];boss?:boolean;cue?:Cue;clock:React.RefObject<number>;visit?:Visit|null;paused?:boolean}){
- const generation=useFloor(s=>s.principalNumber);const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??(generation%2?'#354c65':'#75466d'));for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color,generation]);const {actions,mixer}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===(desk?.id??'principal')));const event=voice??floorEvent;
+ const show=useFloor(s=>s.show),showBeat=useFloor(s=>s.showBeat);const generation=useFloor(s=>s.principalNumber);const {scene,animations}=useGLTF('/models/analyst.glb');const ref=useRef<THREE.Group>(null);const character=useMemo(()=>{const object=clone(scene);object.traverse(node=>{if(node instanceof THREE.Mesh){node.geometry=node.geometry.clone();const colors=node.geometry.getAttribute('color');if(colors){const jacket=new THREE.Color(desk?.color??(generation%2?'#354c65':'#75466d'));for(let i=0;i<colors.count;i++){const r=colors.getX(i),g=colors.getY(i),b=colors.getZ(i);if(r>g*2&&g>b*1.6)colors.setXYZ(i,jacket.r,jacket.g,jacket.b);}colors.needsUpdate=true;}}});return object;},[scene,desk?.color,generation]);const {actions,mixer}=useAnimations(animations,ref);const floorEvent=useFloor(s=>s.event);const voice=useFloor(s=>s.voices.find(v=>v.deskId===(desk?.id??'principal')));const event=voice??floorEvent;
  const [clip,setClip]=useState('idle');const [forced,setForced]=useState<string|null>(null);const forcedRef=useRef<string|null>(null);const posture=useRef<THREE.Group>(null);
  const audience=useFloor(s=>s.audience);const board=useFloor(s=>s.board);const marketPressure=Boolean(board?.token.at&&Date.now()-board.token.at<90000&&(board.token.change24h??0)<-5);const mood=desk?deskMood(desk):marketPressure?'strained':'neutral';const playClip=forced??clip;
  useEffect(()=>{mixer.timeScale=paused?0:1;},[mixer,paused]);
@@ -55,36 +58,41 @@ function Analyst({desk,position,boss=false,cue,clock,visit,paused=false}:{desk?:
  useFrame((_,delta)=>{
   if(!ref.current||paused)return;const now=clock.current;const active=cue&&now>=cue.start&&now<cue.end?cue:null;
   let desired:string|null=active?.kind==='celebrate'||active?.kind==='object'?'standYell':active?.kind==='reprimand'?'deskSlam':active?.kind==='tangle'?'phone':active?.kind==='coffee'?'deskSlam':null;
+  const story=show?definition(show.kind):null,speaker=show?showSpeaker(show,showBeat):null;
+  const myId=desk?.id??'principal',isSpeaker=speaker===myId;
+  if(story){const gesture=isSpeaker?story.beats[showBeat].gesture:story.effect==='phones'&&!boss&&showClock.elapsed>(desk?.seed??0)*180?'phone':story.effect==='coffee'&&!boss&&((desk?.seed??0)+showBeat)%3===0?'coffee':story.effect==='confetti'&&!boss&&showBeat>1?'celebrate':story.effect==='meeting'&&!boss&&showBeat>1?'slump':'look';desired=gesture==='phone'?'phone':gesture==='object'||gesture==='celebrate'?'standYell':gesture==='coffee'?'deskSlam':'idle';}
   let heading=Math.PI,walkPosition:[number,number,number]|null=null;
-  if(boss&&visit){
-   const elapsed=now-visit.start,path=bossPath(visit.index);
+  const liveVisit=show?.kind==='audit'?{index:useFloor.getState().snapshot?.desks.findIndex(d=>d.id===show.lead)??0,start:0}:visit;
+  if(boss&&liveVisit){
+   const elapsed=show?.kind==='audit'?showClock.elapsed:now-liveVisit.start,path=bossPath(liveVisit.index);
    if(elapsed<8500){const sample=samplePath(path,elapsed/8500);walkPosition=sample.position;heading=sample.heading;desired='walk';}
-   else if(elapsed<14500){walkPosition=path[path.length-1];heading=visit.index%4===3?Math.PI/2:-Math.PI/2;desired='standYell';}
+   else if(elapsed<14500){walkPosition=path[path.length-1];heading=liveVisit.index%4===3?Math.PI/2:-Math.PI/2;desired='standYell';}
    else{const sample=samplePath([...path].reverse(),(elapsed-14500)/8500);walkPosition=sample.position;heading=sample.heading;desired='walk';}
   }else if(active&&(active.kind==='look'||active.kind==='object')){
    const source=SEATS[desk?.seed??0],target=SEATS[active.target];heading=Math.atan2(target[0]-source[0],target[2]-source[2]);
   }else if(voice?.kind==='BANTER')heading+=((desk?.seed??0)%2?-.65:.65);
-  if(boss&&!visit&&audience.at&&Date.now()-audience.at<8000){desired=audience.last==='doubt'?'deskSlam':'standYell';heading=0;}
+  if(show&&!(boss&&liveVisit)){const cast=useFloor.getState().snapshot?.desks;const targetId=isSpeaker?(myId===show.lead?show.rival:show.lead):speaker;const targetIndex=cast?.findIndex(d=>d.id===targetId)??-1;const target=targetId==='principal'?[0,0,-2.89]:SEATS[targetIndex];const source=boss?[0,0,-2.89]:SEATS[desk?.seed??0];if(target&&source)heading=Math.atan2(target[0]-source[0],target[2]-source[2]);}
+  if(boss&&!show&&!visit&&audience.at&&Date.now()-audience.at<8000){desired=audience.last==='doubt'?'deskSlam':'standYell';heading=0;}
   if(desired!==forcedRef.current){forcedRef.current=desired;setForced(desired);}
-  if(boss){const p=walkPosition??position;ref.current.position.set(...p);}
+  if(boss){const p=walkPosition??position;ref.current.position.set(...p);}else{const bounce=story?.effect==='confetti'&&showBeat>1?Math.max(0,Math.sin(showClock.elapsed/180+(desk?.seed??0)*1.4))*.10:0;ref.current.position.y=position[1]+bounce;}
   ref.current.rotation.y=THREE.MathUtils.damp(ref.current.rotation.y,heading,6,delta);
-  if(posture.current){const tilt=desired?0:mood==='strained'?-.13:mood==='confident'?.055:0;posture.current.rotation.x=THREE.MathUtils.damp(posture.current.rotation.x,tilt,3,delta);}
-  ref.current.userData.mood=mood;ref.current.userData.cue=active?.kind??null;ref.current.userData.visiting=Boolean(boss&&visit);ref.current.userData.posture=posture.current?.rotation.x??0;
+  if(posture.current){const tilt=story?.effect==='meeting'&&!boss&&showBeat>1?-.25:desired?0:mood==='strained'?-.13:mood==='confident'?.055:0;posture.current.rotation.x=THREE.MathUtils.damp(posture.current.rotation.x,tilt,3,delta);}
+  ref.current.userData.story=show?.kind??null;ref.current.userData.speaking=isSpeaker;ref.current.userData.mood=mood;ref.current.userData.cue=active?.kind??null;ref.current.userData.visiting=Boolean(boss&&visit);ref.current.userData.posture=posture.current?.rotation.x??0;
  });
- return <group ref={ref} position={position} rotation-y={Math.PI} scale={boss?1.08:1}><group ref={posture} position={[0,.72,0]}><primitive object={character} position={[0,-.72,0]}/></group>{boss&&(voice||visit||(audience.at&&Date.now()-audience.at<8000))&&<Html position={[0,2.7,0]} center zIndexRange={[22,22]}><div className="voice-bubble boss-bubble"><b>THE PRINCIPAL</b><span>{voice?.text??(visit?"Risk review. At your desk.":audience.last==='doubt'?"The gallery wants answers!":audience.last==='chaos'?"You heard them. Wake this floor up!":"The gallery is backing us. Stay sharp!")}</span></div></Html>}</group>;
+ return <group ref={ref} position={position} rotation-y={Math.PI} scale={boss?1.08:1}><group ref={posture} position={[0,.72,0]}><primitive object={character} position={[0,-.72,0]}/></group>{boss&&!show&&(voice||visit||(audience.at&&Date.now()-audience.at<8000))&&<Html position={[0,2.7,0]} center zIndexRange={[22,22]}><div className="voice-bubble boss-bubble"><b>THE PRINCIPAL</b><span>{voice?.text??(visit?"Risk review. At your desk.":audience.last==='doubt'?"The gallery wants answers!":audience.last==='chaos'?"You heard them. Wake this floor up!":"The gallery is backing us. Stay sharp!")}</span></div></Html>}</group>;
 }
 
 function DeskProps({desk,cue,clock}:{desk:Desk;cue?:Cue;clock:React.RefObject<number>}){
- const cup=useRef<THREE.Group>(null),papers=useRef<THREE.InstancedMesh>(null);
+ const show=useFloor(s=>s.show);const cup=useRef<THREE.Group>(null),papers=useRef<THREE.InstancedMesh>(null);
  const cord=useMemo(()=>{const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(64*3),3));return new THREE.Line(geometry,new THREE.LineBasicMaterial({color:'#11191b'}));},[]);
  useEffect(()=>()=>{cord.geometry.dispose();(cord.material as THREE.Material).dispose();},[cord]);
  const count=Math.min(18,desk.pitches.length+desk.ordersToday);
  useEffect(()=>{if(!papers.current)return;const matrix=new THREE.Matrix4(),q=new THREE.Quaternion();for(let i=0;i<count;i++){q.setFromAxisAngle(new THREE.Vector3(0,1,0),Math.sin(i*3+desk.seed)*.25);matrix.compose(new THREE.Vector3(-.55+Math.sin(i*7)*.04,.962+i*.007,.06+Math.cos(i*2)*.035),q,new THREE.Vector3(1,1,1));papers.current.setMatrixAt(i,matrix);}papers.current.count=count;papers.current.instanceMatrix.needsUpdate=true;},[count,desk.seed]);
  useFrame(()=>{
-  const t=cue?(clock.current-cue.start)/1000:-1,active=t>=0&&clock.current<(cue?.end??0);
-  const rescue=active&&cue?.kind==='coffee'?Math.sin(Math.min(1,t/4.4)*Math.PI):0;
+  const t=show?showClock.elapsed/1000:cue?(clock.current-cue.start)/1000:-1,active=t>=0&&clock.current<(cue?.end??0);
+  const rescue=show?.kind==='coffee'?Math.max(0,Math.sin(showClock.elapsed/650+desk.seed*1.7))*.85:active&&cue?.kind==='coffee'?Math.sin(Math.min(1,t/4.4)*Math.PI):0;
   if(cup.current){cup.current.position.set(.30+rescue*.18,.945-rescue*.012,.24);cup.current.rotation.z=-rescue*.88;cup.current.userData={deskProp:desk.id,rescue,paperCount:count,tangled:Boolean(active&&cue?.kind==='tangle')};}
-  cord.visible=Boolean(active&&cue?.kind==='tangle');
+  cord.visible=Boolean(active&&cue?.kind==='tangle')||show?.kind==='phones';
   if(cord.visible){const attribute=cord.geometry.getAttribute('position') as THREE.BufferAttribute;for(let i=0;i<64;i++){const u=i/63;attribute.setXYZ(i,.61-u*.22+Math.sin(u*35+t*4)*.027,1.0+Math.sin(u*Math.PI)*(.28+.10*Math.sin(t*3)),.23+u*.25+Math.cos(u*35)*.035);}attribute.needsUpdate=true;cord.geometry.computeBoundingSphere();}
  });
  return <><group ref={cup} position={[.30,.945,.24]}><Asset path="/models/coffee.glb"/></group><primitive object={cord} visible={false}/><instancedMesh ref={papers} args={[undefined,undefined,18]}><boxGeometry args={[.24,.005,.17]}/><meshStandardMaterial color="#d8cfaf"/></instancedMesh>{cue&&['coffee','tangle'].includes(cue.kind)&&<Html position={[.3,1.9,.6]} center zIndexRange={[12,11]}><div className="mishap-note">{cue.kind==='coffee'?'SAVE THE COFFEE!':'WHO TANGLED THIS?'}</div></Html>}</>;
@@ -102,10 +110,11 @@ function DeskModel({desk,index,cue,clock,paused}:{desk:Desk;index:number;cue?:Cu
  </group>;
 }
 function CameraRig(){
+ const show=useFloor(s=>s.show),beat=useFloor(s=>s.showBeat),spotlight=useFloor(s=>s.spotlight);
  const controls=useRef<any>(null);const selected=useFloor(s=>s.selected);const cutaway=useFloor(s=>s.cutaway);const camera=useThree(s=>s.camera);const size=useThree(s=>s.size);useEffect(()=>{if(camera instanceof THREE.PerspectiveCamera){camera.fov=size.width<700?65:40;camera.updateProjectionMatrix();}},[camera,size.width]);const destination=useRef(new THREE.Vector3(12,11,14));const target=useRef(new THREE.Vector3(0,0,0));const moving=useRef(false);
- useEffect(()=>{const index=useFloor.getState().snapshot?.desks.findIndex(d=>d.id===selected)??-1;const p=seats[index];if(cutaway&&(cutaway.phase==='panic'||cutaway.phase==='draw')){destination.current.set(4.5,4.5,3);target.current.set(0,1,-2.8);}else if(cutaway&&['blackout','aftermath','cleaner'].includes(cutaway.phase)){destination.current.set(3.5,10,-.2);target.current.set(.7,0,-2.3);}else if(cutaway){destination.current.set(10,11,3);target.current.set(2,.3,-.5);}else if(p&&!cutaway){destination.current.set(p[0]+3.3,3.4,p[2]+4.3);target.current.set(p[0],.9,p[2]);}else{destination.current.set(12,11,14);target.current.set(0,.3,0);}moving.current=true;},[selected,cutaway?.phase]);
+ useEffect(()=>{if(!spotlight&&!cutaway&&!selected){moving.current=false;return;}const index=useFloor.getState().snapshot?.desks.findIndex(d=>d.id===selected)??-1;const p=seats[index];const speaker=show?showSpeaker(show,beat):null;const actorIndex=useFloor.getState().snapshot?.desks.findIndex(d=>d.id===speaker)??-1;const focus=speaker==='principal'&&show?.kind==='audit'&&beat>0?seats[useFloor.getState().snapshot?.desks.findIndex(d=>d.id===show.lead)??0]:speaker==='principal'?[0,0,-2.89]:seats[actorIndex];if(cutaway&&(cutaway.phase==='panic'||cutaway.phase==='draw')){destination.current.set(4.5,4.5,3);target.current.set(0,1,-2.8);}else if(cutaway&&['blackout','aftermath','cleaner'].includes(cutaway.phase)){destination.current.set(3.5,10,-.2);target.current.set(.7,0,-2.3);}else if(cutaway){destination.current.set(10,11,3);target.current.set(2,.3,-.5);}else if(show&&spotlight&&!selected&&['printer','phones'].includes(show.kind)){destination.current.set(11,9,12);target.current.set(1.8,.5,1.7);}else if(show&&spotlight&&!selected&&focus){destination.current.set(focus[0]+5,5.8,focus[2]+6);target.current.set(focus[0],1,focus[2]+.5);}else if(p&&!cutaway){destination.current.set(p[0]+3.3,3.4,p[2]+4.3);target.current.set(p[0],.9,p[2]);}else{destination.current.set(12,11,14);target.current.set(0,.3,0);}moving.current=true;},[selected,cutaway?.phase,show?.id,beat,spotlight]);
  useFrame((_,delta)=>{if(moving.current&&controls.current){camera.position.lerp(destination.current,1-Math.exp(-delta*3));controls.current.target.lerp(target.current,1-Math.exp(-delta*3));if(camera.position.distanceTo(destination.current)<.03)moving.current=false;controls.current.update();}});
- return <OrbitControls ref={controls} enablePan={false} minDistance={3} maxDistance={23} maxPolarAngle={Math.PI*.47} minPolarAngle={.2} autoRotate={!selected&&!cutaway&&!moving.current} autoRotateSpeed={.12}/>;
+ return <OrbitControls onStart={()=>{moving.current=false;useFloor.getState().setSpotlight(false);}} ref={controls} enablePan={false} minDistance={3} maxDistance={23} maxPolarAngle={Math.PI*.47} minPolarAngle={.2} autoRotate={!selected&&!cutaway&&!show&&spotlight&&!moving.current} autoRotateSpeed={.12}/>;
 }
 function ChoreographyClock({clock,running}:{clock:React.RefObject<number>;running:boolean}){useFrame((_,delta)=>{if(running&&!document.hidden)clock.current+=Math.min(delta,.1)*1000;});return null;}
 function Metrics(){const n=useRef(0);const elapsed=useRef(0);useFrame(({gl,scene},delta)=>{n.current++;elapsed.current+=delta;if(elapsed.current>2){const actors:any[]=[];const props:any[]=[];scene.traverse(o=>{if(o.userData.analyst||o.userData.cutawayActor)actors.push({...o.userData,position:o.getWorldPosition(new THREE.Vector3()).toArray()});if(o.userData.deskProp)props.push({...o.userData});});(window as any).__floorMetrics={actors,props,fps:Math.round(n.current/elapsed.current),drawCalls:gl.info.render.calls,triangles:gl.info.render.triangles};n.current=0;elapsed.current=0;}});return null;}
@@ -118,14 +127,14 @@ function PrinterTickets(){
  return <group ref={group} visible={false}>{[0,1,2].map(i=><mesh key={i}><planeGeometry args={[.24,.32]}/><meshStandardMaterial color="#e4d9b3" side={THREE.DoubleSide}/></mesh>)}</group>;
 }
 export default function Scene(){
- const cutaway=useFloor(s=>s.cutaway);const generation=useFloor(s=>s.principalNumber);const snapshot=useFloor(s=>s.snapshot);const floorEvent=useFloor(s=>s.event);const {state:choreo,clock}=useChoreography(snapshot?.desks??[],floorEvent,Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen&&!cutaway));
+ const show=useFloor(s=>s.show);const cutaway=useFloor(s=>s.cutaway);const generation=useFloor(s=>s.principalNumber);const snapshot=useFloor(s=>s.snapshot);const floorEvent=useFloor(s=>s.event);const {state:choreo,clock}=useChoreography(snapshot?.desks??[],floorEvent,Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen&&!cutaway&&!show));
  return <Canvas dpr={[1,1.5]} camera={{position:[12,11,14],fov:40}} gl={{antialias:true}}>
- <ChoreographyClock clock={clock} running={Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen&&!cutaway)}/><color attach="background" args={['#e8e1d4']}/><fog attach="fog" args={['#e8e1d4',24,44]}/>
- <ambientLight intensity={snapshot?.marketOpen ? 1.35 : .35}/><hemisphereLight args={['#e9e7ff','#3e3545',.65]}/><directionalLight position={[-5,9,3]} intensity={snapshot?.marketOpen?2:.6} color="#ffd5a0"/>
+ <ChoreographyClock clock={clock} running={Boolean(snapshot&&!snapshot.paused&&snapshot.marketOpen&&!cutaway&&!show)}/><color attach="background" args={['#e8e1d4']}/><fog attach="fog" args={['#e8e1d4',24,44]}/>
+ <ambientLight intensity={show?.kind==='outage'?.24:snapshot?.marketOpen ? 1.35 : .35}/><hemisphereLight args={['#e9e7ff','#3e3545',.65]}/><directionalLight position={[-5,9,3]} intensity={show?.kind==='outage'?.22:snapshot?.marketOpen?2:.6} color="#ffd5a0"/>
  <Suspense fallback={null}><Asset path="/models/room.glb"/>
  {snapshot?.desks.map((d,i)=><DeskModel key={d.id} desk={d} index={i} cue={choreo.cues[d.id]} clock={clock} paused={Boolean(snapshot?.paused)}/>)}
  <Asset path="/models/workstation.glb" position={[0,.12,-3.65]}/>{cutaway?<CutawayCast/>:<Analyst key={generation} position={[0,.12,-2.89]} boss clock={clock} visit={choreo.visit} paused={Boolean(snapshot?.paused)}/>}
- <PrinterTickets/><group position={[0,3.65,-4.95]}><mesh><boxGeometry args={[3.85,2.15,.16]}/><meshStandardMaterial color="#191923"/></mesh><Html transform distanceFactor={5.7} position={[0,0,.095]} zIndexRange={[4,0]}><OfficeBoard/></Html></group>
+ <ShowEffects/><PrinterTickets/><group position={[0,3.65,-4.95]}><mesh><boxGeometry args={[3.85,2.15,.16]}/><meshStandardMaterial color="#191923"/></mesh><Html transform distanceFactor={5.7} position={[0,0,.095]} zIndexRange={[4,0]}><OfficeBoard/></Html></group>
  <Html position={[0,2.75,-2.22]} center zIndexRange={[3,0]}><div className="office-sign">THE PRINCIPAL<span>CAPITAL ALLOCATION</span></div></Html>
  <Html position={[4.9,1.55,3.9]} center zIndexRange={[3,0]}><button className="printer-label" onClick={()=>window.dispatchEvent(new Event('open-blotter'))}>TRADE TICKETS ↗</button></Html>
  </Suspense><CameraRig/><Metrics/>

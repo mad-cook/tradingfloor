@@ -12,3 +12,5 @@ data/
 *.tsbuildinfo
 .voice-build/
 reports/cutaway-*
+
+reports/show-*

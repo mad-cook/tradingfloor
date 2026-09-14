@@ -1,5 +1,5 @@
 # Deploy The Floor
-The repository is prepared for one Railway service running the viewer and its private worker. This hosts the paper rehearsal plus real read-only public-board data. It does not enable real trading.
+The repository is prepared for one Railway service running the viewer and its private worker. This hosts the fictional trading-office show plus real read-only public-board data. Simulated trading is intentional; real trading is outside the entertainment launch scope.
 
 ## GitHub
 Remote: https://github.com/mad-cook/tradingfloor.git
@@ -50,4 +50,4 @@ GitHub Actions runs tests, a production build, and a Docker build. The repositor
 
 References: [Railway Dockerfiles](https://docs.railway.com/builds/dockerfiles), [Volumes](https://docs.railway.com/volumes), [Healthchecks](https://docs.railway.com/deployments/healthchecks), [GitHub credential management](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git).
 
-Local verification completed: 39 tests, production build, desktop/mobile browser checks, gallery/board checks, and isolated supervisor/persistence checks passed. Docker is not installed on this machine, so the actual Linux image build remains for GitHub Actions or Railway. No GitHub push or Railway deployment has been performed.
+Local verification completed: 47 tests, production build, desktop/mobile browser checks, gallery/board checks, and isolated supervisor/persistence checks passed. Docker is not installed on this machine, so the actual Linux image build remains for GitHub Actions or Railway. No GitHub push or Railway deployment has been performed.

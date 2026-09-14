@@ -1,3 +1,4 @@
+import {definition,showLine,showSpeaker,type ShowEpisode} from '@/packages/core/show';
 import type {FloorEvent} from '@/packages/core/types';
 import {useFloor} from './store';
 import {DialoguePicker,type DialogueLine} from './dialogue';
@@ -26,7 +27,7 @@ export class FloorSound{
  private bedStarted=false;
  private async startBed(){this.bedStarted=true;try{const b=await this.buffer('/vo/room-babble-v2.mp3');const source=this.context.createBufferSource();source.buffer=b;source.loop=true;this.bedGain=this.context.createGain();this.bedGain.gain.value=.22;source.connect(this.bedGain).connect(this.room);source.start();}catch{this.failures++;this.bedStarted=false;}}
  event(event:FloorEvent){
-  if(!this.enabled||this.quiet)return;
+  if(!this.enabled||this.quiet||useFloor.getState().show)return;
   const categories:Record<string,string>={PITCH_MADE:'pitch',PITCH_APPROVED:'approved',PITCH_TRIMMED:'trim',RISK_BLOCK:'risk',FILL:'fill',FORECAST_HIT:'hit',FORECAST_MISS:'miss'};
   if(event.kind==='FILL'){this.foley('printer');this.tone([880,1174],.18,.06);}
   if(event.kind==='PITCH_APPROVED'||event.kind==='PITCH_TRIMMED')this.foley('phone');
@@ -41,6 +42,7 @@ export class FloorSound{
  private tick(){
   const s=useFloor.getState().snapshot,now=performance.now();
   if(!this.enabled||this.quiet||document.hidden||!s||s.paused)return;
+  if(useFloor.getState().show){this.bedGain?.gain.setTargetAtTime(.10,this.context.currentTime,.3);this.debug();return;}
   if(now>=this.phaseUntil){this.intensity=this.intensity==='hum'?'rush':'hum';this.phaseUntil=now+(this.intensity==='rush'?11000+Math.random()*7000:18000+Math.random()*14000);}
   this.bedGain?.gain.setTargetAtTime(s.marketOpen?(this.intensity==='rush'?.3:.17):.035,this.context.currentTime,.6);
   if(now>=this.nextScene&&s.marketOpen&&Object.keys(this.manifest).length){
@@ -87,6 +89,20 @@ export class FloorSound{
   if(kind==='phone'){for(let i=0;i<3;i++)this.tone([440,480],.12,.045,i*.2);return;}
   const repeats=kind==='printer'?9:3;
   for(let j=0;j<repeats;j++){const length=kind==='printer'?.035:.012,buffer=this.context.createBuffer(1,Math.ceil(this.context.sampleRate*length),this.context.sampleRate);const samples=buffer.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=(Math.random()*2-1)*(1-i/samples.length);const source=this.context.createBufferSource();source.buffer=buffer;const g=this.context.createGain();g.gain.value=kind==='printer'?.06:.015;source.connect(g).connect(this.room);source.start(this.context.currentTime+j*.065);}
+ }
+ async showBeat(episode:ShowEpisode|null,beat:number){
+  if(!episode){this.epoch++;for(const source of this.cinemaSources)try{source.stop();}catch{};useFloor.getState().clearVoices();if(!this.quiet)this.room.gain.setTargetAtTime(1,this.context.currentTime,.15);return;}
+  if(!this.enabled||this.quiet)return;
+  const epoch=++this.epoch;this.queue=[];for(const source of this.sources)try{source.stop();}catch{};for(const source of this.cinemaSources)try{source.stop();}catch{};useFloor.getState().clearVoices();
+  this.room.gain.setTargetAtTime(.25,this.context.currentTime,.12);
+  if(beat===0)for(let i=0;i<5;i++)void this.buffer('/vo/show/'+episode.kind+'-'+i+'-'+episode.variant+'.mp3').catch(()=>{});
+  if(episode.kind==='printer')this.foley('printer');if(episode.kind==='phones')this.foley('phone');
+  try{const buffer=await this.buffer('/vo/show/'+episode.kind+'-'+beat+'-'+episode.variant+'.mp3');if(epoch!==this.epoch||!this.enabled||this.quiet||useFloor.getState().show?.id!==episode.id)return;
+   const source=this.context.createBufferSource(),gain=this.context.createGain(),pan=this.context.createStereoPanner();source.buffer=buffer;gain.gain.value=.8;
+   const speaker=showSpeaker(episode,beat),desk=useFloor.getState().snapshot?.desks.find(d=>d.id===speaker);pan.pan.value=desk?((desk.seed%4)/3-.5)*.8:0;
+   source.connect(gain).connect(pan).connect(this.master);this.cinemaSources.add(source);source.onended=()=>{this.cinemaSources.delete(source);useFloor.getState().removeVoice(speaker);};
+   useFloor.getState().addVoice({deskId:speaker,text:showLine(episode,beat),kind:'SHOW_CALL',id:Date.now()});source.start();this.played++;this.debug();
+  }catch{this.failures++;this.debug();}
  }
  private get quiet(){return ['panic','draw','blackout','suspended'].includes(this.cinemaPhase);}
  setCutaway(phase:string,elapsed=0){

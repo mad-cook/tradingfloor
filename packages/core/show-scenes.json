@@ -1,0 +1,386 @@
+[
+  {
+    "id": "printer",
+    "title": "THE PRINTER HAS POSITIONED ITSELF",
+    "tag": "OFFICE INCIDENT",
+    "effect": "paper",
+    "beats": [
+      {
+        "speaker": "lead",
+        "gesture": "object",
+        "lines": [
+          "Why is the printer screaming?",
+          "The printer has started printing my search history."
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "look",
+        "lines": [
+          "It saw your forecast.",
+          "Finally. Some useful research."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "object",
+        "lines": [
+          "I clicked print once! ONCE!",
+          "Unplug it before page seventeen!"
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "object",
+        "lines": [
+          "Nobody expense another forest!",
+          "Why does page seventeen have my name on it?"
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "celebrate",
+        "lines": [
+          "The printer is our most productive employee.",
+          "Promote the printer. It has receipts."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "victory",
+    "title": "A VERY PREMATURE VICTORY LAP",
+    "tag": "EGO EVENT",
+    "effect": "confetti",
+    "beats": [
+      {
+        "speaker": "lead",
+        "gesture": "celebrate",
+        "lines": [
+          "I am a financial genius!",
+          "Green! Somebody get my good angle!"
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "object",
+        "lines": [
+          "You made twelve cents.",
+          "Your entire position is four dollars."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "celebrate",
+        "lines": [
+          "Twelve cents more than your personality!",
+          "Four dollars with a VISION!"
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "celebrate",
+        "lines": [
+          "I already ordered the company yacht!",
+          "Excellent. Update my biography immediately."
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "slump",
+        "lines": [
+          "The yacht is an inflatable pool toy.",
+          "Your biography still says unpaid internship."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "blame",
+    "title": "THE BLAME TRANSFER DESK",
+    "tag": "RECURRING RIVALRY",
+    "effect": "rivalry",
+    "beats": [
+      {
+        "speaker": "lead",
+        "gesture": "object",
+        "lines": [
+          "Who copied my strategy?",
+          "Someone moved my stop loss!"
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "object",
+        "lines": [
+          "Nobody. We like having money.",
+          "It was on a sticky note."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "object",
+        "lines": [
+          "You are literally in my spreadsheet!",
+          "That was institutional research!"
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "object",
+        "lines": [
+          "Can you two lose quietly?",
+          "We are a family. An expensive, broken family."
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "celebrate",
+        "lines": [
+          "I changed your title to senior liability.",
+          "I put it back. Under the coffee stain."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "audit",
+    "title": "COMPLIANCE HAS ENTERED THE CHAT",
+    "tag": "SURPRISE INSPECTION",
+    "effect": "audit",
+    "beats": [
+      {
+        "speaker": "principal",
+        "gesture": "object",
+        "lines": [
+          "Surprise audit. Look employed.",
+          "Everyone close whatever that tab is."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "phone",
+        "lines": [
+          "I am on a very important call.",
+          "This is a proprietary forecasting tool."
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "look",
+        "lines": [
+          "That phone is not plugged in.",
+          "That is a sandwich delivery website."
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "object",
+        "lines": [
+          "Then why is it our best performing desk?",
+          "Show me the research behind that sandwich."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "celebrate",
+        "lines": [
+          "Zero losses. Perfect execution.",
+          "Strong fundamentals. Excellent liquidity. Extra sauce."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "outage",
+    "title": "IT HAS LEFT THE BUILDING",
+    "tag": "TECHNICAL DIFFICULTIES",
+    "effect": "outage",
+    "beats": [
+      {
+        "speaker": "lead",
+        "gesture": "object",
+        "lines": [
+          "My screen has stopped losing money!",
+          "Everything froze. Are we rich now?"
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "look",
+        "lines": [
+          "The internet is down.",
+          "No. The numbers just stopped moving."
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "celebrate",
+        "lines": [
+          "Finally. A working risk management system.",
+          "Freeze them higher next time."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "phone",
+        "lines": [
+          "IT says turn the company off and on.",
+          "Support wants to speak to the adult in charge."
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "slump",
+        "lines": [
+          "Tell them we tried that with the last boss.",
+          "Tell them we are still recruiting."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "phones",
+    "title": "EVERYONE IS ON HOLD",
+    "tag": "HOTLINE MELTDOWN",
+    "effect": "phones",
+    "beats": [
+      {
+        "speaker": "lead",
+        "gesture": "phone",
+        "lines": [
+          "The holders are calling! All of them!",
+          "Why are all twelve phones ringing?"
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "phone",
+        "lines": [
+          "Tell them the boss is in a meeting.",
+          "I gave the office number to my mother."
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "object",
+        "lines": [
+          "I am under a desk. That counts.",
+          "Your mother has asked for a quarterly report."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "phone",
+        "lines": [
+          "They want to speak to the manager of the chart.",
+          "She says our curtains look cheap."
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "celebrate",
+        "lines": [
+          "Put the chart on hold.",
+          "That is the most accurate analysis today."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "coffee",
+    "title": "A LIQUIDITY CRISIS",
+    "tag": "COFFEE DESK EMERGENCY",
+    "effect": "coffee",
+    "beats": [
+      {
+        "speaker": "lead",
+        "gesture": "coffee",
+        "lines": [
+          "Nobody move! The coffee is going!",
+          "I have liquidated the keyboard!"
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "coffee",
+        "lines": [
+          "Save the keyboard! It knows our passwords!",
+          "That is not what liquidity means!"
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "object",
+        "lines": [
+          "That coffee cost more than your position!",
+          "Who approved beverages near our only asset?"
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "celebrate",
+        "lines": [
+          "Caught it! Absolutely elite risk management!",
+          "Good news. The spreadsheet smells incredible."
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "slump",
+        "lines": [
+          "You saved the cup and drowned the mouse.",
+          "Bad news. It now forecasts cappuccino."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "speech",
+    "title": "MANDATORY OPTIONAL MOTIVATION",
+    "tag": "ALL HANDS, NO PLAN",
+    "effect": "meeting",
+    "beats": [
+      {
+        "speaker": "principal",
+        "gesture": "celebrate",
+        "lines": [
+          "Team! We are disrupting finance!",
+          "Gather round. I have discovered leadership."
+        ]
+      },
+      {
+        "speaker": "lead",
+        "gesture": "look",
+        "lines": [
+          "We have disrupted lunch three times.",
+          "Is it another podcast?"
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "object",
+        "lines": [
+          "Think bigger! Where do you see yourselves?",
+          "Success is ninety percent showing up!"
+        ]
+      },
+      {
+        "speaker": "rival",
+        "gesture": "slump",
+        "lines": [
+          "At a company with a fire exit.",
+          "Then why do you arrive at eleven?"
+        ]
+      },
+      {
+        "speaker": "principal",
+        "gesture": "slump",
+        "lines": [
+          "Excellent. An ambitious exit strategy.",
+          "The other ten percent is delegation."
+        ]
+      }
+    ]
+  }
+]
