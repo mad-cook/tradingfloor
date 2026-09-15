@@ -3,7 +3,8 @@ import {mkdtemp,rm,readFile} from 'node:fs/promises';import {tmpdir} from 'node:
 import {generateKeyPairSync} from 'node:crypto';import {address} from '@solana/addresses';import bs58 from 'bs58';
 function keypair(){const {privateKey,publicKey}=generateKeyPairSync('ed25519');const pub=publicKey.export({type:'spki',format:'der'}).subarray(-32);return {publicKey:bs58.encode(pub),secretKey:Buffer.concat([privateKey.export({type:'pkcs8',format:'der'}).subarray(-32),pub])};}
 import {buyingBudget,buySize,LIMITS,SOL,STOCKS,TOKEN_PROGRAMS} from '../packages/live/config';
-import {checkSimulation,validateQuote,loadSigner,type Intent} from '../packages/live/executor';
+import {checkSimulation,validateQuote,loadSigner,fetchSwapQuote,type Intent} from '../packages/live/executor';
+test('unsigned quote retry recovers routing failure but never retries bad authentication',async()=>{const original=globalThis.fetch;let calls=0;try{globalThis.fetch=async()=>++calls===1?Response.json({error:'Failed to get quotes'},{status:400}):Response.json({requestId:'ok'});assert.equal((await fetchSwapQuote('https://quote.test',{})).requestId,'ok');assert.equal(calls,2);calls=0;globalThis.fetch=async()=>{calls++;return Response.json({error:'Unauthorized'},{status:401});};await assert.rejects(fetchSwapQuote('https://quote.test',{}),/401/);assert.equal(calls,1);}finally{globalThis.fetch=original;}});
 import {LiveEngine} from '../packages/live/engine';import {freshPrice} from '../packages/live/market';
 const owner=keypair().publicKey;
 const intent:Intent={deskId:'nvda',side:'BUY',mint:STOCKS[0].mint,amount:'10000000',decimals:8,solPrice:100,tokenPrice:100,at:Date.now()};

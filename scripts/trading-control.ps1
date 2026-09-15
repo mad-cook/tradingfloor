@@ -6,7 +6,7 @@ $ErrorActionPreference='Stop'
 $controlFolder=Join-Path $env:USERPROFILE '.the-floor\wallet-backup'
 $controlTokenFile=Join-Path $controlFolder 'trading-control-token.txt'
 $addressFile=Join-Path $controlFolder 'public-address.txt'
-$baseUrl='https://tradingfloor-production.up.railway.app'
+$baseUrl='https://stocklanafloor.fun'
 function Send-FloorControl([string]$choice){
  $publicAddress=(Get-Content -LiteralPath $addressFile -Raw).Trim()
  $controlToken=(Get-Content -LiteralPath $controlTokenFile -Raw).Trim()

@@ -8,6 +8,20 @@ import {LIMITS,SOL,STOCKS,TOKEN_PROGRAMS} from './config';
 import {rpc} from './market';
 export type Intent={deskId:string;side:'BUY'|'SELL';mint:string;amount:string;decimals:number;solPrice:number;tokenPrice:number;multiplier?:number;test?:boolean;maxNativeSpendLamports?:number;minNativeBalanceLamports?:number;at:number};
 export type Pending={intent:Intent;signature:string;lastValidBlockHeight:number;submittedAt:number};
+// Retry only unsigned quote retrieval. Submission remains single-attempt and reconciled.
+export async function fetchSwapQuote(url:string,headers:Record<string,string>){
+ for(let attempt=0;attempt<3;attempt++){
+  let response:Response;
+  try{response=await fetch(url,{headers,signal:AbortSignal.timeout(5000)});}catch{if(attempt===2)throw Error('Swap quote unavailable (network timeout)');await new Promise(r=>setTimeout(r,400));continue;}
+  if(response.ok)return response.json();
+  const body=await response.json().catch(()=>null);
+  const routingFailure=response.status===400&&body?.error==='Failed to get quotes';
+  const transient=routingFailure||response.status===429||response.status>=500;
+  if(!transient||attempt===2)throw Error(`Swap quote unavailable (HTTP ${response.status}${routingFailure?': route provider could not quote':''})`);
+  await new Promise(r=>setTimeout(r,400*(attempt+1)));
+ }
+ throw Error('Swap quote unavailable');
+}
 export function loadSigner(owner:string){
  const secret=process.env.TRADING_PRIVATE_KEY;if(!secret)throw Error('TRADING_PRIVATE_KEY is not configured');
  let signer:Signer;try{const bytes=secret.trim().startsWith('[')?Uint8Array.from(JSON.parse(secret)):bs58.decode(secret.trim());if(bytes.length!==64)throw Error();
@@ -67,7 +81,7 @@ export class Executor{
  private async inspect(intent:Intent,sign:boolean):Promise<{pending:Pending;signed:string;requestId:string}>{
   const params=new URLSearchParams({inputMint:intent.side==='BUY'?SOL:intent.mint,outputMint:intent.side==='BUY'?intent.mint:SOL,amount:intent.amount,taker:this.owner,excludeRouters:'jupiterz,dflow,okx',slippageBps:String(LIMITS.slippageBps)});
   const headers:Record<string,string>={};if(process.env.JUPITER_API_KEY)headers['x-api-key']=process.env.JUPITER_API_KEY;
-  const response=await fetch('https://api.jup.ag/swap/v2/order?'+params,{headers,signal:AbortSignal.timeout(12_000)});if(!response.ok)throw Error('Swap quote unavailable');const q=await response.json();validateQuote(q,intent,this.owner);
+  const q=await fetchSwapQuote('https://api.jup.ag/swap/v2/order?'+params,headers);validateQuote(q,intent,this.owner);
   const tx=getTransactionDecoder().decode(Buffer.from(q.transaction,'base64'));const message=getCompiledTransactionMessageDecoder().decode(tx.messageBytes);
   if(message.version!==0||message.header.numSignerAccounts!==1||message.header.numReadonlySignerAccounts!==0||message.staticAccounts[0]!==this.owner)throw Error('Unexpected transaction signer or version');
   const loadedWritable:string[]=[],loadedReadonly:string[]=[];
