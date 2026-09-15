@@ -1,6 +1,7 @@
 import {mkdir,readFile,writeFile,rename} from 'node:fs/promises';
 import {join} from 'node:path';
 import {FloorEngine} from '../core/sim/engine';
+import {updateLiveScore} from '../core/scoring';
 import type {Snapshot,Desk} from '../core/types';
 import {STOCKS,SOL,LIMITS,buyingBudget,buySize} from './config';
 import {readPrices,readWallet,rpc,freshPrice,type Wallet,type Price} from './market';
@@ -102,6 +103,10 @@ export class LiveEngine extends FloorEngine{
   if(old&&Math.abs(flow)>.01)this.emit('TREASURY_FLOW',(flow>=0?'Funding received: $':'Treasury withdrawal: $')+Math.abs(flow).toFixed(2)+'. Excluded from trading profit.');
   this.state.cash=wallet.lamports/1e9*solPrice;this.state.nav=this.state.cash+this.state.desks.reduce((v,d)=>v+d.qty*d.price,0);this.state.openNav=this.journal.netFundingUsd;
   this.journal.highWater=Math.max(this.journal.highWater,this.state.nav);this.journal.expected=wallet;
+  for(const d of this.state.desks){const stock=STOCKS.find(s=>s.deskId===d.id)!;if(freshPrice(prices[stock.mint],wallet.slot))updateLiveScore(d,this.state.nav,Date.now());
+   // JSON persistence breaks the original shared forecast reference.
+   for(const pitch of d.pitches){const forecast=d.forecasts.find(f=>f.id===pitch.forecast.id);if(forecast)pitch.forecast={...forecast};}
+  }
   this.state.treasury={wallet:this.journal.owner,sol:wallet.lamports/1e9,availableSol:buyingBudget(wallet.lamports)/1e9,netFundingUsd:this.journal.netFundingUsd,pnlUsd:this.state.nav-this.journal.netFundingUsd,updatedAt:Date.now(),status:'Connected',tradingEnabled:this.journal.running===true,testStatus:this.journal.test?.phase};
   this.state.curve.push({at:Date.now(),nav:this.state.nav-this.journal.netFundingUsd});this.state.curve=this.state.curve.slice(-240);
  }

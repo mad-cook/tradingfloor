@@ -9,3 +9,12 @@ export function scoreDesk(d:Desk,nav:number,benchmarkReturn:number){
 }
 export function fireCandidate(desks:Desk[],session:number){return desks.filter(d=>session-d.hiredSession>=2).sort((a,b)=>a.score-b.score)[0];}
 
+// Live desks use attributable P&L / current treasury NAV, without the demo benchmark.
+// Do not close sessions or reset positions when refreshing this display metric.
+export function updateLiveScore(d:Desk,nav:number,now:number){
+ const eligible=d.lastOrder>0||d.forecasts.some(f=>f.actual!==undefined)||d.pitches.some(p=>p.violations.length>0);
+ if(!eligible||!Number.isFinite(nav)||nav<=0||![d.price,d.qty,d.cost,d.realized].every(Number.isFinite))return;
+ const score=scoreDesk(d,nav,0).total;if(!Number.isFinite(score))return;
+ d.score=score;d.scoreAt=now;
+}
+
