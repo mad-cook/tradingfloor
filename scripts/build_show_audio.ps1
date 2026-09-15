@@ -1,10 +1,11 @@
+param([string]$SceneFilter='*')
 Add-Type -AssemblyName System.Speech
 $ErrorActionPreference='Stop'
 $voice=New-Object System.Speech.Synthesis.SpeechSynthesizer
 $voice.SelectVoice('Microsoft Zira Desktop');$voice.Rate=2
 New-Item -ItemType Directory -Force '.voice-build','public/vo/show' | Out-Null
 $scenes=Get-Content -Raw packages/core/show-scenes.json | ConvertFrom-Json
-foreach($scene in $scenes){
+foreach($scene in $scenes | Where-Object { $_.id -like $SceneFilter }){
  for($i=0;$i -lt $scene.beats.Count;$i++){
   $beat=$scene.beats[$i];$pitch=if($beat.speaker -eq 'principal'){.74}elseif($beat.speaker -eq 'rival'){.87}else{1.03}
   $rate=[int](22050*$pitch);$tempo=(1.08/$pitch).ToString([Globalization.CultureInfo]::InvariantCulture)

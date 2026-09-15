@@ -382,5 +382,101 @@
         ]
       }
     ]
+  },
+  {
+    "tag": "PRIVATE MARKETS / RESEARCH",
+    "id": "private-watch",
+    "effect": "private",
+    "title": "THE MAN WITH THE BRIEFCASE",
+    "beats": [
+      {
+        "gesture": "object",
+        "lines": [
+          "Gentlemen, I brought an opportunity. And my own pen.",
+          "Private markets. Public confidence. Very expensive shoes."
+        ],
+        "speaker": "lead"
+      },
+      {
+        "gesture": "look",
+        "lines": [
+          "Leave the shoes. Show me the reference price.",
+          "Your briefcase is louder than your numbers."
+        ],
+        "speaker": "principal"
+      },
+      {
+        "gesture": "object",
+        "lines": [
+          "The premium passes our research screen. That is not a buy order.",
+          "Put it on the watchlist. We still need liquidity checks."
+        ],
+        "speaker": "rival"
+      },
+      {
+        "gesture": "look",
+        "lines": [
+          "Approved for due diligence. Nobody touch the wallet.",
+          "Research gets a yes. Your commission gets a maybe."
+        ],
+        "speaker": "principal"
+      },
+      {
+        "gesture": "celebrate",
+        "lines": [
+          "A watchlist today. A corner office in my imagination.",
+          "I will tell my tailor we are making progress."
+        ],
+        "speaker": "lead"
+      }
+    ]
+  },
+  {
+    "tag": "PRIVATE MARKETS / PASSED",
+    "id": "private-pass",
+    "effect": "private",
+    "title": "NICE SUIT. WRONG PRICE.",
+    "beats": [
+      {
+        "gesture": "object",
+        "lines": [
+          "Exclusive access. Limited time. Unlimited confidence.",
+          "I have a private opportunity with public potential."
+        ],
+        "speaker": "lead"
+      },
+      {
+        "gesture": "look",
+        "lines": [
+          "Does your price include the cost of that haircut?",
+          "Start with the mark. Skip the yacht brochure."
+        ],
+        "speaker": "principal"
+      },
+      {
+        "gesture": "object",
+        "lines": [
+          "Outside the research premium band. We pass.",
+          "The reference-price gap needs explaining. No approval."
+        ],
+        "speaker": "rival"
+      },
+      {
+        "gesture": "object",
+        "lines": [
+          "The answer is no. The exit is behind you.",
+          "Come back with better numbers. Keep the pen."
+        ],
+        "speaker": "principal"
+      },
+      {
+        "gesture": "slump",
+        "lines": [
+          "Fine. I will pitch the printer. It understands paper gains.",
+          "Tough room. Even the coffee rejected me."
+        ],
+        "speaker": "lead"
+      }
+    ]
   }
 ]

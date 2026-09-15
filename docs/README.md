@@ -4,6 +4,8 @@ For a project overview and a short demo walkthrough, start with the [README](../
 
 ## Current implementation
 
+- [PreStocks visitor and Pyth research](PRIVATE_MARKETS.md)
+
 - [Implementation status and boundaries](LAUNCH_PLAN.md)
 - [Development and original assets](DEVELOPMENT.md)
 - [Execution, accounting, and operator controls](../LIVE_TRADING.md)

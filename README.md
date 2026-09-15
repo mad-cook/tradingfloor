@@ -44,6 +44,7 @@ The “company” narrative is fiction. The token does not confer legal company 
 
 - **Real execution:** allowlisted stock-token swaps, transaction simulation, persistent pending-transaction recovery, and finalized receipts.
 - **Visible performance:** positions, forecasts, and live scores combining P&L, forecast accuracy, and discipline.
+- **Private-market pitches:** a visiting salesman presents PreStocks data; the boss watchlists or passes with an explicit research-only decision. Pyth comparison support is prepared and requires private API access; see [integration status](docs/PRIVATE_MARKETS.md).
 - **Original visuals:** Blender-built low-poly characters, desks, room, props, and animations rendered with React Three Fiber.
 - **A watchable office:** voiced characters, recurring story sequences, rival reactions, camera direction, and audience participation.
 - **Public transparency:** wallet and token data, separate creator-reward balances, and Solscan links.

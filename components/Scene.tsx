@@ -1,4 +1,5 @@
 'use client';
+import PrivateVisitor from './PrivateVisitor';
 import ShowEffects from './ShowEffects';
 import {showClock} from './ShowDirector';
 import {definition,showSpeaker} from '@/packages/core/show';
@@ -71,7 +72,7 @@ function Analyst({desk,position,boss=false,cue,clock,visit,paused=false}:{desk?:
   }else if(active&&(active.kind==='look'||active.kind==='object')){
    const source=SEATS[desk?.seed??0],target=SEATS[active.target];heading=Math.atan2(target[0]-source[0],target[2]-source[2]);
   }else if(voice?.kind==='BANTER')heading+=((desk?.seed??0)%2?-.65:.65);
-  if(show&&!(boss&&liveVisit)){const cast=useFloor.getState().snapshot?.desks;const targetId=isSpeaker?(myId===show.lead?show.rival:show.lead):speaker;const targetIndex=cast?.findIndex(d=>d.id===targetId)??-1;const target=targetId==='principal'?[0,0,-2.89]:SEATS[targetIndex];const source=boss?[0,0,-2.89]:SEATS[desk?.seed??0];if(target&&source)heading=Math.atan2(target[0]-source[0],target[2]-source[2]);}
+  if(show&&!(boss&&liveVisit)){const cast=useFloor.getState().snapshot?.desks;const targetId=isSpeaker?(myId===show.lead?show.rival:show.lead):speaker;const targetIndex=cast?.findIndex(d=>d.id===targetId)??-1;const target=targetId==='visitor'?[-.9,0,-2.2]:targetId==='principal'?[0,0,-2.89]:SEATS[targetIndex];const source=boss?[0,0,-2.89]:SEATS[desk?.seed??0];if(target&&source)heading=Math.atan2(target[0]-source[0],target[2]-source[2]);}
   if(boss&&!show&&!visit&&audience.at&&Date.now()-audience.at<8000){desired=audience.last==='doubt'?'deskSlam':'standYell';heading=0;}
   if(desired!==forcedRef.current){forcedRef.current=desired;setForced(desired);}
   if(boss){const p=walkPosition??position;ref.current.position.set(...p);}else{const bounce=story?.effect==='confetti'&&showBeat>1?Math.max(0,Math.sin(showClock.elapsed/180+(desk?.seed??0)*1.4))*.10:0;ref.current.position.y=position[1]+bounce;}
@@ -134,7 +135,7 @@ export default function Scene(){
  <Suspense fallback={null}><Asset path="/models/room.glb"/>
  {snapshot?.desks.map((d,i)=><DeskModel key={d.id} desk={d} index={i} cue={choreo.cues[d.id]} clock={clock} paused={Boolean(snapshot?.paused)}/>)}
  <Asset path="/models/workstation.glb" position={[0,.12,-3.65]}/>{cutaway?<CutawayCast/>:<Analyst key={generation} position={[0,.12,-2.89]} boss clock={clock} visit={choreo.visit} paused={Boolean(snapshot?.paused)}/>}
- <ShowEffects/><PrinterTickets/><group position={[0,3.65,-4.95]}><mesh><boxGeometry args={[3.85,2.15,.16]}/><meshStandardMaterial color="#191923"/></mesh><Html transform distanceFactor={5.7} position={[0,0,.095]} zIndexRange={[4,0]}><OfficeBoard/></Html></group>
+ <ShowEffects/>{show?.offer&&<PrivateVisitor key={show.id}/>}<PrinterTickets/><group position={[0,3.65,-4.95]}><mesh><boxGeometry args={[3.85,2.15,.16]}/><meshStandardMaterial color="#191923"/></mesh><Html transform distanceFactor={5.7} position={[0,0,.095]} zIndexRange={[4,0]}><OfficeBoard/></Html></group>
  <Html position={[0,2.75,-2.22]} center zIndexRange={[3,0]}><div className="office-sign">THE PRINCIPAL<span>CAPITAL ALLOCATION</span></div></Html>
  <Html position={[4.9,1.55,3.9]} center zIndexRange={[3,0]}><button className="printer-label" onClick={()=>window.dispatchEvent(new Event('open-blotter'))}>TRADE TICKETS ↗</button></Html>
  </Suspense><CameraRig/><Metrics/>
