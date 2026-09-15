@@ -17,10 +17,21 @@ export const STOCKS=[
 ].map(([deskId,symbol,mint])=>({deskId,symbol,mint}));
 export const TOKEN_PROGRAMS=['TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA','TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb'];
 export type Stock=typeof STOCKS[number];
-export const LIMITS=Object.freeze({reserveLamports:30_000_000,maxTradeLamports:30_000_000,minTradeLamports:3_000_000,maxFeeLamports:500_000,maxRentLamports:6_000_000,slippageBps:50,impactPct:.5,positionFraction:.15,intervalMs:600_000,deskIntervalMs:3_600_000,maxDailyTrades:24,drawdownFraction:.15});
+export const LIMITS=Object.freeze({reserveLamports:30_000_000,maxTradeLamports:150_000_000,minTradeLamports:3_000_000,maxFeeLamports:500_000,maxRentLamports:6_000_000,slippageBps:50,impactPct:.5,positionFraction:.15,intervalMs:420_000,deskIntervalMs:2_400_000,maxDailyTrades:50,drawdownFraction:.15});
 export function buyingBudget(lamports:number){if(!Number.isSafeInteger(lamports)||lamports<0)throw Error('Invalid wallet balance');return Math.max(0,lamports-LIMITS.reserveLamports);}
-export function buySize(lamports:number,navUsd:number,positionUsd:number,solPrice:number){
+export function buySize(lamports:number,navUsd:number,positionUsd:number,solPrice:number,momentum=0){
  if(![navUsd,positionUsd,solPrice].every(Number.isFinite)||solPrice<=0||navUsd<0||positionUsd<0)throw Error('Invalid valuation');
  const room=Math.max(0,navUsd*LIMITS.positionFraction-positionUsd)/solPrice*1e9;
- return Math.max(0,Math.floor(Math.min(buyingBudget(lamports)-LIMITS.maxFeeLamports-LIMITS.maxRentLamports,LIMITS.maxTradeLamports,room)));
+ if(!Number.isFinite(momentum))throw Error('Invalid momentum');
+ const strength=Math.min(1,Math.max(0,momentum)/.02),starter=positionUsd===0;
+ // Small initial allocations; additions scale with observed momentum and cash.
+ const available=Math.max(0,buyingBudget(lamports)-LIMITS.maxFeeLamports-LIMITS.maxRentLamports);
+ const desired=Math.min(available*(starter?.02+.01*strength:.04+.04*strength),LIMITS.maxTradeLamports*(starter?.25+.1*strength:.4+.6*strength));
+ return Math.max(0,Math.floor(Math.min(available,desired,room)));
+}
+export function exitFraction(gain:number,momentum:number){
+ if(![gain,momentum].every(Number.isFinite))throw Error('Invalid exit signal');
+ if(gain<=-.02)return .75;
+ if(momentum<-.005)return .5;
+ return .25;
 }

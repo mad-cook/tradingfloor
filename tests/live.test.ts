@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,rm,readFile} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';
 import {generateKeyPairSync} from 'node:crypto';import {address} from '@solana/addresses';import bs58 from 'bs58';
 function keypair(){const {privateKey,publicKey}=generateKeyPairSync('ed25519');const pub=publicKey.export({type:'spki',format:'der'}).subarray(-32);return {publicKey:bs58.encode(pub),secretKey:Buffer.concat([privateKey.export({type:'pkcs8',format:'der'}).subarray(-32),pub])};}
-import {buyingBudget,buySize,LIMITS,SOL,STOCKS,TOKEN_PROGRAMS} from '../packages/live/config';
+import {buyingBudget,buySize,exitFraction,LIMITS,SOL,STOCKS,TOKEN_PROGRAMS} from '../packages/live/config';
 import {checkSimulation,validateQuote,loadSigner,fetchSwapQuote,type Intent} from '../packages/live/executor';
 test('unsigned quote retry recovers routing failure but never retries bad authentication',async()=>{const original=globalThis.fetch;let calls=0;try{globalThis.fetch=async()=>++calls===1?Response.json({error:'Failed to get quotes'},{status:400}):Response.json({requestId:'ok'});assert.equal((await fetchSwapQuote('https://quote.test',{})).requestId,'ok');assert.equal(calls,2);calls=0;globalThis.fetch=async()=>{calls++;return Response.json({error:'Unauthorized'},{status:401});};await assert.rejects(fetchSwapQuote('https://quote.test',{}),/401/);assert.equal(calls,1);}finally{globalThis.fetch=original;}});
 import {LiveEngine} from '../packages/live/engine';import {freshPrice} from '../packages/live/market';
@@ -12,7 +12,26 @@ test('live scores wait for evidence and update without changing holdings or hiri
 const owner=keypair().publicKey;
 const intent:Intent={deskId:'nvda',side:'BUY',mint:STOCKS[0].mint,amount:'10000000',decimals:8,solPrice:100,tokenPrice:100,at:Date.now()};
 const quote=()=>({router:'metis',taker:owner,inputMint:SOL,outputMint:intent.mint,inAmount:intent.amount,outAmount:'1000000',otherAmountThreshold:'995000',swapMode:'ExactIn',transaction:'encoded',requestId:'test',slippageBps:50,priceImpact:.1,signatureFeeLamports:5000,prioritizationFeeLamports:5000,rentFeeLamports:2039280,feeBps:10,lastValidBlockHeight:'12345'});
-test('whole-wallet budget grows with claims while preserving fees and per-trade limits',()=>{assert.equal(buyingBudget(1e9),970000000);assert.equal(buyingBudget(2e9),1970000000);assert.equal(buyingBudget(1),0);assert.equal(buySize(1e9,100,0,100),30000000);assert.equal(buySize(1e9,100,15,100),0);assert.equal(buySize(30000000,100,0,100),0);assert.throws(()=>buyingBudget(NaN));});
+test('whole-wallet budget grows with claims while preserving fees and per-trade limits',()=>{assert.equal(buyingBudget(1e9),970000000);assert.equal(buyingBudget(2e9),1970000000);assert.equal(buyingBudget(1),0);assert.equal(buySize(1e9,100,0,100),19270000);assert.equal(buySize(1e9,100,15,100),0);assert.equal(buySize(30000000,100,0,100),0);assert.throws(()=>buyingBudget(NaN));});
+
+test('allocation varies with funding, momentum and exposure without exceeding bounds',()=>{
+ const starter=buySize(2.5e9,250,0,100,0),weak=buySize(2.5e9,250,5,100,.0025),strong=buySize(2.5e9,250,5,100,.02);
+ assert.ok(starter<weak&&weak<strong);assert.equal(strong,150000000);
+ assert.ok(buySize(1e9,100,0,100,0)<starter);
+ assert.ok(buySize(2.5e9,250,37.4,100,.02)<=1000001);
+ assert.equal(buySize(30_000_000,250,0,100,.02),0);
+ assert.throws(()=>buySize(1e9,100,0,100,NaN));
+ assert.equal(exitFraction(.04,.01),.25);assert.equal(exitFraction(.01,-.01),.5);assert.equal(exitFraction(-.03,-.01),.75);
+});
+
+test('research events are spaced and do not change trading accounting or proposals',()=>withLiveControl(async(e,_who,prices)=>{
+ const wallet={lamports:2500000000,holdings:[],slot:1000},d=e.state.desks[0];d.qty=.1;d.cost=10;
+ (e as any).journal.history[d.id]=[{at:1,price:100},{at:2,price:100},{at:3,price:100}];
+ const before={qty:d.qty,cost:d.cost,forecasts:d.forecasts.length,pitches:d.pitches.length};
+ (e as any).research(wallet,prices);assert.equal(e.state.events.at(-1)?.kind,'PITCH_REJECTED');
+ assert.deepEqual({qty:d.qty,cost:d.cost,forecasts:d.forecasts.length,pitches:d.pitches.length},before);
+ const count=e.state.events.length;(e as any).research(wallet,prices);assert.equal(e.state.events.length,count);assert.equal(e.controlStatus().pending,null);
+}));
 test('issuer mint allowlist is unique and contains only valid Solana addresses',()=>{assert.equal(new Set(STOCKS.map(s=>s.mint)).size,12);for(const s of STOCKS)assert.equal(address(s.mint),s.mint);assert.equal(STOCKS.find(s=>s.deskId==='spcx')?.symbol,'COINx');});
 test('quote rejects wrong mint, owner, excessive costs, stale prices and oversized trades',()=>{validateQuote(quote(),intent,owner,intent.at);for(const change of [{outputMint:SOL},{taker:keypair().publicKey},{slippageBps:500},{priceImpact:2},{rentFeeLamports:9000000},{outAmount:'1'},{otherAmountThreshold:'0'},{router:'jupiterz'},{feeBps:100}])assert.throws(()=>validateQuote({...quote(),...change},intent,owner,intent.at));assert.throws(()=>validateQuote(quote(),intent,owner,intent.at+31000));assert.throws(()=>validateQuote(quote(),{...intent,amount:'1000000000'},owner,intent.at));});
 function token(amount:bigint){const raw=Buffer.alloc(165);Buffer.from(bs58.decode(intent.mint)).copy(raw);Buffer.from(bs58.decode(owner)).copy(raw,32);raw.writeBigUInt64LE(amount,64);raw[108]=1;return {owner:TOKEN_PROGRAMS[0],lamports:2039280,data:[raw.toString('base64'),'base64']};}

@@ -3,13 +3,13 @@ import {join} from 'node:path';
 import {FloorEngine} from '../core/sim/engine';
 import {updateLiveScore} from '../core/scoring';
 import type {Snapshot,Desk} from '../core/types';
-import {STOCKS,SOL,LIMITS,buyingBudget,buySize} from './config';
+import {STOCKS,SOL,LIMITS,buyingBudget,buySize,exitFraction} from './config';
 import {readPrices,readWallet,rpc,freshPrice,type Wallet,type Price} from './market';
 import {TEST_BUDGET_LAMPORTS,TEST_BUY_LAMPORTS,automaticTradingAllowed,type TestRun} from './control';
 import {Executor,loadSigner,type Intent,type Pending} from './executor';
 type Journal={running?:boolean;controlRevision?:number;test?:TestRun;testReservedLamports?:number;version:1;owner:string;mode:'live'|'shadow';snapshot:Snapshot;expected:Wallet|null;netFundingUsd:number;highWater:number;pending:Pending|null;lastAttempt:number;day:string;dailyTrades:number;receipts?:{signature:string;at:number;failed:boolean;intent:Intent}[];history:Record<string,{at:number;price:number}[]>};
 export class LiveEngine extends FloorEngine{
- private journal:Journal;private file:string;private executor?:Executor;private lastError='';private stopRequested=false;private writes:Promise<void>=Promise.resolve();private controlling=false;
+ private journal:Journal;private file:string;private executor?:Executor;private lastError='';private stopRequested=false;private writes:Promise<void>=Promise.resolve();private controlling=false;private lastResearch=0;private researchIndex=0;
  requestStop(){this.stopRequested=true;}
  private constructor(owner:string,mode:'live'|'shadow',dir:string){
   super();this.file=join(dir,'trading-'+mode+'.json');
@@ -72,7 +72,7 @@ export class LiveEngine extends FloorEngine{
    if(process.env.KILL_SWITCH==='1')this.state.killed=true;
    if(this.state.nav<this.journal.highWater*(1-LIMITS.drawdownFraction)){this.state.killed=true;this.emit('CIRCUIT_BREAKER','Treasury drawdown reached 15%. Trading halted.');}
    this.status(this.state.killed?'Trading halted':this.journal.mode==='shadow'?'Observing wallet · execution disabled':this.journal.running?'Automatic trading running':'Trading stopped · waiting for owner');
-   await this.persist();
+   this.research(wallet,prices);await this.persist();
    if(this.journal.test&&['buy','sell'].includes(this.journal.test.phase)){await this.testCycle(wallet,prices);return;}
    if(this.journal.mode==='live'&&!automaticTradingAllowed(this.journal.running,this.state.killed,!!this.journal.pending,this.journal.test))return;
    if(this.stopRequested||this.state.killed||this.state.paused||Date.now()-this.journal.lastAttempt<LIMITS.intervalMs||this.journal.dailyTrades>=LIMITS.maxDailyTrades)return;
@@ -80,7 +80,7 @@ export class LiveEngine extends FloorEngine{
    this.journal.lastAttempt=Date.now();const d=this.state.desks.find(d=>d.id===intent.deskId)!;d.state='PITCHING';d.lastThink=Date.now();this.emit('PITCH_MADE',d.symbol+': '+intent.side+' proposed from observed market prices.',d.id);
    const forecast={id:this.state.events.at(-1)!.id,at:Date.now(),due:Date.now()+3_600_000,spot:d.price,target:d.price*(intent.side==='BUY'?1.01:.99),benchmarkSpot:this.state.desks[1].price};
    d.forecasts.push(forecast);d.forecasts=d.forecasts.slice(-200);
-   d.pitches.unshift({id:forecast.id,at:forecast.at,side:intent.side,conviction:5,usd:Number(intent.amount)/10**(intent.side==='BUY'?9:intent.decimals)*(intent.side==='BUY'?intent.solPrice:intent.tokenPrice),thesis:intent.side==='BUY'?'Small starter position or positive price momentum. Shared treasury limits apply.':'Reducing exposure after a gain, loss, or negative momentum.',bark:'Boss, check the tape!',decision:this.executor?'VALIDATING':'OBSERVE',reason:this.executor?'Awaiting quote and transaction checks.':'Wallet preview does not execute orders.',forecast,violations:[]});d.pitches=d.pitches.slice(0,100);await this.persist();
+   d.pitches.unshift({id:forecast.id,at:forecast.at,side:intent.side,conviction:5,usd:Number(intent.amount)/10**(intent.side==='BUY'?9:intent.decimals)*(intent.side==='BUY'?intent.solPrice:intent.tokenPrice),thesis:intent.side==='BUY'?'Starter allocation or momentum-scaled addition; cash and existing exposure constrain size.':'Partial exit: trim 25% on gains, 50% on negative momentum, or 75% on loss threshold, capped per trade.',bark:'Boss, check the tape!',decision:this.executor?'VALIDATING':'OBSERVE',reason:this.executor?'Awaiting quote and transaction checks.':'Wallet preview does not execute orders.',forecast,violations:[]});d.pitches=d.pitches.slice(0,100);await this.persist();
    if(!this.executor){this.emit('PITCH_APPROVED',d.symbol+': observation only; no order signed or sent.',d.id);await this.persist();return;}
    const revision=this.journal.controlRevision;const prepared=await this.executor.prepare(intent);
    if(this.stopRequested||process.env.KILL_SWITCH==='1'||this.state.killed||!this.journal.running||revision!==this.journal.controlRevision)return;
@@ -117,11 +117,22 @@ export class LiveEngine extends FloorEngine{
    const momentum=p.usdPrice/history[0].price-1,gain=d.cost>0?d.qty*p.usdPrice/d.cost-1:0;
    const sell=d.qty>0&&(gain>=.03||gain<=-.02||momentum<-.005);
    if(!sell&&d.qty>0&&momentum<.0025)continue;
-   const units=sell?Math.floor(Math.min(d.qty*.5,LIMITS.maxTradeLamports/1e9*prices[SOL].usdPrice/p.usdPrice)/(p.multiplier??1)*10**p.decimals):buySize(wallet.lamports,this.state.nav,d.qty*d.price,prices[SOL].usdPrice);
+   const units=sell?Math.floor(Math.min(d.qty*exitFraction(gain,momentum),LIMITS.maxTradeLamports/1e9*prices[SOL].usdPrice/p.usdPrice)/(p.multiplier??1)*10**p.decimals):buySize(wallet.lamports,this.state.nav,d.qty*d.price,prices[SOL].usdPrice,momentum);
    const valueSol=sell?units/10**p.decimals*(p.multiplier??1)*p.usdPrice/prices[SOL].usdPrice:units/1e9;
    if(!Number.isSafeInteger(units)||units<=0||valueSol<LIMITS.minTradeLamports/1e9)continue;
    return {deskId:d.id,side:sell?'SELL':'BUY',mint:stock.mint,amount:String(units),decimals:p.decimals,solPrice:prices[SOL].usdPrice,tokenPrice:p.usdPrice*(p.multiplier??1),multiplier:p.multiplier??1,at:Date.now()};
   }
+ }
+ private research(wallet:Wallet,prices:Record<string,Price>){
+  const now=Date.now();if(now-this.lastResearch<60_000)return;this.lastResearch=now;
+  const d=this.state.desks[this.researchIndex++%this.state.desks.length],stock=STOCKS.find(s=>s.deskId===d.id)!,p=prices[stock.mint],history=this.journal.history[d.id]??[];
+  // Observation events never create orders, forecasts or risk violations.
+  if(!freshPrice(p,wallet.slot)||history.length<3){d.state='RESEARCHING';this.emit('DESK_THINKING',d.symbol+': waiting for enough fresh market observations. No order submitted.',d.id);return;}
+  const momentum=p.usdPrice/history[0].price-1,gain=d.cost>0?d.qty*p.usdPrice/d.cost-1:0;
+  const exit=d.qty>0&&(gain>=.03||gain<=-.02||momentum<-.005);
+  const pass=!exit&&d.qty>0&&momentum<.0025;
+  d.state=pass?'DESPAIR':'RESEARCHING';
+  this.emit(pass?'PITCH_REJECTED':'DESK_THINKING',d.symbol+(pass?': no addition — momentum does not meet the entry threshold.':': reviewing '+(exit?'a partial exit':'position size')+'; observed momentum '+(momentum*100).toFixed(2)+'%.')+' Research only; no order submitted.',d.id);
  }
  public controlStatus(){return {wallet:this.journal.owner,mode:this.journal.mode,running:this.journal.running===true,killed:this.state.killed,pending:this.journal.pending?.signature??null,sol:this.state.treasury?.sol??null,test:this.journal.test??null,testBudgetSol:TEST_BUDGET_LAMPORTS/1e9,testReservedSol:(this.journal.testReservedLamports??0)/1e9};}
  public async control(action:string,wallet?:string,confirmation?:string){

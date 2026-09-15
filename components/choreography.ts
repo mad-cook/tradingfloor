@@ -12,11 +12,11 @@ export type Cue={id:number;kind:'celebrate'|'look'|'object'|'reprimand'|'coffee'
 export type Visit={deskId:string;index:number;start:number;end:number};
 export type Choreography={cues:Record<string,Cue>;visit:Visit|null};
 export function reactionWave(event:FloorEvent,desks:Desk[],now:number):Record<string,Cue>{
- const index=desks.findIndex(d=>d.id===event.deskId);if(index<0||!['FORECAST_HIT','FILL','FORECAST_MISS'].includes(event.kind))return {};
+ const index=desks.findIndex(d=>d.id===event.deskId);if(index<0||!['FORECAST_HIT','FILL','FORECAST_MISS','PITCH_REJECTED'].includes(event.kind))return {};
  const neighbors=desks.map((d,i)=>({d,i,distance:Math.hypot(SEATS[i][0]-SEATS[index][0],SEATS[i][2]-SEATS[index][2])})).filter(n=>n.i!==index).sort((a,b)=>a.distance-b.distance).slice(0,3);
  const result:Record<string,Cue>={};
  if(event.kind==='FORECAST_HIT')result[desks[index].id]={id:event.id,kind:'celebrate',start:now,end:now+3400,target:index};
- neighbors.forEach((n,i)=>{result[n.d.id]={id:event.id*10+i,kind:i===2&&event.kind==='FORECAST_HIT'?'object':'look',start:now+450+i*550,end:now+3200+i*550,target:index};});return result;
+ neighbors.forEach((n,i)=>{result[n.d.id]={id:event.id*10+i,kind:i===2&&['FORECAST_HIT','PITCH_REJECTED'].includes(event.kind)?'object':'look',start:now+450+i*550,end:now+3200+i*550,target:index};});return result;
 }
 // Walk through the aisle between each column, not through desktops.
 export function bossPath(index:number):[number,number,number][]{

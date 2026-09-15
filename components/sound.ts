@@ -28,7 +28,7 @@ export class FloorSound{
  private async startBed(){this.bedStarted=true;try{const b=await this.buffer('/vo/room-babble-v2.mp3');const source=this.context.createBufferSource();source.buffer=b;source.loop=true;this.bedGain=this.context.createGain();this.bedGain.gain.value=.22;source.connect(this.bedGain).connect(this.room);source.start();}catch{this.failures++;this.bedStarted=false;}}
  event(event:FloorEvent){
   if(!this.enabled||this.quiet||useFloor.getState().show)return;
-  const categories:Record<string,string>={PITCH_MADE:'pitch',PITCH_APPROVED:'approved',PITCH_TRIMMED:'trim',RISK_BLOCK:'risk',FILL:'fill',FORECAST_HIT:'hit',FORECAST_MISS:'miss'};
+  const categories:Record<string,string>={DESK_THINKING:'ambient',PITCH_REJECTED:'challenge',PITCH_MADE:'pitch',PITCH_APPROVED:'approved',PITCH_TRIMMED:'trim',RISK_BLOCK:'risk',FILL:'fill',FORECAST_HIT:'hit',FORECAST_MISS:'miss'};
   if(event.kind==='FILL'){this.foley('printer');this.tone([880,1174],.18,.06);}
   if(event.kind==='PITCH_APPROVED'||event.kind==='PITCH_TRIMMED')this.foley('phone');
   if(event.deskId&&categories[event.kind])this.enqueue({desk:event.deskId,category:categories[event.kind],kind:event.kind,at:performance.now(),priority:event.kind==='FILL'?5:event.kind==='PITCH_MADE'?2:3});
