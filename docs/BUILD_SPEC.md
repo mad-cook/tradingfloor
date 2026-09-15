@@ -1,3 +1,5 @@
+> Historical design document. This records an earlier development stage and includes superseded plans. For shipped behavior, see [implementation status](LAUNCH_PLAN.md) and the [public README](../README.md).
+
 # THE FLOOR — Build Specification
 
 **An AI-run stock trading firm you can watch. Twelve analyst agents, one boss, real money, real tokenized equities on Solana.**

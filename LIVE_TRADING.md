@@ -1,4 +1,6 @@
-# Wallet-backed Solana trading
+# Execution and operator reference
+
+Technical documentation for maintainers. For the project overview and demo walkthrough, see the [README](README.md).
 
 The default remains `DATA_MODE=demo`, `PAPER=1`. Deploying this code does not enable signing.
 
@@ -14,7 +16,7 @@ The launch wallet and test wallet must never share a journal. A wallet mismatch 
 
 ## Budget and execution
 
-The entire native SOL balance is the shared treasury. All deposits, including manually claimed creator rewards, increase buying power. The app does not claim rewards itself. Keep 0.03 SOL reserved. Maximum order is 0.03 SOL equivalent; minimum is 0.003 SOL. Position cap for new buys is 15% of portfolio value. Orders are at least ten minutes apart, each desk waits one hour after a fill, and at most 24 submissions per UTC day. A 15% funding-adjusted drawdown from the portfolio high-water mark latches trading off.
+Native SOL funds new buys, subject to reserves and limits. Claimed SOL rewards increase buying power; claimed stock-token rewards remain holdings until converted. The app does not claim rewards itself. Keep 0.03 SOL reserved. Maximum order is 0.03 SOL equivalent; minimum is 0.003 SOL. Position cap for new buys is 15% of portfolio value. Orders are at least ten minutes apart, each desk waits one hour after a fill, and at most 24 submissions per UTC day. A 15% funding-adjusted drawdown from the portfolio high-water mark latches trading off.
 
 Decisions are simple deterministic rules, not LLM investment analysis. After three fresh one-minute observations, an empty desk can propose a starter position; existing positions add only with positive observed momentum. Gain/loss and negative momentum can trigger partial sales. The cast and show remain fictional.
 
@@ -34,7 +36,7 @@ Portfolio value includes native SOL and the twelve allowlisted stocks. Other wal
 2. Enter TRADING_PRIVATE_KEY directly in Railway. Merely setting it in shadow mode does not sign anything.
 3. Confirm a small unsigned swap simulation for the actual wallet and review the configured limits.
 4. Arm signing using DATA_MODE=live, PAPER=0, LIVE_TRADING_ENABLED=1. The new live journal starts with automatic trading OFF. Use the owner control to initiate the bounded test; use Start only when ready to launch.
-5. Check the first finalized buy and sell against their Solscan receipts. No funded execution has been tested by the build process.
+5. Check the first finalized buy and sell against their Solscan receipts. Automated build tests use fixtures and never submit funded orders. The deployed project has finalized live receipts in its public ledger.
 
 To stop new orders: set KILL_SWITCH=1 and redeploy, or stop the Railway service for an immediate process stop. An already submitted transaction may still settle. The persisted killed flag is latched; investigate before resuming. The public audience controls cannot enable trading or change limits.
 

@@ -2,7 +2,7 @@
 
 The viewer should understand who wants something, who disagrees, what the boss decides, and who was right. More simultaneous motion alone becomes noise.
 
-## Implemented in this pass
+## Dialogue and pacing
 
 - A larger authored voice library: 860 clips, 728 distinct spoken lines, 266 different sentence patterns.
 - Each desk has sixteen bespoke ambient lines, not a shared four-line rotation.
@@ -10,7 +10,7 @@ The viewer should understand who wants something, who disagrees, what the boss d
 - Eight-minute repetition protection applies across voices and survives refresh within the browser session.
 - Old low-priority calls expire. If a category runs out of fresh lines, the room uses fresh neutral banter or stays quiet instead of repeating.
 - Office banter is staged as challenge → rival response → principal interruption. It is flavor, not an invented trading decision.
-- Swivels toward a rival, principal gestures, and paper bursts from the printer on actual paper fills.
+- Swivels toward a rival, principal gestures, and paper bursts from the printer on fill events.
 - Uneven pacing: ordinary office hum gives way to a short rush, then settles. Maximum two intelligible foreground voices.
 - A longer, heavily filtered room-chatter bed replaces the obvious twenty-second loop.
 

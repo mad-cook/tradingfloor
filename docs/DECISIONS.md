@@ -1,3 +1,5 @@
+> Historical design document. This records an earlier development stage and includes superseded plans. For shipped behavior, see [implementation status](LAUNCH_PLAN.md) and the [public README](../README.md).
+
 # Build decisions
 
 - Preflight executed before application work; results are in reports/preflight-report.json. M0 has not passed. No live orders or purchases were attempted.
