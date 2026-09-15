@@ -3,6 +3,7 @@ const crashMonitor=new CrashMonitor();let latestCutaway:CutawayEvent|undefined;
 import {address,getAddressEncoder,getProgramDerivedAddress} from '@solana/addresses';
 import {pickTokenPair,finiteValue,quoteMarketValue,type BoardData} from '../core/board';
 import {STOCKS,TOKEN_PROGRAMS} from '../live/config';
+import {readOwnerScene} from './owner-scene';
 const PUMP='6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P',AMM='pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA';
 const TOKEN='TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',ATA='ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',WSOL='So11111111111111111111111111111111111111112';
 const encode=getAddressEncoder();const bytes=(key:string)=>encode.encode(address(key));const seed=(s:string)=>new TextEncoder().encode(s);
@@ -46,4 +47,4 @@ async function readBoard():Promise<BoardData>{
  return result;
 }
 let cached:{data:BoardData;expires:number}|null=null;let pending:Promise<BoardData>|null=null;
-export function getBoard(){if(cached&&Date.now()<cached.expires)return Promise.resolve(cached.data);if(pending)return pending;pending=readBoard().then(data=>{cached={data,expires:Date.now()+30_000};return data;}).finally(()=>{pending=null;});return pending;}
+export async function getBoard(){let data:BoardData;if(cached&&Date.now()<cached.expires)data=cached.data;else{if(!pending)pending=readBoard().then(data=>{cached={data,expires:Date.now()+30_000};return data;}).finally(()=>{pending=null;});data=await pending;}const manual=await readOwnerScene().catch(()=>null);return manual?{...data,cutaway:manual}:data;}

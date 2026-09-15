@@ -1,7 +1,7 @@
 export const CUTAWAY_DURATION=41000;
 export const STAGES=[['panic',0],['draw',9000],['blackout',11200],['aftermath',14500],['cleaner',16500],['removal',22500],['replacement',30000],['introduction',38000]] as const;
 export type CutawayPhase=typeof STAGES[number][0];
-export type CutawayEvent={id:string;startedAt:number;generation:number};
+export type CutawayEvent={id:string;startedAt:number;generation:number;manual?:boolean};
 export type CutawayState=CutawayEvent&{phase:CutawayPhase;preview:boolean};
 export function cutawayPhase(elapsed:number):CutawayPhase|null{if(elapsed>=CUTAWAY_DURATION)return null;return [...STAGES].reverse().find(([,start])=>elapsed>=start)?.[0]??'panic';}
 export class CrashMonitor{

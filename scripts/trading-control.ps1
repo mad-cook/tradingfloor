@@ -1,5 +1,5 @@
 param(
- [ValidateSet('menu','status','start','stop','test')][string]$Action='menu',
+ [ValidateSet('menu','status','start','stop','test','scene')][string]$Action='menu',
  [switch]$Confirmed
 )
 $ErrorActionPreference='Stop'
@@ -22,6 +22,7 @@ function Send-FloorControl([string]$choice){
  try{$result=Invoke-RestMethod -Uri "$baseUrl/api/operator" -Method Post -Headers @{Authorization="Bearer $controlToken"} -ContentType 'application/json' -Body ($body | ConvertTo-Json -Compress) -TimeoutSec 20}
  catch{Write-Host 'Command could not be confirmed. Use Status before retrying. Trading is not assumed to have changed.' -ForegroundColor Yellow;return}
  finally{$controlToken=$null}
+ if($choice -eq 'scene'){Write-Host $result.message -ForegroundColor Cyan;Write-Host 'Keep the website open on the trading floor. Allow about 15 seconds for delivery.';return}
  Write-Host "Wallet: $($result.wallet)"
  Write-Host "Automatic trading: $(if($result.running){'ON'}else{'OFF'})" -ForegroundColor $(if($result.running){'Green'}else{'Yellow'})
  Write-Host "SOL: $($result.sol) | Risk halt: $($result.killed)"
@@ -30,13 +31,14 @@ function Send-FloorControl([string]$choice){
 }
 if($Action -ne 'menu'){Send-FloorControl $Action;exit}
 while($true){
- Write-Host "`nTHE FLOOR - OWNER CONTROLS`n1. Status`n2. Start automatic trading`n3. Stop trading`n4. Test buy and sell only`nQ. Quit"
+ Write-Host "`nTHE FLOOR - OWNER CONTROLS`n1. Status`n2. Start automatic trading`n3. Stop trading`n4. Test buy and sell only`n5. Play boss scene (show only)`nQ. Quit"
  switch((Read-Host 'Choose').ToLower()){
   '1'{Send-FloorControl 'status'}
   '2'{Send-FloorControl 'start'}
   '3'{Send-FloorControl 'stop'}
   '4'{Send-FloorControl 'test'}
+  '5'{Send-FloorControl 'scene'}
   'q'{exit}
-  default{Write-Host 'Choose 1, 2, 3, 4 or Q.'}
+  default{Write-Host 'Choose 1, 2, 3, 4, 5 or Q.'}
  }
 }

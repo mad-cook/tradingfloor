@@ -54,3 +54,9 @@ Even with DATA_MODE=live, PAPER=0 and LIVE_TRADING_ENABLED=1, a new journal star
 Test mode uses one 0.01 SOL NVDAx buy followed by a sale of exactly the raw tokens acquired. It never sells pre-existing holdings. Worst-case native debits are reserved before submission against a persistent cumulative 0.2 SOL test cap. Each transaction simulation also protects the starting native balance minus 0.2 SOL. Quote/simulation failures do not spend funds, and six rejected attempts stop the test. Test completion leaves automatic trading OFF. If a sell fails, the acquired tokens remain visible; choosing Test again resumes only that sell. The default test normally reserves at most 0.023 SOL of the 0.2 SOL ceiling.
 
 For scripted use: `powershell -File scripts/trading-control.ps1 -Action status` or `-Action stop`. Start and test prompt for confirmation unless explicitly run with `-Confirmed`. Do not use `-Confirmed` in unattended startup scripts.
+
+## Owner scene control
+
+Owner Controls option 5, **Play boss scene (show only)**, queues the scene independently of trading. The owner endpoint requires the existing credential and matching wallet. Repeated clicks during its two-minute delivery window reuse the same event. Each browser session plays it once from the beginning when the floor view is active. The queued event persists on the volume across a web restart.
+
+Closing Owner Controls or shutting down the owner's PC does not stop the Railway worker. Use **Stop trading** to stop new automatic orders. Already submitted transactions can still settle.
