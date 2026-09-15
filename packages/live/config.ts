@@ -17,6 +17,8 @@ export const STOCKS=[
 ].map(([deskId,symbol,mint])=>({deskId,symbol,mint}));
 export const TOKEN_PROGRAMS=['TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA','TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb'];
 export type Stock=typeof STOCKS[number];
+// Quote-time cost estimate, excluding separately reserved account deposits.
+export const MAX_ESTIMATED_EXECUTION_COST_FRACTION=.01;
 export const LIMITS=Object.freeze({reserveLamports:30_000_000,maxTradeLamports:150_000_000,minTradeLamports:3_000_000,maxFeeLamports:500_000,maxRentLamports:6_000_000,slippageBps:50,impactPct:.5,positionFraction:.15,intervalMs:420_000,deskIntervalMs:2_400_000,maxDailyTrades:50,drawdownFraction:.15});
 export function buyingBudget(lamports:number){if(!Number.isSafeInteger(lamports)||lamports<0)throw Error('Invalid wallet balance');return Math.max(0,lamports-LIMITS.reserveLamports);}
 export function buySize(lamports:number,navUsd:number,positionUsd:number,solPrice:number,momentum=0){

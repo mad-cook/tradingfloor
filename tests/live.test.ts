@@ -6,12 +6,28 @@ import {buyingBudget,buySize,exitFraction,LIMITS,SOL,STOCKS,TOKEN_PROGRAMS} from
 import {checkSimulation,validateQuote,loadSigner,fetchSwapQuote,type Intent} from '../packages/live/executor';
 test('unsigned quote retry recovers routing failure but never retries bad authentication',async()=>{const original=globalThis.fetch;let calls=0;try{globalThis.fetch=async()=>++calls===1?Response.json({error:'Failed to get quotes'},{status:400}):Response.json({requestId:'ok'});assert.equal((await fetchSwapQuote('https://quote.test',{})).requestId,'ok');assert.equal(calls,2);calls=0;globalThis.fetch=async()=>{calls++;return Response.json({error:'Unauthorized'},{status:401});};await assert.rejects(fetchSwapQuote('https://quote.test',{}),/401/);assert.equal(calls,1);}finally{globalThis.fetch=original;}});
 import {LiveEngine} from '../packages/live/engine';import {freshPrice} from '../packages/live/market';
+import {entryBasis} from '../packages/live/entry-basis';
 import {updateLiveScore} from '../packages/core/scoring';
 import {FloorEngine} from '../packages/core/sim/engine';
 test('live scores wait for evidence and update without changing holdings or hiring state',()=>{const d=new FloorEngine().state.desks[0];updateLiveScore(d,100,1000);assert.equal(d.scoreAt,undefined);d.lastOrder=1;d.qty=2;d.price=10;d.cost=18;d.realized=1;d.forecasts=[{id:1,at:1,due:2,spot:9,target:10,benchmarkSpot:1,actual:10,hit:true,error:0}];const before=structuredClone(d);updateLiveScore(d,100,2000);assert.ok(Math.abs(d.score-.415)<1e-12);assert.equal(d.scoreAt,2000);assert.equal(d.qty,before.qty);assert.equal(d.cost,before.cost);assert.equal(d.analystId,before.analystId);updateLiveScore(d,0,3000);assert.equal(d.scoreAt,2000);});
 const owner=keypair().publicKey;
 const intent:Intent={deskId:'nvda',side:'BUY',mint:STOCKS[0].mint,amount:'10000000',decimals:8,solPrice:100,tokenPrice:100,at:Date.now()};
 const quote=()=>({router:'metis',taker:owner,inputMint:SOL,outputMint:intent.mint,inAmount:intent.amount,outAmount:'1000000',otherAmountThreshold:'995000',swapMode:'ExactIn',transaction:'encoded',requestId:'test',slippageBps:50,priceImpact:.1,signatureFeeLamports:5000,prioritizationFeeLamports:5000,rentFeeLamports:2039280,feeBps:10,lastValidBlockHeight:'12345'});
+
+test('price exit basis excludes setup overhead, handles partial exits and scaled units, and refuses unknown transfers',()=>{
+ const buy={id:1,at:1,deskId:'nvda',symbol:'NVDAx',side:'BUY' as const,usd:3.25,qty:.03,price:3.25/.03,paper:false,signature:'buy'};
+ const receipts=[{signature:'buy',failed:false,intent:{...intent,amount:'30000000'}}];
+ assert.equal(entryBasis('nvda',.03,1,[buy],receipts),3);
+ assert.ok(.03*100/buy.usd-1<-.02); // Old cash basis spuriously passed the loss trigger.
+ assert.equal(.03*100/entryBasis('nvda',.03,1,[buy],receipts)!-1,0);
+ const sell={...buy,id:2,signature:'sell',side:'SELL' as const,qty:.015};
+ const both=[...receipts,{signature:'sell',failed:false,intent:{...intent,side:'SELL' as const,amount:'1500000'}}];
+ assert.equal(entryBasis('nvda',.015,1,[buy,sell],both),1.5);
+ assert.equal(entryBasis('nvda',.0165,1.1,[buy,sell],both),1.5);
+ assert.equal(entryBasis('nvda',.02,1,[buy,sell],both),undefined);
+ assert.equal(entryBasis('nvda',.015,1,[sell],both),undefined);
+ assert.equal(entryBasis('nvda',.03,1,[buy],[...receipts,{signature:'failed',failed:true,intent}]),3);
+});
 test('whole-wallet budget grows with claims while preserving fees and per-trade limits',()=>{assert.equal(buyingBudget(1e9),970000000);assert.equal(buyingBudget(2e9),1970000000);assert.equal(buyingBudget(1),0);assert.equal(buySize(1e9,100,0,100),19270000);assert.equal(buySize(1e9,100,15,100),0);assert.equal(buySize(30000000,100,0,100),0);assert.throws(()=>buyingBudget(NaN));});
 
 test('allocation varies with funding, momentum and exposure without exceeding bounds',()=>{
@@ -32,9 +48,29 @@ test('research events are spaced and do not change trading accounting or proposa
  assert.deepEqual({qty:d.qty,cost:d.cost,forecasts:d.forecasts.length,pitches:d.pitches.length},before);
  const count=e.state.events.length;(e as any).research(wallet,prices);assert.equal(e.state.events.length,count);assert.equal(e.controlStatus().pending,null);
 }));
+
+test('live proposal does not sell an unchanged stock merely because setup costs exceed the loss threshold',()=>withLiveControl(async(e,_who,prices)=>{
+ const d=e.state.desks[0];d.qty=.03;d.cost=3.25;d.price=100;d.lastOrder=0;
+ e.state.tickets=[{id:1,at:1,deskId:d.id,symbol:d.symbol,side:'BUY',usd:3.25,qty:.03,price:3.25/.03,paper:false,signature:'entry'}];
+ (e as any).journal.receipts=[{signature:'entry',at:1,failed:false,intent:{...intent,amount:'30000000'}}];
+ (e as any).journal.history[d.id]=[{at:1,price:100},{at:2,price:100},{at:3,price:100}];
+ assert.equal((e as any).propose({lamports:1e9,holdings:[],slot:1000},prices),undefined);
+ prices[STOCKS[0].mint].usdPrice=97;
+ assert.equal((e as any).propose({lamports:1e9,holdings:[],slot:1000},prices)?.side,'SELL');
+}));
 test('issuer mint allowlist is unique and contains only valid Solana addresses',()=>{assert.equal(new Set(STOCKS.map(s=>s.mint)).size,12);for(const s of STOCKS)assert.equal(address(s.mint),s.mint);assert.equal(STOCKS.find(s=>s.deskId==='spcx')?.symbol,'COINx');});
 test('quote rejects wrong mint, owner, excessive costs, stale prices and oversized trades',()=>{validateQuote(quote(),intent,owner,intent.at);for(const change of [{outputMint:SOL},{taker:keypair().publicKey},{slippageBps:500},{priceImpact:2},{rentFeeLamports:9000000},{outAmount:'1'},{otherAmountThreshold:'0'},{router:'jupiterz'},{feeBps:100}])assert.throws(()=>validateQuote({...quote(),...change},intent,owner,intent.at));assert.throws(()=>validateQuote(quote(),intent,owner,intent.at+31000));assert.throws(()=>validateQuote(quote(),{...intent,amount:'1000000000'},owner,intent.at));});
 function token(amount:bigint){const raw=Buffer.alloc(165);Buffer.from(bs58.decode(intent.mint)).copy(raw);Buffer.from(bs58.decode(owner)).copy(raw,32);raw.writeBigUInt64LE(amount,64);raw[108]=1;return {owner:TOKEN_PROGRAMS[0],lamports:2039280,data:[raw.toString('base64'),'base64']};}
+test('quote cost guard rejects disproportionate fees on both sides and separates storage deposits',()=>{
+ const expensive={...quote(),signatureFeeLamports:5000,prioritizationFeeLamports:195000};
+ assert.throws(()=>validateQuote(expensive,intent,owner,intent.at),/execution costs/);
+ validateQuote({...quote(),rentFeeLamports:6000000},intent,owner,intent.at);
+ const sell={...intent,side:'SELL' as const,amount:'1000000'};
+ const sellQuote={...quote(),inputMint:intent.mint,outputMint:SOL,inAmount:sell.amount,outAmount:'10000000',otherAmountThreshold:'9950000'};
+ validateQuote(sellQuote,sell,owner,intent.at);
+ assert.throws(()=>validateQuote({...sellQuote,prioritizationFeeLamports:195000},sell,owner,intent.at),/execution costs/);
+ assert.throws(()=>validateQuote({...quote(),feeBps:30,priceImpact:.5,prioritizationFeeLamports:20000},intent,owner,intent.at),/execution costs/);
+});
 const native=(lamports:number)=>({owner:'11111111111111111111111111111111',lamports,data:['','base64'],executable:false});
 test('transaction simulation accepts expected output and rejects SOL drain, hidden token spends and delegation',()=>{
  const before=[native(1e9),token(100n)],after=[native(987950000),token(1000100n)];checkSimulation(before,after,intent,995000n,owner);

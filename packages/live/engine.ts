@@ -7,6 +7,7 @@ import {STOCKS,SOL,LIMITS,buyingBudget,buySize,exitFraction} from './config';
 import {readPrices,readWallet,rpc,freshPrice,type Wallet,type Price} from './market';
 import {TEST_BUDGET_LAMPORTS,TEST_BUY_LAMPORTS,automaticTradingAllowed,type TestRun} from './control';
 import {Executor,loadSigner,type Intent,type Pending} from './executor';
+import {entryBasis} from './entry-basis';
 type Journal={running?:boolean;controlRevision?:number;test?:TestRun;testReservedLamports?:number;version:1;owner:string;mode:'live'|'shadow';snapshot:Snapshot;expected:Wallet|null;netFundingUsd:number;highWater:number;pending:Pending|null;lastAttempt:number;day:string;dailyTrades:number;receipts?:{signature:string;at:number;failed:boolean;intent:Intent}[];history:Record<string,{at:number;price:number}[]>};
 export class LiveEngine extends FloorEngine{
  private journal:Journal;private file:string;private executor?:Executor;private lastError='';private stopRequested=false;private writes:Promise<void>=Promise.resolve();private controlling=false;private lastResearch=0;private researchIndex=0;
@@ -114,7 +115,8 @@ export class LiveEngine extends FloorEngine{
   for(const d of [...this.state.desks].sort((a,b)=>a.lastThink-b.lastThink)){
    const stock=STOCKS.find(s=>s.deskId===d.id)!,p=prices[stock.mint],history=this.journal.history[d.id]??[];
    if(!freshPrice(p,wallet.slot)||history.length<3||Date.now()-d.lastOrder<LIMITS.deskIntervalMs)continue;
-   const momentum=p.usdPrice/history[0].price-1,gain=d.cost>0?d.qty*p.usdPrice/d.cost-1:0;
+   const basis=entryBasis(d.id,d.qty,p.multiplier??1,this.state.tickets,this.journal.receipts??[]);
+   const momentum=p.usdPrice/history[0].price-1,gain=basis?d.qty*p.usdPrice/basis-1:0;
    const sell=d.qty>0&&(gain>=.03||gain<=-.02||momentum<-.005);
    if(!sell&&d.qty>0&&momentum<.0025)continue;
    const units=sell?Math.floor(Math.min(d.qty*exitFraction(gain,momentum),LIMITS.maxTradeLamports/1e9*prices[SOL].usdPrice/p.usdPrice)/(p.multiplier??1)*10**p.decimals):buySize(wallet.lamports,this.state.nav,d.qty*d.price,prices[SOL].usdPrice,momentum);
@@ -128,7 +130,8 @@ export class LiveEngine extends FloorEngine{
   const d=this.state.desks[this.researchIndex++%this.state.desks.length],stock=STOCKS.find(s=>s.deskId===d.id)!,p=prices[stock.mint],history=this.journal.history[d.id]??[];
   // Observation events never create orders, forecasts or risk violations.
   if(!freshPrice(p,wallet.slot)||history.length<3){d.state='RESEARCHING';this.emit('DESK_THINKING',d.symbol+': waiting for enough fresh market observations. No order submitted.',d.id);return;}
-  const momentum=p.usdPrice/history[0].price-1,gain=d.cost>0?d.qty*p.usdPrice/d.cost-1:0;
+  const basis=entryBasis(d.id,d.qty,p.multiplier??1,this.state.tickets,this.journal.receipts??[]);
+  const momentum=p.usdPrice/history[0].price-1,gain=basis?d.qty*p.usdPrice/basis-1:0;
   const exit=d.qty>0&&(gain>=.03||gain<=-.02||momentum<-.005);
   const pass=!exit&&d.qty>0&&momentum<.0025;
   d.state=pass?'DESPAIR':'RESEARCHING';

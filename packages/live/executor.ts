@@ -4,7 +4,7 @@ import {getTransactionDecoder} from '@solana/transactions';
 import {getCompiledTransactionMessageDecoder} from '@solana/transaction-messages';
 type Signer={publicKey:string;sign:(message:Uint8Array)=>Buffer};
 import bs58 from 'bs58';
-import {LIMITS,SOL,STOCKS,TOKEN_PROGRAMS} from './config';
+import {LIMITS,SOL,STOCKS,TOKEN_PROGRAMS,MAX_ESTIMATED_EXECUTION_COST_FRACTION} from './config';
 import {rpc} from './market';
 export type Intent={deskId:string;side:'BUY'|'SELL';mint:string;amount:string;decimals:number;solPrice:number;tokenPrice:number;multiplier?:number;test?:boolean;maxNativeSpendLamports?:number;minNativeBalanceLamports?:number;at:number};
 export type Pending={intent:Intent;signature:string;lastValidBlockHeight:number;submittedAt:number};
@@ -45,6 +45,8 @@ export function validateQuote(q:any,intent:Intent,owner:string,now=Date.now()){
  const fee=Number(q.signatureFeeLamports)+Number(q.prioritizationFeeLamports),rent=Number(q.rentFeeLamports);
  if(!Number.isSafeInteger(fee)||fee<0||fee>LIMITS.maxFeeLamports||!Number.isSafeInteger(rent)||rent<0||rent>LIMITS.maxRentLamports)throw Error('Transaction costs exceed limits');
  if(!Number.isFinite(q.feeBps)||q.feeBps<0||q.feeBps>30)throw Error('Swap fee exceeds limit');
+ const estimatedCost=fee/(solValue*1e9)+q.feeBps/10000+Math.abs(impact)/100;
+ if(estimatedCost>MAX_ESTIMATED_EXECUTION_COST_FRACTION)throw Error('Estimated execution costs exceed 1% of order value');
  const inputUsd=Number(intent.amount)/10**(intent.side==='BUY'?9:intent.decimals)*(intent.side==='BUY'?intent.solPrice:intent.tokenPrice);
  const outputUsd=Number(q.outAmount)/10**(intent.side==='BUY'?intent.decimals:9)*(intent.side==='BUY'?intent.tokenPrice:intent.solPrice);
  if(!Number.isFinite(inputUsd)||inputUsd<=0||!Number.isFinite(outputUsd)||Math.abs(outputUsd/inputUsd-1)>.025)throw Error('Quote disagrees with market prices');
